@@ -20,3 +20,35 @@ Statement:
     M --> write Var L
     N --> continue
     O --> return Expression
+
+Bool-Expr:
+    Bool-Expr --> Relation-And-Expr P
+    P --> or Relation-And-Exp P | epsilon
+
+Relation-And-Expr:
+    Relation-And-Expr --> Relation-Expr Q
+    Q --> and Relation-Expr Q | epsilon
+
+Relation-Expr:
+    Relation-Expr --> R Expression Comp Expression | R true | R false | R ( Bool-Expr )
+    R --> not | epsilon
+
+Comp:
+    Comp --> == | <> | < | > | <= | >=
+
+Expression:
+    Expression --> Multiplicative-Expr S T
+    S --> + Multiplicative-Expr S T | epsilon
+    T --> - Multiplicative-Expr S T | epsilon
+
+Multiplicative-Expr:
+    Multiplicative-Expr --> Term U V W
+    U --> * Term U V W | epsilon
+    V --> / Term U V W | epsilon
+    W --> % Term U V W | epsilon
+
+Term:
+    Term --> X Var | X number | X ( Expression ) | identifier ( Y )
+    X --> - | epsilon
+    Y -->  Expression Z | epsilon
+    Z -- > ,Expression Z | epsilon
