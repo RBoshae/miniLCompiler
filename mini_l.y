@@ -22,15 +22,6 @@
 
 %%
 
-input:		/* empty */
-		| exp	{ cout << "Result: " << $1 << endl; }
-		;
-
-exp:		INTEGER_LITERAL	{ $$ = $1; }
-    | exp PLUS exp	{ $$ = $1 + $3; }
-    | exp MULT exp	{ $$ = $1 * $3; }
-    ;
-
 Program_Prime:  Program
                 ;
 
@@ -50,29 +41,65 @@ B:              /* empty - epsilon */
 
 Declaration:    IDENT C COLON D INTEGER
                 ;
-  // TODO: CONTINUE from HERE
-    C --> COMMA identifier C | epsilon
-    D --> ARRAY [ number ] of | epsilon
 
+C:              /* empty - epsilon */
+                | COMMA identifier C
+                ;
 
-    Statement:
-        Statement --> E | F | H | I | J | K | M | N
-        E --> Variable := Expression
-        F --> if Bool-Exp then Statement ; B G endif
-        G --> else Statement ; B | epsilon
-        H --> while Bool-Exp beginLoop Statement ; B endLoop
-        I --> do beginLoop Statement ; B endloop
-        J --> forEach identifier in identifier beginLoop Statement ; B endloop
-        K --> read Var L
-        L --> ,Var | epsilon
-        M --> write Var L
-        N --> continue
-        O --> return Expression
+D:              /* empty - epsilon */
+                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF
+                ;
 
+Statement:      E
+                | F
+                | H
+                | I
+                | J
+                | K
+                | M
+                | N
+                ;
 
-    Bool-Expr:
-        Bool-Expr --> Relation-And-Expr P
-        P --> or Relation-And-Exp P | epsilon
+E:              Variable ASSIGN Expression
+
+F:              IF Bool-Exp THEN Statement SEMICOLON B G ENDIF
+                ;
+
+G:              /* empty - epsilon */
+                | ELSE Statement SEMICOLON B
+                ;
+
+H:              WHILE Bool-Exp BEGINLOOP Statement SEMICOLON B ENDLOOP
+                ;
+
+I:              DO BEGINLOOP Statement SEMICOLON B ENDLOOP
+                ;
+
+J:              FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP
+                ;
+
+K:              READ Var L
+                ;
+
+L:              /* empty - epsilon */
+                | COMMA Var
+                ;
+
+M:              WRITE Var L
+                ;
+
+N:              CONTINUE
+                ;
+
+O:              RETURN Expression
+                ;
+
+Bool-Expr:      Relation-And-Expr P
+                ;
+
+P:              /* empty - epsilon */
+                | OR Relation-And-Exp P
+                ;
 
 // Gabe works from here down
 
