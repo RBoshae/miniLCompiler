@@ -7,12 +7,17 @@ Function:
     A --> Declaration ; A | epsilon
     B --> Statement ; B | epsilon
 
+Declaration:
+    Declaration --> identifier C : D integer
+    C --> COMMA identifier C | epsilon
+    D --> ARRAY [ number ] of | epsilon
+
 Statement:
     Statement --> E | F | H | I | J | K | M | N
     E --> Variable := Expression
     F --> if Bool-Exp then Statement ; B G endif
     G --> else Statement ; B | epsilon
-    H --> while Bool-Exp Statement ; B endLoop
+    H --> while Bool-Exp beginLoop Statement ; B endLoop
     I --> do beginLoop Statement ; B endloop
     J --> forEach identifier in identifier beginLoop Statement ; B endloop
     K --> read Var L
