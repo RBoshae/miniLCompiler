@@ -3,7 +3,7 @@ Program:  //Done
     Program  --> Function Program | epsilon
 
 Function:
-    Function --> function identifier ; beginparams A endparams beginLocals A endLocals beginBody Statement B ; endBody
+    Function --> function identifier ; beginparams A endparams beginLocals A endLocals beginBody B ; endBody
     A --> Declaration ; A | epsilon
     B --> Statement ; B | epsilon
 
