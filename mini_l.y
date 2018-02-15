@@ -3,9 +3,9 @@
 /* mini_l.y                                  */
 
 %{
-#include "heading.h"
-int yyerror(char *s);
-int yylex(void);
+  #include "heading.h"
+  int yyerror(char *s);
+  int yylex(void);
 %}
 
 %union{
@@ -42,12 +42,19 @@ Function: function identifier SEMICOLON beginparams A endparams beginLocals A en
         A --> Declaration ; A | epsilon
         B --> Statement ; B | epsilon
 
+
+    Declaration:
+        Declaration --> identifier C : D integer
+        C --> COMMA identifier C | epsilon
+        D --> ARRAY [ number ] of | epsilon
+
+
     Statement:
         Statement --> E | F | H | I | J | K | M | N
         E --> Variable := Expression
         F --> if Bool-Exp then Statement ; B G endif
         G --> else Statement ; B | epsilon
-        H --> while Bool-Exp Statement ; B endLoop
+        H --> while Bool-Exp beginLoop Statement ; B endLoop
         I --> do beginLoop Statement ; B endloop
         J --> forEach identifier in identifier beginLoop Statement ; B endloop
         K --> read Var L
@@ -55,6 +62,7 @@ Function: function identifier SEMICOLON beginparams A endparams beginLocals A en
         M --> write Var L
         N --> continue
         O --> return Expression
+
 
     Bool-Expr:
         Bool-Expr --> Relation-And-Expr P
