@@ -31,22 +31,28 @@ exp:		INTEGER_LITERAL	{ $$ = $1; }
     | exp MULT exp	{ $$ = $1 * $3; }
     ;
 
-Program_Prime: Program
-               ;
+Program_Prime:  Program
+                ;
 
-Program:  /* empty - epsilon */
-         | Function Program
-         ;
+Program:        /* empty - epsilon */
+                | Function Program
+                ;
 
-Function: function identifier SEMICOLON beginparams A endparams beginLocals A endLocals beginBody Statement B ; endBody
-        A --> Declaration ; A | epsilon
-        B --> Statement ; B | epsilon
+Function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY
 
+A:              /* empty - epsilon */
+                | Declaration SEMICOLON A
+                ;
 
-    Declaration:
-        Declaration --> identifier C : D integer
-        C --> COMMA identifier C | epsilon
-        D --> ARRAY [ number ] of | epsilon
+B:              /* empty - epsilon */
+                | Statement SEMICOLON B
+                ;
+
+Declaration:    IDENT C COLON D INTEGER
+                ;
+  // TODO: CONTINUE from HERE
+    C --> COMMA identifier C | epsilon
+    D --> ARRAY [ number ] of | epsilon
 
 
     Statement:
