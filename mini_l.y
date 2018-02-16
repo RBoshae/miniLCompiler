@@ -137,48 +137,48 @@ Expression:     Multiplicative-Expr S T
                 ;
 
 S:              /* empty - epsilon */                                  {printf("S --> epsilon");}
-                | PLUS Multiplicative-Expr S T
+                | PLUS Multiplicative-Expr S T                         {printf("S --> PLUS Multiplicative-Expr S T");}
                 ;
 
 T:              /* empty - epsilon */                                  {printf("T --> epsilon");}
-                | SUB Multiplicative-Expr S T
+                | SUB Multiplicative-Expr S T                          {printf("T --> SUB Multiplicative-Expr S T");}
                 ;
 
-Multiplicative-Expr:  Term U V W
+Multiplicative-Expr:  Term U V W                                       {printf("Multiplicative-Expr --> Term U V W");}
                 ;
 
 U:              /* empty - epsilon */                                  {printf("U --> epsilon");}
-                | MULT Term U V W
+                | MULT Term U V W                                      {printf("U --> MULT Term U V W");}
                 ;
 
 V:              /* empty - epsilon */                                  {printf("V --> epsilon");}
-                | DIV Term U V W
+                | DIV Term U V W                                       {printf("V --> DIV Term U V W");}
                 ;
 
 W:              /* empty - epsilon */                                  {printf("W --> epsilon");}
-                | MOD Term U V W
+                | MOD Term U V W                                       {printf("W --> MOD Term U V W");}
                 ;
 
-Term:           X Var
-                | X NUMBER
-                | X L_PAREN Expression R_PAREN
-                | IDENT L_PAREN Y R_PAREN
+Term:           X Var                                                  {printf("Term --> X Var");}
+                | X NUMBER                                             {printf("Term --> X NUMBER");}
+                | X L_PAREN Expression R_PAREN                         {printf("Term --> X L_PAREN Expression R_PAREN");}
+                | IDENT L_PAREN Y R_PAREN                              {printf("Term --> IDENT L_PAREN Y R_PAREN");}
                 ;
 
 X:              /* empty - epsilon */                                  {printf("X --> epsilon");}
-                | SUB
+                | SUB                                                  {printf("X --> SUB");}
                 ;
 
 Y:              /* empty - epsilon */                                  {printf("Y --> epsilon");}
-                | Expression Z
+                | Expression Z                                         {printf("Y --> Expression Z");}
                 ;
 
 Z:              /* empty - epsilon */                                  {printf("Z --> epsilon");}
-                | COMMA Expression Z
+                | COMMA Expression Z                                   {printf("Z --> COMMA Expression Z");}
                 ;
 
-Var:            IDENT
-                | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+Var:            IDENT                                                  {printf("Var --> IDENT");}
+                | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {printf("Var --> IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET");}
 
 %%
 
