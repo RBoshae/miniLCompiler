@@ -35,12 +35,11 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 
 %%
+"function"      { currentColumn += yyleng; return FUNCTION; }
 
-"function"      { printf("FUNCTION\n"); currentColumn += yyleng; }
+"beginparams"   { currentColumn += yyleng; return BEGIN_PARAMS }
 
-"beginparams"   { printf("BEGIN_PARAMS\n"); currentColumn += yyleng; }
-
-"endparams"     { printf("END_PARAMS\n"); currentColumn += yyleng; }
+"endparams"     { currentColumn += yyleng; return END_PARAMS }
 
 "beginlocals"   { printf("BEGIN_LOCALS\n"); currentColumn += yyleng; }
 
