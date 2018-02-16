@@ -69,7 +69,7 @@ Statement:      E                                                        {printf
 
 E:              Var ASSIGN Expression                                    {printf("E --> Var ASSIGN Expression");}
 
-F:              IF Bool-Expr THEN Statement SEMICOLON B G ENDIF          {printf("F --> Var ASSIGN Expression");}
+F:              IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON {printf("F --> Var ASSIGN Expression");}
                 ;
 
 G:              /* empty - epsilon */                                    {printf("G --> epsilon");}
