@@ -13,7 +13,7 @@
   string*	  op_val;
 }
 
-%start	input
+%start	Program_Prime
 
 %token	<int_val>	INTEGER_LITERAL
 %type	<int_val>	exp
