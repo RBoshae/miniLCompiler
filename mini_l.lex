@@ -41,31 +41,31 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 "endparams"     { currentColumn += yyleng; return END_PARAMS }
 
-"beginlocals"   { printf("BEGIN_LOCALS\n"); currentColumn += yyleng; }
+"beginlocals"   { currentColumn += yyleng; return BEGIN_LOCALS; }
 
-"endlocals"     { printf("END_LOCALS\n"); currentColumn += yyleng; }
+"endlocals"     { currentColumn += yyleng; return END_LOCALS}
 
-"beginbody"     { printf("BEGIN_BODY\n"); currentColumn += yyleng; }
+"beginbody"     { currentColumn += yyleng; return BEGIN_BODY }
 
-"endbody"       { printf("END_BODY\n"); currentColumn += yyleng; }
+"endbody"       { currentColumn += yyleng; return END_BODY }
 
-"integer"       { printf("INTEGER\n"); currentColumn += yyleng; }
+"integer"       { currentColumn += yyleng; return INTEGER }
 
-"array"         { printf("ARRAY\n"); currentColumn += yyleng; }
+"array"         { currentColumn += yyleng; return ARRAY }
 
-"of"            { printf("OF\n"); currentColumn += yyleng; }
+"of"            { currentColumn += yyleng; return OF }
 
-"if"            { printf("IF\n"); currentColumn += yyleng; }
+"if"            { currentColumn += yyleng; return IF }
 
-"then"          { printf("THEN\n"); currentColumn += yyleng; }
+"then"          { currentColumn += yyleng; return THEN }
 
-"endif"         { printf("ENDIF\n"); currentColumn += yyleng; }
+"endif"         { currentColumn += yyleng; return ENDIF }
 
-"else"          { printf("ELSE\n"); currentColumn += yyleng; }
+"else"          { currentColumn += yyleng; return ELSE }
 
-"while"         { printf("WHILE\n"); currentColumn += yyleng; }
+"while"         { currentColumn += yyleng; return WHILE }
 
-"do"            { printf("DO\n"); currentColumn += yyleng; }
+"do"            { currentColumn += yyleng; return DO }
 
 "foreach"       { printf("FOREACH\n"); currentColumn += yyleng; }
 
