@@ -136,26 +136,26 @@ Comp:           EQ                                                       {printf
 Expression:     Multiplicative-Expr S T
                 ;
 
-S:              /* empty - epsilon */                                  {printf("S --> epsilon");}
+S:              /* empty - epsilon */                                   {printf("S --> epsilon");}
                 | PLUS Multiplicative-Expr S T
                 ;
 
-T:              /* empty - epsilon */                                  {printf("T --> epsilon");}
+T:              /* empty - epsilon */                                   {printf("T --> epsilon");}
                 | SUB Multiplicative-Expr S T
                 ;
 
 Multiplicative-Expr:  Term U V W
                 ;
 
-U:              /* empty - epsilon */                                  {printf("U --> epsilon");}
+U:              /* empty - epsilon */                                   {printf("U --> epsilon");}
                 | MULT Term U V W
                 ;
 
-V:              /* empty - epsilon */                                  {printf("V --> epsilon");}
+V:              /* empty - epsilon */                                   {printf("V --> epsilon");}
                 | DIV Term U V W
                 ;
 
-W:              /* empty - epsilon */                                  {printf("W --> epsilon");}
+W:              /* empty - epsilon */                                   {printf("W --> epsilon");}
                 | MOD Term U V W
                 ;
 
@@ -165,15 +165,15 @@ Term:           X Var
                 | IDENT L_PAREN Y R_PAREN
                 ;
 
-X:              /* empty - epsilon */                                  {printf("X --> epsilon");}
+X:              /* empty - epsilon */                                   {printf("X --> epsilon");}
                 | SUB
                 ;
 
-Y:              /* empty - epsilon */                                  {printf("Y --> epsilon");}
+Y:              /* empty - epsilon */                                   {printf("Y --> epsilon");}
                 | Expression Z
                 ;
 
-Z:              /* empty - epsilon */                                  {printf("Z --> epsilon");}
+Z:              /* empty - epsilon */                                   {printf("Z --> epsilon");}
                 | COMMA Expression Z
                 ;
 
