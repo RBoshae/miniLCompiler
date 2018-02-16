@@ -32,6 +32,7 @@ Program:        /* empty - epsilon */       {printf("Program --> epsilon\n");}
                 ;
 
 Function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+                ;
 
 A:              /* empty - epsilon */                                    {printf("A --> epsilon\n");}
                 | Declaration SEMICOLON A                                {printf("A --> Declaration SEMICOLON A\n");}
@@ -64,6 +65,7 @@ Statement:      E                                                        {printf
                 ;
 
 E:              Var ASSIGN Expression                                    {printf("E --> Var ASSIGN Expression\n");}
+                ;
 
 F:              IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON {printf("F --> Var ASSIGN Expression");}
                 ;
