@@ -105,19 +105,17 @@ P:              /* empty - epsilon */                                    {printf
                 ;
 
 Relation-And-Expr:  Relation-Expr Q                                      {printf("Relation-And-Expr --> Relation-Expr Q\n");}
+                    | NOT Relation-Expr Q                                {printf("Relation-And-Expr --> NOT Relation-Expr Q\n");}
+                    ;
 
 Q:              /* empty - epsilon */                                    {printf("Q --> epsilon\n");}
                 | AND Relation-Expr Q                                    {printf("Q --> AND Relation-Expr Q\n");}
                 ;
 
-Relation-Expr:  R Expression Comp Expression                             {printf("Relation-Expr --> R Expression Comp Expression\n");}
-                | R TRUE                                                 {printf("Relation-Expr --> R TRUE\n");}
-                | R FALSE                                                {printf("Relation-Expr --> R FALSE\n");}
-                | R L_PAREN Bool-Expr R_PAREN                            {printf("Relation-Expr --> R L_PAREN Bool-Expr R_PAREN\n");}
-                ;
-
-R:              /* empty - epsilon */                                    {printf("R --> epsilon\n");}
-                | NOT                                                    {printf("R --> NOT\n");}
+Relation-Expr:  Expression Comp Expression                             {printf("Relation-Expr --> R Expression Comp Expression\n");}
+                | TRUE                                                 {printf("Relation-Expr --> R TRUE\n");}
+                | FALSE                                                {printf("Relation-Expr --> R FALSE\n");}
+                | L_PAREN Bool-Expr R_PAREN                            {printf("Relation-Expr --> R L_PAREN Bool-Expr R_PAREN\n");}
                 ;
 
 Comp:           EQ                                                       {printf("Comp --> EQ\n");}
