@@ -58,7 +58,7 @@ Grammar
 
    23 E: Var ASSIGN Expression
 
-   24 F: IF Bool-Expr THEN Statement SEMICOLON B G ENDIF
+   24 F: IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON
 
    25 G: %empty
    26  | ELSE Statement SEMICOLON B
@@ -179,23 +179,23 @@ SUB (287) 58 71
 MULT (288) 61
 DIV (289) 63
 MOD (290) 65
-EQ (291) 48
-NEQ (292) 49
-LT (293) 50
-GT (294) 51
-LTE (295) 52
-GTE (296) 53
-SEMICOLON (297) 4 6 8 24 26 27 28 29
-COLON (298) 9
-COMMA (299) 11 32 75
-L_PAREN (300) 45 68 69
-R_PAREN (301) 45 68 69
-L_SQUARE_BRACKET (302) 13 77
-IDENT (303) 4 9 11 29 69 76 77
-R_SQUARE_BRACKET (304) 13 77
-ASSIGN (305) 23
-NUMBER (306) 13 67
-INTEGER (307) 9
+COLON (291) 9
+COMMA (292) 11 32 75
+L_PAREN (293) 45 68 69
+R_PAREN (294) 45 68 69
+L_SQUARE_BRACKET (295) 13 77
+IDENT (296) 4 9 11 29 69 76 77
+R_SQUARE_BRACKET (297) 13 77
+ASSIGN (298) 23
+NUMBER (299) 13 67
+INTEGER (300) 9
+SEMICOLON (301) 4 6 8 24 26 27 28 29
+EQ (302) 48
+NEQ (303) 49
+LT (304) 50
+GT (305) 51
+LTE (306) 52
+GTE (307) 53
 
 
 Nonterminals, with rules where they appear
@@ -562,7 +562,7 @@ State 30
 
 State 31
 
-   24 F: IF . Bool-Expr THEN Statement SEMICOLON B G ENDIF
+   24 F: IF . Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON
 
     NOT  shift, and go to state 53
 
@@ -753,7 +753,7 @@ State 53
 
 State 54
 
-   24 F: IF Bool-Expr . THEN Statement SEMICOLON B G ENDIF
+   24 F: IF Bool-Expr . THEN Statement SEMICOLON B G ENDIF SEMICOLON
 
     THEN  shift, and go to state 73
 
@@ -993,7 +993,7 @@ State 72
 
 State 73
 
-   24 F: IF Bool-Expr THEN . Statement SEMICOLON B G ENDIF
+   24 F: IF Bool-Expr THEN . Statement SEMICOLON B G ENDIF SEMICOLON
 
     IF        shift, and go to state 31
     WHILE     shift, and go to state 32
@@ -1292,7 +1292,7 @@ State 99
 
 State 100
 
-   24 F: IF Bool-Expr THEN Statement . SEMICOLON B G ENDIF
+   24 F: IF Bool-Expr THEN Statement . SEMICOLON B G ENDIF SEMICOLON
 
     SEMICOLON  shift, and go to state 125
 
@@ -1538,7 +1538,7 @@ State 124
 
 State 125
 
-   24 F: IF Bool-Expr THEN Statement SEMICOLON . B G ENDIF
+   24 F: IF Bool-Expr THEN Statement SEMICOLON . B G ENDIF SEMICOLON
 
     IF        shift, and go to state 31
     WHILE     shift, and go to state 32
@@ -1764,7 +1764,7 @@ State 142
 
 State 143
 
-   24 F: IF Bool-Expr THEN Statement SEMICOLON B . G ENDIF
+   24 F: IF Bool-Expr THEN Statement SEMICOLON B . G ENDIF SEMICOLON
 
     ELSE  shift, and go to state 153
 
@@ -1888,7 +1888,7 @@ State 153
 
 State 154
 
-   24 F: IF Bool-Expr THEN Statement SEMICOLON B G . ENDIF
+   24 F: IF Bool-Expr THEN Statement SEMICOLON B G . ENDIF SEMICOLON
 
     ENDIF  shift, and go to state 163
 
@@ -1984,16 +1984,16 @@ State 162
 
 State 163
 
-   24 F: IF Bool-Expr THEN Statement SEMICOLON B G ENDIF .
+   24 F: IF Bool-Expr THEN Statement SEMICOLON B G ENDIF . SEMICOLON
 
-    $default  reduce using rule 24 (F)
+    SEMICOLON  shift, and go to state 168
 
 
 State 164
 
    29 J: FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B . ENDLOOP
 
-    ENDLOOP  shift, and go to state 168
+    ENDLOOP  shift, and go to state 169
 
 
 State 165
@@ -2012,7 +2012,7 @@ State 166
     MOD       [reduce using rule 64 (W)]
     $default  reduce using rule 64 (W)
 
-    W  go to state 169
+    W  go to state 170
 
 
 State 167
@@ -2031,7 +2031,7 @@ State 167
 
     $default  reduce using rule 7 (B)
 
-    B          go to state 170
+    B          go to state 171
     Statement  go to state 41
     E          go to state 42
     F          go to state 43
@@ -2047,19 +2047,26 @@ State 167
 
 State 168
 
+   24 F: IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON .
+
+    $default  reduce using rule 24 (F)
+
+
+State 169
+
    29 J: FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP .
 
     $default  reduce using rule 29 (J)
 
 
-State 169
+State 170
 
    65 W: MOD Term U V W .
 
     $default  reduce using rule 65 (W)
 
 
-State 170
+State 171
 
    26 G: ELSE Statement SEMICOLON B .
 

@@ -16,13 +16,9 @@
 }
 
 %start	Program_Prime
-%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS
-%token BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO
-%token FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR
-%token NOT TRUE FALSE RETURN PLUS SUB MULT DIV MOD EQ NEQ LT GT
-%token LTE GTE SEMICOLON COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET
-%token IDENT R_SQUARE_BRACKET ASSIGN NUMBER
-%token	<int_val>	INTEGER
+%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS SUB MULT DIV MOD COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET IDENT R_SQUARE_BRACKET ASSIGN NUMBER	<int_val>	INTEGER
+%left SEMICOLON
+%left EQ NEQ LT GT LTE GTE
 %left	PLUS SUB
 %left	MULT DIV
 
@@ -69,7 +65,7 @@ Statement:      E                                                        {printf
 
 E:              Var ASSIGN Expression                                    {printf("E --> Var ASSIGN Expression\n");}
 
-F:              IF Bool-Expr THEN Statement SEMICOLON B G ENDIF          {printf("F --> Var ASSIGN Expression\n");}
+F:              IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON          {printf("F --> Var ASSIGN Expression SEMICOLON\n");}
                 ;
 
 G:              /* empty - epsilon */                                    {printf("G --> epsilon\n");}
@@ -188,7 +184,7 @@ void yyerror(const char *msg)
   extern int currentColumn;
   extern int currentLine;
 
-  printf("Error Occured.\n");
+  printf("Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
 
   return;
 }
