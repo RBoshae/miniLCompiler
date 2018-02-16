@@ -14,11 +14,10 @@
 }
 
 %start	Program_Prime
-
-%token	<int_val>	INTEGER_LITERAL
-%type	<int_val>	exp
-%left	PLUS
-%left	MULT
+%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS SUB MULT DIV MOD EQ NEQ LT GT LTE GTE SEMICOLON COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET R_SQUARE_BRACKET ASSIGN
+%token	<int_val>	INTEGER
+%left	PLUS SUB
+%left	MULT DIV
 
 %%
 
@@ -170,6 +169,19 @@ Z:              /* empty - epsilon */
                 ;
 
 %%
+
+void yyerror(const char *msg)
+{
+  // extern int yylineno;	// defined and maintained in lex.c
+  extern char *yytext;	// defined and maintained in lex.c
+  extern int currentColumn;
+  extern int currentLine;
+
+  cerr << "** Error at Line: " << currentLine << ", Column: " << currentColumn << " at symbol \"" << yytext;
+  cerr << "\" Message: " << msg;
+
+  return;
+}
 
 int yyerror(string s)
 {
