@@ -83,54 +83,54 @@ H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON B ENDLOOP  {printf
 I:              DO BEGINLOOP Statement SEMICOLON B ENDLOOP               {printf("I --> DO BEGINLOOP Statement SEMICOLON B ENDLOOP");}
                 ;
 
-J:              FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP
+J:              FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP  {printf("J --> FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP");}
                 ;
 
-K:              READ Var L
+K:              READ Var L                                               {printf("K --> READ Var L ");}
                 ;
 
 L:              /* empty - epsilon */                                    {printf("L --> epsilon");}
-                | COMMA Var
+                | COMMA Var                                              {printf("L --> COMMA Var");}
                 ;
 
-M:              WRITE Var L
+M:              WRITE Var L                                              {printf("M --> WRITE Var L");}
                 ;
 
-N:              CONTINUE
+N:              CONTINUE                                                 {printf("N --> CONTINUE");}
                 ;
 
-O:              RETURN Expression
+O:              RETURN Expression                                        {printf("O --> RETURN Expression");}
                 ;
 
-Bool-Expr:      Relation-And-Expr P
+Bool-Expr:      Relation-And-Expr P                                      {printf("Bool-Expr --> Relation-And-Expr P");}
                 ;
 
 P:              /* empty - epsilon */                                    {printf("P --> epsilon");}
-                | OR Relation-And-Expr P
+                | OR Relation-And-Expr P                                 {printf("P --> OR Relation-And-Expr P ");}
                 ;
 
-Relation-And-Expr:  Relation-Expr Q
+Relation-And-Expr:  Relation-Expr Q                                      {printf("Relation-And-Expr --> Relation-Expr Q ");}
 
 Q:              /* empty - epsilon */                                    {printf("Q --> epsilon");}
-                | AND Relation-Expr Q
+                | AND Relation-Expr Q                                    {printf("Q --> AND Relation-Expr Q");}
                 ;
 
-Relation-Expr:  R Expression Comp Expression
-                | R TRUE
-                | R FALSE
-                | R L_PAREN Bool-Expr R_PAREN
+Relation-Expr:  R Expression Comp Expression                             {printf("Relation-Expr --> R Expression Comp Expression");}
+                | R TRUE                                                 {printf("Relation-Expr --> R TRUE");}
+                | R FALSE                                                {printf("Relation-Expr --> R FALSE");}
+                | R L_PAREN Bool-Expr R_PAREN                            {printf("Relation-Expr --> R L_PAREN Bool-Expr R_PAREN");}
                 ;
 
-R:              /* empty - epsilon */                                   {printf("R --> epsilon");}
-                | NOT
+R:              /* empty - epsilon */                                    {printf("R --> epsilon");}
+                | NOT                                                    {printf("R --> NOT");}
                 ;
 
-Comp:           EQ
-                | NEQ
-                | LT
-                | GT
-                | LTE
-                | GTE
+Comp:           EQ                                                       {printf("Comp --> EQ");}
+                | NEQ                                                    {printf("Comp --> NEQ");}
+                | LT                                                     {printf("Comp --> LT");}
+                | GT                                                     {printf("Comp --> GT");}
+                | LTE                                                    {printf("Comp --> LTE");}
+                | GTE                                                    {printf("Comp --> GTE");}
                 ;
 
 Expression:     Multiplicative-Expr S T
