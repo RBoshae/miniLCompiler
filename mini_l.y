@@ -110,7 +110,7 @@ Q:              /* empty - epsilon */
 Relation-Expr:  R Expression Comp Expression
                 | R TRUE
                 | R FALSE
-                | R ( Bool-Expr )
+                | R L_PAREN Bool-Expr R_PAREN
                 ;
 
 R:              /* empty - epsilon */
@@ -153,8 +153,8 @@ W:              /* empty - epsilon */
 
 Term:           X Var
                 | X NUMBER
-                | X ( Expression )
-                | IDENT ( Y )
+                | X L_PAREN Expression R_PAREN
+                | IDENT L_PAREN Y R_PAREN
                 ;
 
 X:              /* empty - epsilon */
