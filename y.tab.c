@@ -1376,73 +1376,73 @@ yyreduce:
     {
         case 2:
 #line 31 "mini_l.y" /* yacc.c:1646  */
-    {printf("Program_Prime --> Program");}
+    {printf("Program_Prime --> Program\n");}
 #line 1381 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 34 "mini_l.y" /* yacc.c:1646  */
-    {printf("Program --> epsilon");}
+    {printf("Program --> epsilon\n");}
 #line 1387 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 35 "mini_l.y" /* yacc.c:1646  */
-    {printf("Program --> Function Program");}
+    {printf("Program --> Function Program\n");}
 #line 1393 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 38 "mini_l.y" /* yacc.c:1646  */
-    {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY");}
+    {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
 #line 1399 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 40 "mini_l.y" /* yacc.c:1646  */
-    {printf("A --> epsilon");}
+    {printf("A --> epsilon\n");}
 #line 1405 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 41 "mini_l.y" /* yacc.c:1646  */
-    {printf("A --> Declaration SEMICOLON A");}
+    {printf("A --> Declaration SEMICOLON A\n");}
 #line 1411 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 44 "mini_l.y" /* yacc.c:1646  */
-    {printf("B --> epsilon");}
+    {printf("B --> epsilon\n");}
 #line 1417 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 45 "mini_l.y" /* yacc.c:1646  */
-    {printf("B --> Statement SEMICOLON B");}
+    {printf("B --> Statement SEMICOLON B\n");}
 #line 1423 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 48 "mini_l.y" /* yacc.c:1646  */
-    {printf("Declaration --> IDENT C COLON D INTEGER");}
+    {printf("Declaration --> IDENT C COLON D INTEGER\n");}
 #line 1429 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 51 "mini_l.y" /* yacc.c:1646  */
-    {printf("C --> epsilon");}
+    {printf("C --> epsilon\n");}
 #line 1435 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 52 "mini_l.y" /* yacc.c:1646  */
-    {printf("C --> COMMA IDENT C");}
+    {printf("C --> COMMA IDENT C\n");}
 #line 1441 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 55 "mini_l.y" /* yacc.c:1646  */
-    {printf("D --> epsilon");}
+    {printf("D --> epsilon\n");}
 #line 1447 "y.tab.c" /* yacc.c:1646  */
     break;
 
