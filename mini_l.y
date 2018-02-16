@@ -171,6 +171,19 @@ Z:              /* empty - epsilon */
 
 %%
 
+void yyerror(const char *msg)
+{
+  // extern int yylineno;	// defined and maintained in lex.c
+  extern char *yytext;	// defined and maintained in lex.c
+  extern int currentColumn;
+  extern int currentLine;
+
+  cerr << "** Error at Line: " << currentLine << ", Column: " << currentColumn << " at symbol \"" << yytext;
+  cerr << "\" Message: " << msg;
+
+  return;
+}
+
 int yyerror(string s)
 {
   extern int yylineno;	// defined and maintained in lex.c
