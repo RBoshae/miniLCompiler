@@ -131,6 +131,8 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 ":="            { return ASSIGN; }
 
+[\n]+          {currentLine++;}
+
 [ \t\n]+          /* eat up whitespace */
 
 
