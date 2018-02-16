@@ -101,36 +101,73 @@ P:              /* empty - epsilon */
                 | OR Relation-And-Exp P
                 ;
 
-// Gabe works from here down
+Relation-And-Expr:  Relation-Expr Q
 
-    Relation-And-Expr:
-        Relation-And-Expr --> Relation-Expr Q
-        Q --> and Relation-Expr Q | epsilon
+Q:              /* empty - epsilon */
+                | AND Relation-Expr Q
+                ;
 
-    Relation-Expr:
-        Relation-Expr --> R Expression Comp Expression | R true | R false | R ( Bool-Expr )
-        R --> not | epsilon
+Relation-Expr:  R Expression Comp Expression
+                | R TRUE
+                | R FALSE
+                | R ( Bool-Expr )
+                ;
 
-    Comp:
-        Comp --> == | <> | < | > | <= | >=
+R:              /* empty - epsilon */
+                | NOT
+                ;
 
-    Expression:
-        Expression --> Multiplicative-Expr S T
-        S --> + Multiplicative-Expr S T | epsilon
-        T --> - Multiplicative-Expr S T | epsilon
+Comp:           ==
+                | <>
+                | <
+                | >
+                | <=
+                | >=
+                ;
 
-    Multiplicative-Expr:
-        Multiplicative-Expr --> Term U V W
-        U --> * Term U V W | epsilon
-        V --> / Term U V W | epsilon
-        W --> % Term U V W | epsilon
+Expression:     Multiplicative-Expr S T
+                ;
 
-    Term:
-        Term --> X Var | X number | X ( Expression ) | identifier ( Y )
-        X --> - | epsilon
-        Y -->  Expression Z | epsilon
-        Z -- > ,Expression Z | epsilon
+S:              /* empty - epsilon */
+                | + Multiplicative-Expr S T
+                ;
 
+T:              /* empty - epsilon */
+                | - Multiplicative-Expr S T
+                ;
+
+Multiplicative-Expr:  Term U V W
+                ;
+
+U:              /* empty - epsilon */
+                | * Term U V W
+                ;
+
+V:              /* empty - epsilon */
+                | / Term U V W
+                ;
+
+W:              /* empty - epsilon */
+                | % Term U V W
+                ;
+
+Term:           X Var
+                | X NUMBER
+                | X ( Expression )
+                | IDENT ( Y )
+                ;
+
+X:              /* empty - epsilon */
+                | -
+                ;
+
+Y:              /* empty - epsilon */
+                | Expression Z
+                ;
+
+Z:              /* empty - epsilon */
+                | COMMA Expression Z
+                ;
 
 %%
 
