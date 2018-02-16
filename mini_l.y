@@ -168,6 +168,9 @@ Z:              /* empty - epsilon */
                 | COMMA Expression Z
                 ;
 
+Var:            identifier
+                | identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+
 %%
 
 void yyerror(const char *msg)

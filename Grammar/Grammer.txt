@@ -57,3 +57,6 @@ Term:
     X --> - | epsilon
     Y -->  Expression Z | epsilon
     Z -- > ,Expression Z | epsilon
+
+Var:
+    identifier | identifier [ Expression ]
