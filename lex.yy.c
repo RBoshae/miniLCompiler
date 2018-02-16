@@ -595,22 +595,22 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "cs152_rbosh001_project01.lex"
+#line 1 "mini_l.lex"
 /*******************************************************************************
  * CS152: Design of Compilers
  * Gabriel F. Cortez and Rick W. Boshae
  *
  * Project Phase 1: LEXICAL ANALYZER
  *
- * Usage: (1) $ flex cs152_rbosh001_project01.lex
+ * Usage: (1) $ flex mini_l.lex
  *        (2) $ gcc lex.yy.c -lfl
  *        (3) $ ./a.out
  *            stdin> TODO: // Determine input
  *            stdin> Ctrl-D
- * ({CHAR}|{DIGIT})*{UNDERSCORE}*{CHAR|DIGIT}+)*
+ *
 *******************************************************************************/
-#line 16 "cs152_rbosh001_project01.lex"
-
+#line 16 "mini_l.lex"
+#include "y.tab.h"
 #include<math.h>
 /* need this for the call to atoi() below */
 #include <unistd.h>
@@ -836,10 +836,9 @@ YY_DECL
 		}
 
 	{
-#line 37 "cs152_rbosh001_project01.lex"
+#line 37 "mini_l.lex"
 
-
-#line 843 "lex.yy.c"
+#line 842 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -898,286 +897,286 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 39 "cs152_rbosh001_project01.lex"
-{ printf("FUNCTION\n"); currentColumn += yyleng; }
+#line 38 "mini_l.lex"
+{ currentColumn += yyleng; return FUNCTION; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 41 "cs152_rbosh001_project01.lex"
-{ printf("BEGIN_PARAMS\n"); currentColumn += yyleng; }
+#line 40 "mini_l.lex"
+{ currentColumn += yyleng; return BEGIN_PARAMS; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 43 "cs152_rbosh001_project01.lex"
-{ printf("END_PARAMS\n"); currentColumn += yyleng; }
+#line 42 "mini_l.lex"
+{ currentColumn += yyleng; return END_PARAMS; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 45 "cs152_rbosh001_project01.lex"
-{ printf("BEGIN_LOCALS\n"); currentColumn += yyleng; }
+#line 44 "mini_l.lex"
+{ currentColumn += yyleng; return BEGIN_LOCALS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 47 "cs152_rbosh001_project01.lex"
-{ printf("END_LOCALS\n"); currentColumn += yyleng; }
+#line 46 "mini_l.lex"
+{ currentColumn += yyleng; return END_LOCALS; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 49 "cs152_rbosh001_project01.lex"
-{ printf("BEGIN_BODY\n"); currentColumn += yyleng; }
+#line 48 "mini_l.lex"
+{ currentColumn += yyleng; return BEGIN_BODY; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 51 "cs152_rbosh001_project01.lex"
-{ printf("END_BODY\n"); currentColumn += yyleng; }
+#line 50 "mini_l.lex"
+{ currentColumn += yyleng; return END_BODY; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 53 "cs152_rbosh001_project01.lex"
-{ printf("INTEGER\n"); currentColumn += yyleng; }
+#line 52 "mini_l.lex"
+{ currentColumn += yyleng; return INTEGER; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 55 "cs152_rbosh001_project01.lex"
-{ printf("ARRAY\n"); currentColumn += yyleng; }
+#line 54 "mini_l.lex"
+{ currentColumn += yyleng; return ARRAY; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 57 "cs152_rbosh001_project01.lex"
-{ printf("OF\n"); currentColumn += yyleng; }
+#line 56 "mini_l.lex"
+{ currentColumn += yyleng; return OF; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "cs152_rbosh001_project01.lex"
-{ printf("IF\n"); currentColumn += yyleng; }
+#line 58 "mini_l.lex"
+{ currentColumn += yyleng; return IF; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 61 "cs152_rbosh001_project01.lex"
-{ printf("THEN\n"); currentColumn += yyleng; }
+#line 60 "mini_l.lex"
+{ currentColumn += yyleng; return THEN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 63 "cs152_rbosh001_project01.lex"
-{ printf("ENDIF\n"); currentColumn += yyleng; }
+#line 62 "mini_l.lex"
+{ currentColumn += yyleng; return ENDIF; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 65 "cs152_rbosh001_project01.lex"
-{ printf("ELSE\n"); currentColumn += yyleng; }
+#line 64 "mini_l.lex"
+{ currentColumn += yyleng; return ELSE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 67 "cs152_rbosh001_project01.lex"
-{ printf("WHILE\n"); currentColumn += yyleng; }
+#line 66 "mini_l.lex"
+{ currentColumn += yyleng; return WHILE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 69 "cs152_rbosh001_project01.lex"
-{ printf("DO\n"); currentColumn += yyleng; }
+#line 68 "mini_l.lex"
+{ currentColumn += yyleng; return DO; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 71 "cs152_rbosh001_project01.lex"
-{ printf("FOREACH\n"); currentColumn += yyleng; }
+#line 70 "mini_l.lex"
+{ currentColumn += yyleng; return FOREACH; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 73 "cs152_rbosh001_project01.lex"
-{ printf("IN\n"); currentColumn += yyleng; }
+#line 72 "mini_l.lex"
+{ currentColumn += yyleng; return IN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 75 "cs152_rbosh001_project01.lex"
-{ printf("BEGINLOOP\n"); currentColumn += yyleng; }
+#line 74 "mini_l.lex"
+{ currentColumn += yyleng; return BEGINLOOP; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 77 "cs152_rbosh001_project01.lex"
-{ printf("ENDLOOP\n"); currentColumn += yyleng; }
+#line 76 "mini_l.lex"
+{ currentColumn += yyleng; return ENDLOOP; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 79 "cs152_rbosh001_project01.lex"
-{ printf("CONTINUE\n"); currentColumn += yyleng; }
+#line 78 "mini_l.lex"
+{ currentColumn += yyleng; return CONTINUE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 81 "cs152_rbosh001_project01.lex"
-{ printf("READ\n"); currentColumn += yyleng; }
+#line 80 "mini_l.lex"
+{ currentColumn += yyleng; return READ; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 83 "cs152_rbosh001_project01.lex"
-{ printf("WRITE\n"); currentColumn += yyleng; }
+#line 82 "mini_l.lex"
+{ currentColumn += yyleng; return WRITE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 85 "cs152_rbosh001_project01.lex"
-{ printf("AND\n"); currentColumn += yyleng; }
+#line 84 "mini_l.lex"
+{ currentColumn += yyleng; return AND; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 87 "cs152_rbosh001_project01.lex"
-{ printf("OR\n"); currentColumn += yyleng; }
+#line 86 "mini_l.lex"
+{ currentColumn += yyleng; return OR; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 89 "cs152_rbosh001_project01.lex"
-{ printf("NOT\n"); currentColumn += yyleng; }
+#line 88 "mini_l.lex"
+{ currentColumn += yyleng; return NOT; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 91 "cs152_rbosh001_project01.lex"
-{ printf("TRUE\n"); currentColumn += yyleng; }
+#line 90 "mini_l.lex"
+{ currentColumn += yyleng; return TRUE; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 93 "cs152_rbosh001_project01.lex"
-{ printf("FALSE\n"); currentColumn += yyleng; }
+#line 92 "mini_l.lex"
+{ currentColumn += yyleng; return FALSE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 95 "cs152_rbosh001_project01.lex"
-{ printf("RETURN\n"); currentColumn += yyleng; }
+#line 94 "mini_l.lex"
+{ currentColumn += yyleng; return RETURN; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 97 "cs152_rbosh001_project01.lex"
-{ printf("PLUS\n"); currentColumn += yyleng; }
+#line 96 "mini_l.lex"
+{ currentColumn += yyleng; return PLUS; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 99 "cs152_rbosh001_project01.lex"
-{ printf("SUB\n"); currentColumn += yyleng; }
+#line 98 "mini_l.lex"
+{ currentColumn += yyleng; return SUB; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 101 "cs152_rbosh001_project01.lex"
-{ printf("MULT\n"); currentColumn += yyleng; }
+#line 100 "mini_l.lex"
+{ currentColumn += yyleng; return MULT; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 103 "cs152_rbosh001_project01.lex"
-{ printf("DIV\n"); currentColumn += yyleng; }
+#line 102 "mini_l.lex"
+{ currentColumn += yyleng; return DIV; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 105 "cs152_rbosh001_project01.lex"
-{ printf("MOD\n"); currentColumn += yyleng; }
+#line 104 "mini_l.lex"
+{ currentColumn += yyleng; return MOD; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 107 "cs152_rbosh001_project01.lex"
-{ printf("EQ\n"); currentColumn += yyleng; }
+#line 106 "mini_l.lex"
+{ currentColumn += yyleng; return EQ; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 109 "cs152_rbosh001_project01.lex"
-{ printf("NEQ\n"); currentColumn += yyleng; }
+#line 108 "mini_l.lex"
+{ currentColumn += yyleng; return NEQ; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 111 "cs152_rbosh001_project01.lex"
-{ printf("LT\n"); currentColumn += yyleng; }
+#line 110 "mini_l.lex"
+{ currentColumn += yyleng; return LT; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 113 "cs152_rbosh001_project01.lex"
-{ printf("GT\n"); currentColumn += yyleng; }
+#line 112 "mini_l.lex"
+{ currentColumn += yyleng; return GT; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 115 "cs152_rbosh001_project01.lex"
-{ printf("LTE\n"); currentColumn += yyleng; }
+#line 114 "mini_l.lex"
+{ currentColumn += yyleng; return LTE; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 117 "cs152_rbosh001_project01.lex"
-{ printf("GTE\n"); currentColumn += yyleng; }
+#line 116 "mini_l.lex"
+{ currentColumn += yyleng; return GTE; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 119 "cs152_rbosh001_project01.lex"
-{ printf("SEMICOLON\n"); currentColumn += yyleng; }
+#line 118 "mini_l.lex"
+{ currentColumn += yyleng; return SEMICOLON; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 121 "cs152_rbosh001_project01.lex"
-{ printf("COLON\n"); currentColumn += yyleng; }
+#line 120 "mini_l.lex"
+{ currentColumn += yyleng; return COLON; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 123 "cs152_rbosh001_project01.lex"
-{ printf("COMMA\n"); currentColumn += yyleng; }
+#line 122 "mini_l.lex"
+{ currentColumn += yyleng; return COMMA; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 125 "cs152_rbosh001_project01.lex"
-{ printf("L_PAREN\n"); currentColumn += yyleng; }
+#line 124 "mini_l.lex"
+{ currentColumn += yyleng; return L_PAREN; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 127 "cs152_rbosh001_project01.lex"
-{ printf("R_PAREN\n"); currentColumn += yyleng; }
+#line 126 "mini_l.lex"
+{ currentColumn += yyleng; return R_PAREN; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 129 "cs152_rbosh001_project01.lex"
-{ printf("L_SQUARE_BRACKET\n"); currentColumn += yyleng; }
+#line 128 "mini_l.lex"
+{ currentColumn += yyleng; return L_SQUARE_BRACKET; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 131 "cs152_rbosh001_project01.lex"
-{ printf("R_SQUARE_BRACKET\n"); currentColumn += yyleng; }
+#line 130 "mini_l.lex"
+{ currentColumn += yyleng; return R_SQUARE_BRACKET; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 133 "cs152_rbosh001_project01.lex"
-{ printf("ASSIGN\n"); currentColumn += yyleng; }
+#line 132 "mini_l.lex"
+{ return ASSIGN; }
 	YY_BREAK
 case 49:
 /* rule 49 can match eol */
 YY_RULE_SETUP
-#line 135 "cs152_rbosh001_project01.lex"
+#line 134 "mini_l.lex"
 /* eat up whitespace */
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 138 "cs152_rbosh001_project01.lex"
-{ printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
+#line 137 "mini_l.lex"
+{ yylval.int_val = atoi(yytext); currentColumn += yyleng; return NUMBER; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 140 "cs152_rbosh001_project01.lex"
-{ printf("IDENT %s\n", yytext); currentColumn += yyleng;}
+#line 139 "mini_l.lex"
+{ currentColumn += yyleng; return IDENT; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 142 "cs152_rbosh001_project01.lex"
-{ printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter.\n" , currentColumn, currentLine, yytext); exit(0);}
+#line 141 "mini_l.lex"
+{  }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 144 "cs152_rbosh001_project01.lex"
-{ printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore.\n" , currentColumn, currentLine, yytext); exit(0);}
+#line 143 "mini_l.lex"
+{ }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 148 "cs152_rbosh001_project01.lex"
+#line 147 "mini_l.lex"
 /* eat up one-line comments */
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 150 "cs152_rbosh001_project01.lex"
+#line 149 "mini_l.lex"
 { printf( "Error at line %d, column %d: Unrecognized character: %s\n", currentColumn, currentLine, yytext); exit(0);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 152 "cs152_rbosh001_project01.lex"
+#line 151 "mini_l.lex"
 ECHO;
 	YY_BREAK
-#line 1181 "lex.yy.c"
+#line 1180 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2178,7 +2177,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 152 "cs152_rbosh001_project01.lex"
+#line 151 "mini_l.lex"
 
 
 

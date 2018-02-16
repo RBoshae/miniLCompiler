@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 %{/*Include library for atof() call */
-
+#include "y.tab.h"
 #include<math.h>
 /* need this for the call to atoi() below */
 #include <unistd.h>
@@ -37,110 +37,110 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 %%
 "function"      { currentColumn += yyleng; return FUNCTION; }
 
-"beginparams"   { currentColumn += yyleng; return BEGIN_PARAMS }
+"beginparams"   { currentColumn += yyleng; return BEGIN_PARAMS; }
 
-"endparams"     { currentColumn += yyleng; return END_PARAMS }
+"endparams"     { currentColumn += yyleng; return END_PARAMS; }
 
 "beginlocals"   { currentColumn += yyleng; return BEGIN_LOCALS; }
 
-"endlocals"     { currentColumn += yyleng; return END_LOCALS}
+"endlocals"     { currentColumn += yyleng; return END_LOCALS; }
 
-"beginbody"     { currentColumn += yyleng; return BEGIN_BODY }
+"beginbody"     { currentColumn += yyleng; return BEGIN_BODY; }
 
-"endbody"       { currentColumn += yyleng; return END_BODY }
+"endbody"       { currentColumn += yyleng; return END_BODY; }
 
-"integer"       { currentColumn += yyleng; return INTEGER }
+"integer"       { currentColumn += yyleng; return INTEGER; }
 
-"array"         { currentColumn += yyleng; return ARRAY }
+"array"         { currentColumn += yyleng; return ARRAY; }
 
-"of"            { currentColumn += yyleng; return OF }
+"of"            { currentColumn += yyleng; return OF; }
 
-"if"            { currentColumn += yyleng; return IF }
+"if"            { currentColumn += yyleng; return IF; }
 
-"then"          { currentColumn += yyleng; return THEN }
+"then"          { currentColumn += yyleng; return THEN; }
 
-"endif"         { currentColumn += yyleng; return ENDIF }
+"endif"         { currentColumn += yyleng; return ENDIF; }
 
-"else"          { currentColumn += yyleng; return ELSE }
+"else"          { currentColumn += yyleng; return ELSE; }
 
-"while"         { currentColumn += yyleng; return WHILE }
+"while"         { currentColumn += yyleng; return WHILE; }
 
-"do"            { currentColumn += yyleng; return DO }
+"do"            { currentColumn += yyleng; return DO; }
 
-"foreach"       { currentColumn += yyleng; return FOREACH }
+"foreach"       { currentColumn += yyleng; return FOREACH; }
 
-"in"            { currentColumn += yyleng; return IN }
+"in"            { currentColumn += yyleng; return IN; }
 
-"beginloop"     { currentColumn += yyleng; return BEGINLOOP }
+"beginloop"     { currentColumn += yyleng; return BEGINLOOP; }
 
-"endloop"       { currentColumn += yyleng; return ENDLOOP }
+"endloop"       { currentColumn += yyleng; return ENDLOOP; }
 
-"continue"      { currentColumn += yyleng; return CONTINUE }
+"continue"      { currentColumn += yyleng; return CONTINUE; }
 
-"read"          { currentColumn += yyleng; return READ }
+"read"          { currentColumn += yyleng; return READ; }
 
-"write"         { currentColumn += yyleng; return WRITE }
+"write"         { currentColumn += yyleng; return WRITE; }
 
-"and"           { currentColumn += yyleng; return AND}
+"and"           { currentColumn += yyleng; return AND; }
 
-"or"            { currentColumn += yyleng; return OR }
+"or"            { currentColumn += yyleng; return OR; }
 
-"not"           { currentColumn += yyleng; return NOT }
+"not"           { currentColumn += yyleng; return NOT; }
 
-"true"          { currentColumn += yyleng; return TRUE }
+"true"          { currentColumn += yyleng; return TRUE; }
 
-"false"         { currentColumn += yyleng; return FALSE }
+"false"         { currentColumn += yyleng; return FALSE; }
 
-"return"        { currentColumn += yyleng; return RETURN }
+"return"        { currentColumn += yyleng; return RETURN; }
 
-"+"             { currentColumn += yyleng; return PLUS }
+"+"             { currentColumn += yyleng; return PLUS; }
 
-"-"             { currentColumn += yyleng; return SUB }
+"-"             { currentColumn += yyleng; return SUB; }
 
-"*"             { currentColumn += yyleng; return MULT }
+"*"             { currentColumn += yyleng; return MULT; }
 
-"/"             { currentColumn += yyleng; return DIV }
+"/"             { currentColumn += yyleng; return DIV; }
 
-"%"             { currentColumn += yyleng; return MOD }
+"%"             { currentColumn += yyleng; return MOD; }
 
-"=="            { currentColumn += yyleng; return EQ }
+"=="            { currentColumn += yyleng; return EQ; }
 
-"<>"            { currentColumn += yyleng; return NEQ }
+"<>"            { currentColumn += yyleng; return NEQ; }
 
-"<"             { currentColumn += yyleng; return LT }
+"<"             { currentColumn += yyleng; return LT; }
 
-">"             { currentColumn += yyleng; return GT }
+">"             { currentColumn += yyleng; return GT; }
 
-"<="            { currentColumn += yyleng; return LTE }
+"<="            { currentColumn += yyleng; return LTE; }
 
-">="            { currentColumn += yyleng; return GTE }
+">="            { currentColumn += yyleng; return GTE; }
 
-";"             { currentColumn += yyleng; return SEMICOLON }
+";"             { currentColumn += yyleng; return SEMICOLON; }
 
-":"             { currentColumn += yyleng; return COLON }
+":"             { currentColumn += yyleng; return COLON; }
 
-","             { currentColumn += yyleng; return COMMA }
+","             { currentColumn += yyleng; return COMMA; }
 
-"("             { currentColumn += yyleng; return L_PAREN }
+"("             { currentColumn += yyleng; return L_PAREN; }
 
-")"             { currentColumn += yyleng; return R_PAREN }
+")"             { currentColumn += yyleng; return R_PAREN; }
 
-"["             { currentColumn += yyleng; return L_SQUARE_BRACKET }
+"["             { currentColumn += yyleng; return L_SQUARE_BRACKET; }
 
-"]"             { currentColumn += yyleng; return R_SQUARE_BRACKET }
+"]"             { currentColumn += yyleng; return R_SQUARE_BRACKET; }
 
-":="            { return ASSIGN }
+":="            { return ASSIGN; }
 
 [ \t\n]+          /* eat up whitespace */
 
 
-{DIGIT}+        { yylval.int_val = atoi(yytext)); currentColumn += yyleng; return NUMBER}
+{DIGIT}+        { yylval.int_val = atoi(yytext); currentColumn += yyleng; return NUMBER; }
 
-{IDENT}         { currentColumn += yyleng; return IDENT}
+{IDENT}         { currentColumn += yyleng; return IDENT; }
 
-{ERROR_TYPE_2}  { yyerror('Must begin with a letter.')}
+{ERROR_TYPE_2}  {  }
 
-{ERROR_TYPE_2_2} { yyerror('Cannot end with an underscore.''}
+{ERROR_TYPE_2_2} { }
 
 
 

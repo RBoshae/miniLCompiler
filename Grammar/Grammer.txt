@@ -13,7 +13,7 @@ Declaration:
     D --> ARRAY [ number ] of | epsilon
 
 Statement:
-    Statement --> E | F | H | I | J | K | M | N
+    Statement --> E | F | H | I | J | K | M | N | O
     E --> Variable := Expression
     F --> if Bool-Exp then Statement ; B G endif
     G --> else Statement ; B | epsilon
