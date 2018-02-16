@@ -42,7 +42,7 @@ Declaration:    IDENT C COLON D INTEGER
                 ;
 
 C:              /* empty - epsilon */
-                | COMMA identifier C
+                | COMMA IDENT C
                 ;
 
 D:              /* empty - epsilon */
@@ -59,7 +59,7 @@ Statement:      E
                 | N
                 ;
 
-E:              Variable ASSIGN Expression
+E:              Var ASSIGN Expression
 
 F:              IF Bool-Exp THEN Statement SEMICOLON B G ENDIF
                 ;
@@ -116,38 +116,38 @@ R:              /* empty - epsilon */
                 | NOT
                 ;
 
-Comp:           ==
-                | <>
-                | <
-                | >
-                | <=
-                | >=
+Comp:           EQ
+                | NEQ
+                | LT
+                | GT
+                | LTE
+                | GTE
                 ;
 
 Expression:     Multiplicative-Expr S T
                 ;
 
 S:              /* empty - epsilon */
-                | + Multiplicative-Expr S T
+                | PLUS Multiplicative-Expr S T
                 ;
 
 T:              /* empty - epsilon */
-                | - Multiplicative-Expr S T
+                | MINUS Multiplicative-Expr S T
                 ;
 
 Multiplicative-Expr:  Term U V W
                 ;
 
 U:              /* empty - epsilon */
-                | * Term U V W
+                | MULT Term U V W
                 ;
 
 V:              /* empty - epsilon */
-                | / Term U V W
+                | DIV Term U V W
                 ;
 
 W:              /* empty - epsilon */
-                | % Term U V W
+                | MOD Term U V W
                 ;
 
 Term:           X Var
@@ -157,7 +157,7 @@ Term:           X Var
                 ;
 
 X:              /* empty - epsilon */
-                | -
+                | UMINUS
                 ;
 
 Y:              /* empty - epsilon */
