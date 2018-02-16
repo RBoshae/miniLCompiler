@@ -149,9 +149,3 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 .               { printf( "Error at line %d, column %d: Unrecognized character: %s\n", currentColumn, currentLine, yytext); exit(0);}
 
 %%
-
-
-int main( int argc, char **argv )
-{
-  yylex();
-}

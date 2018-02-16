@@ -2181,9 +2181,3 @@ void yyfree (void * ptr )
 
 
 
-
-int main( int argc, char **argv )
-{
-  yylex();
-}
-

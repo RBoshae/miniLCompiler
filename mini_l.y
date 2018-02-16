@@ -7,7 +7,6 @@
   #include <stdio.h>
 
   void yyerror(const char *msg);
-  int yylex(void);
 
 %}
 
@@ -190,4 +189,10 @@ void yyerror(const char *msg)
   printf("Error Occured.\n");
 
   return;
+}
+
+int main( int argc, char **argv )
+{
+  //yylex();
+  yyparse();
 }
