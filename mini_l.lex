@@ -14,7 +14,6 @@
 
 %{/*Include library for atof() call */
 #include "y.tab.h"
-#include<math.h>
 /* need this for the call to atoi() below */
 #include <unistd.h>
 
