@@ -3,8 +3,9 @@ beginparams
 endparams
 
 beginlocals
+i : integer;
 endlocals
 
-beginbody	
-    read n;
+beginbody
+    i := 2;
 endbody

@@ -39,7 +39,7 @@
 %token END_PARAMS
 %token BEGIN_LOCALS
 %token END_LOCALS
-%token BEGIN_BODY
+%right BEGIN_BODY
 %token ARRAY
 %token OF
 %token IF
@@ -58,10 +58,10 @@
 %token TRUE
 %token FALSE
 %token RETURN
-%token COLON
-%token COMMA
+%left COLON
+%left COMMA
 %token <int_val> NUMBER
-%token <int_val> INTEGER
+%left INTEGER
 %token END_BODY
 %token SEMICOLON
 %left  AND OR
@@ -83,19 +83,21 @@ Program:        /* empty - epsilon */        {printf("Program --> epsilon\n");}
                 | Function Program           {printf("Program --> Function Program\n");}
                 ;
 
-Function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+Function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
 
 
 
-A:              /* empty - epsilon */                                    {printf("A --> epsilon\n");}
-                | Declaration SEMICOLON A                                {printf("A --> Declaration SEMICOLON A\n");}
+Alpha:              /* empty - epsilon */                                    {printf("Alpha --> epsilon\n");}
+                | Declaration SEMICOLON Alpha                                {printf("Alpha --> Declaration SEMICOLON Alpha\n");}
                 ;
 
 B:              /* empty - epsilon */                                    {printf("B --> epsilon\n");}
                 | Statement SEMICOLON B                                  {printf("B --> Statement SEMICOLON B\n");}
                 ;
 
-Declaration:    IDENT C COLON D INTEGER                                  {printf("Declaration --> IDENT C COLON D INTEGER\n");}
+Declaration:    IDENT C COLON D mInteger                                  {printf("Declaration --> IDENT C COLON D mInteger\n");}
+
+mInteger:       INTEGER {printf("myIntegerGood");}
                 ;
 
 C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");}
