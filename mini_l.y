@@ -46,67 +46,80 @@ Program:        /* empty - epsilon */        {printf("Program --> epsilon\n");}
                 | Function Program           {printf("Program --> Function Program\n");}
                 ;
 
-Function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+Function:         FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY SEMICOLON END_BODY\n");}
+                | FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
+                ;
 
-
-
-A:              /* empty - epsilon */                                    {printf("A --> epsilon\n");}
+A:                Declaration SEMICOLON                                  {printf("A --> Declaration SEMICOLON\n");}
                 | Declaration SEMICOLON A                                {printf("A --> Declaration SEMICOLON A\n");}
                 ;
 
-B:              /* empty - epsilon */                                    {printf("B --> epsilon\n");}
+B:                Statement SEMICOLON                                    {printf("B --> Statement SEMICOLON\n");}
                 | Statement SEMICOLON B                                  {printf("B --> Statement SEMICOLON B\n");}
                 ;
 
-Declaration:    IDENT C COLON D INTEGER                                  {printf("Declaration --> IDENT C COLON D INTEGER\n");}
+Declaration:      IDENT COLON INTEGER                                                     {printf("Declaration --> IDENT COLON INTEGER\n");}
+                | IDENT C COLON INTEGER                                                   {printf("Declaration --> IDENT C COLON INTEGER\n");}
+                | IDENT COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER   {printf("Declaration --> IDENT COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
+                | IDENT C COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER {printf("Declaration --> IDENT C COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}
                 ;
 
-C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");}
+C:                COMMA IDENT                                            {printf("C --> COMMA IDENT\n");}
                 | COMMA IDENT C                                          {printf("C --> COMMA IDENT C\n");}
                 ;
 
-D:              /* empty - epsilon */                                    {printf("D --> epsilon\n");}
-                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {printf("D --> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}
-                ;
-
-Statement:      E                                                        {printf("Statement --> E\n");}
-                | F                                                      {printf("Statement --> F\n");}
+Statement:      D                                                        {printf("Statement --> D\n");}
+                | E                                                      {printf("Statement --> E\n");}
+                | I                                                      {printf("Statement --> I\n");}
                 | H                                                      {printf("Statement --> H\n");}
                 | I                                                      {printf("Statement --> I\n");}
                 | J                                                      {printf("Statement --> J\n");}
-                | K                                                      {printf("Statement --> K\n");}
+                | L                                                      {printf("Statement --> L\n");}
                 | M                                                      {printf("Statement --> M\n");}
                 | N                                                      {printf("Statement --> N\n");}
-                | O                                                      {printf("Statement --> O\n");}
                 ;
 
-E:              Var ASSIGN Expression                                    {printf("E --> Var ASSIGN Expression\n");}
+D:              Var ASSIGN Expression                                    {printf("D --> Var ASSIGN Expression\n");}
                 ;
 
-F:              IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON {printf("F --> Var ASSIGN Expression");}
+E:                IF Bool-Expr THEN Statement SEMICOLON ENDIF SEMICOLON       {printf("E --> IF Bool-Expr THEN Statement SEMICOLON ENDIF SEMICOLON");}
+                | IF Bool-Expr THEN Statement SEMICOLON G ENDIF SEMICOLON     {printf("E --> IF Bool-Expr THEN Statement SEMICOLON G ENDIF SEMICOLON");}
+                | IF Bool-Expr THEN Statement SEMICOLON B ENDIF SEMICOLON     {printf("E --> IF Bool-Expr THEN Statement SEMICOLON B ENDIF SEMICOLON");}
+                | IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON   {printf("E --> IF Bool-Expr THEN Statement SEMICOLON B G ENDIF SEMICOLON");}
                 ;
 
-G:              /* empty - epsilon */                                    {printf("G --> epsilon\n");}
-                | ELSE Statement SEMICOLON B                             {printf("G --> ELSE Statement SEMICOLON B\n");}
+G:                ELSE Statement SEMICOLON                                    {printf("G --> ELSE Statement SEMICOLON\n");}
+                | ELSE Statement SEMICOLON B                                  {printf("G --> ELSE Statement SEMICOLON B\n");}
                 ;
 
-H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON B ENDLOOP  {printf("H --> ELSE Statement SEMICOLON B\n");}
+I:                WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP       {printf("I --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
+                | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON B ENDLOOP     {printf("I --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON B ENDLOOP\n");}
                 ;
 
-I:              DO BEGINLOOP Statement SEMICOLON B ENDLOOP               {printf("I --> DO BEGINLOOP Statement SEMICOLON B ENDLOOP\n");}
+J:                DO BEGINLOOP Statement SEMICOLON ENDLOOP                    {printf("J --> DO BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
+                | DO BEGINLOOP Statement SEMICOLON B ENDLOOP                  {printf("J --> DO BEGINLOOP Statement SEMICOLON B ENDLOOP\n");}
                 ;
 
-J:              FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP  {printf("J --> FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP\n");}
+J:                FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON ENDLOOP  {printf("J --> FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
+                | FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP  {printf("J --> FOREACH IDENT IN IDENT BEGINLOOP Statement SEMICOLON B ENDLOOP\n");}
                 ;
 
-K:              READ Var L                                               {printf("K --> READ Var L\n");}
+K:                READ Var                                                 {printf("K --> READ Var\n");}
+                | READ Var L                                               {printf("K --> READ Var L\n");}
                 ;
 
-L:              /* empty - epsilon */                                    {printf("L --> epsilon\n");}
-                | COMMA Var                                              {printf("L --> COMMA Var\n");}
+L:                COMMA Var                                               {printf("L --> COMMA Var\n");}
+                | COMMA Var L                                             {printf("L --> COMMA Var L\n");}
                 ;
 
-M:              WRITE Var L                                              {printf("M --> WRITE Var L\n");}
+M:                WRITE Var                                               {printf("M --> WRITE Var\n");}
+                | WRITE Var L                                             {printf("M --> WRITE Var L\n");}
                 ;
 
 N:              CONTINUE                                                 {printf("N --> CONTINUE\n");}
@@ -115,28 +128,31 @@ N:              CONTINUE                                                 {printf
 O:              RETURN Expression                                        {printf("O --> RETURN Expression\n");}
                 ;
 
-Bool-Expr:      Relation-And-Expr P                                      {printf("Bool-Expr --> Relation-And-Expr P\n");}
+Bool-Expr:        Relation-And-Expr                                       {printf("Bool-Expr --> Relation-And-Expr\n");}
+                | Relation-And-Expr P                                     {printf("Bool-Expr --> Relation-And-Expr P\n");}
                 ;
 
-P:              /* empty - epsilon */                                    {printf("P --> epsilon\n");}
-                | OR Relation-And-Expr P                                 {printf("P --> OR Relation-And-Expr P\n");}
+P:                OR Relation-And-Expr                                    {printf("P --> OR Relation-And-Expr\n");}
+                | OR Relation-And-Expr P                                  {printf("P --> OR Relation-And-Expr P\n");}
                 ;
 
-Relation-And-Expr:  Relation-Expr Q                                      {printf("Relation-And-Expr --> Relation-Expr Q\n");}
+Relation-And-Expr:    Relation-Expr                                      {printf("Relation-And-Expr --> Relation-Expr\n");}
+                    | Relation-Expr Q                                    {printf("Relation-And-Expr --> Relation-Expr Q\n");}
+                    | NOT Relation-Expr                                  {printf("Relation-And-Expr --> NOT Relation-Expr\n");}
                     | NOT Relation-Expr Q                                {printf("Relation-And-Expr --> NOT Relation-Expr Q\n");}
                     ;
 
-Q:              /* empty - epsilon */                                    {printf("Q --> epsilon\n");}
+Q:                AND Relation-Expr                                      {printf("Q --> AND Relation-Expr\n");}
                 | AND Relation-Expr Q                                    {printf("Q --> AND Relation-Expr Q\n");}
                 ;
 
-Relation-Expr:  Expression Comp Expression                             {printf("Relation-Expr --> Expression Comp Expression\n");}
+Relation-Expr:    Expression Comp Expression                           {printf("Relation-Expr --> Expression Comp Expression\n");}
                 | TRUE                                                 {printf("Relation-Expr --> TRUE\n");}
                 | FALSE                                                {printf("Relation-Expr --> FALSE\n");}
                 | L_PAREN Bool-Expr R_PAREN                            {printf("Relation-Expr --> L_PAREN Bool-Expr R_PAREN\n");}
                 ;
 
-Comp:           EQ                                                       {printf("Comp --> EQ\n");}
+Comp:             EQ                                                     {printf("Comp --> EQ\n");}
                 | NEQ                                                    {printf("Comp --> NEQ\n");}
                 | LT                                                     {printf("Comp --> LT\n");}
                 | GT                                                     {printf("Comp --> GT\n");}
@@ -144,51 +160,65 @@ Comp:           EQ                                                       {printf
                 | GTE                                                    {printf("Comp --> GTE\n");}
                 ;
 
-Expression:     Multiplicative-Expr S T
+Expression:       Multiplicative-Expr                                 {printf("Expression --> Multiplicative-Expr\n");}
+                | Multiplicative-Expr PLUS Multiplicative-Expr        {printf("Expression --> PLUS Multiplicative-Expr\n");}
+                | Multiplicative-Expr SUB Multiplicative-Expr         {printf("Expression --> SUB Multiplicative-Expr\n");}
+                | Multiplicative-Expr PLUS Multiplicative-Expr S      {printf("Expression --> PLUS Multiplicative-Expr S\n");}
+                | Multiplicative-Expr SUB Multiplicative-Expr S       {printf("Expression --> SUB Multiplicative-Expr S\n");}
+                | Multiplicative-Expr PLUS Multiplicative-Expr T      {printf("Expression --> PLUS Multiplicative-Expr T\n");}
+                | Multiplicative-Expr SUB Multiplicative-Expr T       {printf("Expression --> SUB Multiplicative-Expr T\n");}
                 ;
 
-S:              /* empty - epsilon */                                  {printf("S --> epsilon\n");}
-                | PLUS Multiplicative-Expr S T                         {printf("S --> PLUS Multiplicative-Expr S T\n");}
+S:                PLUS Multiplicative-Expr                            {printf("S --> PLUS Multiplicative-Expr\n");}
+                | PLUS Multiplicative-Expr S                          {printf("S --> PLUS Multiplicative-Expr S\n");}
+                | PLUS Multiplicative-Expr T                          {printf("S --> PLUS Multiplicative-Expr T\n");}
                 ;
 
-T:              /* empty - epsilon */                                  {printf("T --> epsilon\n");}
-                | SUB Multiplicative-Expr S T                          {printf("T --> SUB Multiplicative-Expr S T\n");}
+T:                SUB Multiplicative-Expr                             {printf("T --> SUB Multiplicative-Expr\n");}
+                | SUB Multiplicative-Expr S                           {printf("T --> SUB Multiplicative-Expr S\n");}
+                | SUB Multiplicative-Expr T                           {printf("T --> SUB Multiplicative-Expr T\n");}
                 ;
 
-Multiplicative-Expr:  Term U V W                                       {printf("Multiplicative-Expr --> Term U V W\n");}
+Multiplicative-Expr:  Term                                          {printf("Multiplicative-Expr --> Term\n");}
+                | Term U                                            {printf("Multiplicative-Expr --> Term U\n");}
+                | Term V                                            {printf("Multiplicative-Expr --> Term V\n");}
+                | Term W                                            {printf("Multiplicative-Expr --> Term W\n");}
                 ;
 
-U:              /* empty - epsilon */                                  {printf("U --> epsilon\n");}
-                | MULT Term U V W                                      {printf("U --> MULT Term U V W\n");}
+U:                MULT Term                                         {printf("U --> epsilon\n");}
+                | MULT Term U                                       {printf("U --> MULT Term U V W\n");}
+                | MULT Term V
+                | MULT Term W
                 ;
 
-V:              /* empty - epsilon */                                  {printf("V --> epsilon\n");}
-                | DIV Term U V W                                       {printf("V --> DIV Term U V W\n");}
+V:                DIV Term                                          {printf("V --> epsilon\n");}
+                | DIV Term U                                        {printf("V --> DIV Term U V W\n");}
+                | DIV Term V
+                | DIV Term W
                 ;
 
-W:              /* empty - epsilon */                                  {printf("W --> epsilon\n");}
-                | MOD Term U V W                                       {printf("W --> MOD Term U V W\n");}
+W:                MOD Term                                          {printf("W --> epsilon\n");}
+                | MOD Term U                                        {printf("W --> MOD Term U V W\n");}
+                | MOD Term V
+                | MOD Term W
                 ;
 
-Term:           X Var                                                  {printf("Term --> X Var\n");}
-                | X NUMBER                                             {printf("Term --> X NUMBER\n");}
-                | X L_PAREN Expression R_PAREN                         {printf("Term --> X L_PAREN Expression R_PAREN\n");}
-                | IDENT L_PAREN Y R_PAREN                              {printf("Term --> IDENT L_PAREN Y R_PAREN\n");}
+Term:             Var                                                  {printf("Term --> Var\n");}
+                | UMINUS Var                                           {printf("Term --> UMINUS Var\n");}
+                | NUMBER                                               {printf("Term --> NUMBER\n");}
+                | UMINUS NUMBER                                        {printf("Term --> UMINUS NUMBER\n");}
+                | L_PAREN Expression R_PAREN                           {printf("Term --> L_PAREN Expression R_PAREN\n");}
+                | UMINUS L_PAREN Expression R_PAREN                    {printf("Term --> UMINUS L_PAREN Expression R_PAREN\n");}
+                | IDENT L_PAREN R_PAREN                                {printf("Term --> IDENT L_PAREN Y R_PAREN\n");}
+                | IDENT L_PAREN Expression R_PAREN                     {printf("Term --> IDENT L_PAREN Y R_PAREN\n");}
+                | IDENT L_PAREN Expression Y R_PAREN                   {printf("Term --> IDENT L_PAREN Y R_PAREN\n");}
                 ;
 
-X:              /* empty - epsilon */                                  {printf("X --> epsilon\n");}
-                | SUB                                                  {printf("X --> SUB\n");}
+Y:                COMMA Expression                                     {printf("Y --> epsilon\n");}
+                | COMMA Expression Y                                   {printf("Y --> Expression Z\n");}
                 ;
 
-Y:              /* empty - epsilon */                                  {printf("Y --> epsilon\n");}
-                | Expression Z                                         {printf("Y --> Expression Z\n");}
-                ;
-
-Z:              /* empty - epsilon */                                  {printf("Z --> epsilon\n");}
-                | COMMA Expression Z                                   {printf("Z --> COMMA Expression Z\n");}
-                ;
-
-Var:            IDENT                                                  {printf("Var --> IDENT\n");}
+Var:              IDENT                                                {printf("Var --> IDENT\n");}
                 | IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {printf("Var --> IDENT L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n");}
                 ;
 %%
