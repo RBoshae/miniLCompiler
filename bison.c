@@ -1516,7 +1516,7 @@ yyreduce:
 
   case 25:
 #line 71 "mini_l.y" /* yacc.c:1646  */
-    {printf("F --> Var ASSIGN Expression SEMICOLON\n");}
+    {printf("F --> Var ASSIGN Expression");}
 #line 1521 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
