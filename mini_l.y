@@ -5,35 +5,87 @@
 %{
 
   #include <stdio.h>
+  #include <string>
 
   int yylex(void);
   void yyerror(const char *msg);
 
+  // stuff from flex that bison needs to know about:
+
+
 %}
 
+// Bison fundamentally works by asking flex to get the next token, which it
+// returns as an object of type "yystype".  But tokens could be of any
+// arbitrary data type!  So we deal with that in Bison by defining a C union
+// holding each of the types of tokens that Flex could return, and have Bison
+// use that union instead of "int" for the definition of "yystype":
 %union{
   int		    int_val;
+  char      *sval;
 
 }
-
+// error-verbose lists additional information regarding the error.
+%error-verbose
 %start	Program_Prime
-%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS SUB MULT DIV MOD COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET IDENT R_SQUARE_BRACKET ASSIGN NUMBER	<int_val>	INTEGER
-%left SEMICOLON
-%left EQ NEQ LT GT LTE GTE
+
+// define the constant-string tokens:
+
+// define the "terminal symbol" token types I'm going to use (in CAPS
+// by convention), and associate each with a field of the union:
+%token <*sval> IDENT
+%token FUNCTION
+%token BEGIN_PARAMS
+%token END_PARAMS
+%token BEGIN_LOCALS
+%token END_LOCALS
+%token BEGIN_BODY
+%token ARRAY
+%token OF
+%token IF
+%token THEN
+%token ENDIF
+%token ELSE
+%token WHILE
+%token DO
+%token FOREACH
+%token IN
+%token BEGINLOOP
+%token ENDLOOP
+%token CONTINUE
+%token READ
+%token WRITE
+%token TRUE
+%token FALSE
+%token RETURN
+%token COLON
+%token COMMA
+%token <int_val> NUMBER
+%token <int_val> INTEGER
+%token END_BODY
+%token SEMICOLON
+%left  AND OR
+%token ASSIGN
+%right NOT
 %left	PLUS SUB
-%left	MULT DIV
+%left	MULT DIV MOD
+%left L_SQUARE_BRACKET R_SQUARE_BRACKET
+%token L_PAREN
+%token EQ NEQ LT GT LTE GTE
+%token R_PAREN
 
 %%
 
-Program_Prime:  Program                     {printf("Program_Prime --> Program\n");}
+Program_Prime:  Program                      {printf("Program_Prime --> Program\n");}
                 ;
 
-Program:        /* empty - epsilon */       {printf("Program --> epsilon\n");}
-                | Function Program          {printf("Program --> Function Program\n");}
+Program:        /* empty - epsilon */        {printf("Program --> epsilon\n");}
+                | Function Program           {printf("Program --> Function Program\n");}
                 ;
 
 Function:       FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY {printf("Function --> FUNCTION IDENT SEMICOLON BEGIN_PARAMS A END_PARAMS BEGIN_LOCALS A END_LOCALS BEGIN_BODY B SEMICOLON END_BODY\n");}
-                ;
+
+
 
 A:              /* empty - epsilon */                                    {printf("A --> epsilon\n");}
                 | Declaration SEMICOLON A                                {printf("A --> Declaration SEMICOLON A\n");}
@@ -115,10 +167,10 @@ Q:              /* empty - epsilon */                                    {printf
                 | AND Relation-Expr Q                                    {printf("Q --> AND Relation-Expr Q\n");}
                 ;
 
-Relation-Expr:  Expression Comp Expression                             {printf("Relation-Expr --> R Expression Comp Expression\n");}
-                | TRUE                                                 {printf("Relation-Expr --> R TRUE\n");}
-                | FALSE                                                {printf("Relation-Expr --> R FALSE\n");}
-                | L_PAREN Bool-Expr R_PAREN                            {printf("Relation-Expr --> R L_PAREN Bool-Expr R_PAREN\n");}
+Relation-Expr:  Expression Comp Expression                             {printf("Relation-Expr --> Expression Comp Expression\n");}
+                | TRUE                                                 {printf("Relation-Expr --> TRUE\n");}
+                | FALSE                                                {printf("Relation-Expr --> FALSE\n");}
+                | L_PAREN Bool-Expr R_PAREN                            {printf("Relation-Expr --> L_PAREN Bool-Expr R_PAREN\n");}
                 ;
 
 Comp:           EQ                                                       {printf("Comp --> EQ\n");}
@@ -185,7 +237,7 @@ void yyerror(const char *msg)
   extern int currentColumn;
   extern int currentLine;
 
-  printf("Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
+  printf("Rick's Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
 
   return;
 }
