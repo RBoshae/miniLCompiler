@@ -96,6 +96,8 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 "-"             { currentColumn += yyleng; return SUB; }
 
+"-"             { currentColumn += yyleng; return UMINUS; }
+
 "*"             { currentColumn += yyleng; return MULT; }
 
 "/"             { currentColumn += yyleng; return DIV; }

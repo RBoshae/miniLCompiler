@@ -45,13 +45,13 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    IDENT = 258,
-    FUNCTION = 259,
-    BEGIN_PARAMS = 260,
-    END_PARAMS = 261,
-    BEGIN_LOCALS = 262,
-    END_LOCALS = 263,
-    BEGIN_BODY = 264,
+    FUNCTION = 258,
+    BEGIN_PARAMS = 259,
+    END_PARAMS = 260,
+    BEGIN_LOCALS = 261,
+    END_LOCALS = 262,
+    BEGIN_BODY = 263,
+    END_BODY = 264,
     ARRAY = 265,
     OF = 266,
     IF = 267,
@@ -67,34 +67,35 @@ extern int yydebug;
     CONTINUE = 277,
     READ = 278,
     WRITE = 279,
-    TRUE = 280,
-    FALSE = 281,
-    RETURN = 282,
-    COLON = 283,
-    COMMA = 284,
-    NUMBER = 285,
-    INTEGER = 286,
-    END_BODY = 287,
-    SEMICOLON = 288,
-    AND = 289,
-    OR = 290,
-    ASSIGN = 291,
-    NOT = 292,
-    PLUS = 293,
-    SUB = 294,
-    MULT = 295,
-    DIV = 296,
-    MOD = 297,
-    L_SQUARE_BRACKET = 298,
-    R_SQUARE_BRACKET = 299,
-    L_PAREN = 300,
-    EQ = 301,
-    NEQ = 302,
-    LT = 303,
-    GT = 304,
-    LTE = 305,
-    GTE = 306,
-    R_PAREN = 307
+    AND = 280,
+    OR = 281,
+    NOT = 282,
+    TRUE = 283,
+    FALSE = 284,
+    RETURN = 285,
+    PLUS = 286,
+    SUB = 287,
+    UMINUS = 288,
+    MULT = 289,
+    DIV = 290,
+    MOD = 291,
+    COLON = 292,
+    COMMA = 293,
+    L_PAREN = 294,
+    R_PAREN = 295,
+    L_SQUARE_BRACKET = 296,
+    IDENT = 297,
+    R_SQUARE_BRACKET = 298,
+    ASSIGN = 299,
+    NUMBER = 300,
+    INTEGER = 301,
+    SEMICOLON = 302,
+    EQ = 303,
+    NEQ = 304,
+    LT = 305,
+    GT = 306,
+    LTE = 307,
+    GTE = 308
   };
 #endif
 
@@ -109,7 +110,7 @@ union YYSTYPE
   char      *sval;
 
 
-#line 113 "mini_l.tab.h" /* yacc.c:1909  */
+#line 114 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
