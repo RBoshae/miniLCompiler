@@ -137,7 +137,7 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 {DIGIT}+        { yylval.int_val = atoi(yytext); currentColumn += yyleng; return NUMBER; }
 
-{IDENT}         { currentColumn += yyleng; return IDENT; }
+{IDENT}         { yylval.sval = yytext; currentColumn += yyleng; return IDENT; }
 
 {ERROR_TYPE_2}  {  }
 

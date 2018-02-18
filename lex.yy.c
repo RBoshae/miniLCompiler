@@ -1130,7 +1130,7 @@ YY_RULE_SETUP
 case 52:
 YY_RULE_SETUP
 #line 140 "mini_l.lex"
-{ currentColumn += yyleng; return IDENT; }
+{ yylval.sval = yytext; currentColumn += yyleng; return IDENT; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
