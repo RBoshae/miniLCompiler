@@ -24,4 +24,4 @@ bison.c:	mini_l.y
 		cmp -s mini_l.tab.h tok.h || cp mini_l.tab.h tok.h
 
 clean:
-	rm -f *.o *~ lex.c lex.yy.c bison.c tok.h y.tab.c y.tab.h y.output parser
+	rm -f *.o *~ lex.c lex.yy.c bison.c tok.h mini_l.tab.c mini_l.tab.h mini_l.output parser
