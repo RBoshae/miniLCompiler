@@ -98,10 +98,8 @@ Beta:             Statement SEMICOLON                                       {pri
                 | Statement SEMICOLON Beta                                  {printf("Beta --> Statement SEMICOLON Beta\n");}
                 ;
 
-Declaration:    identifiers C COLON D mInteger                                  {printf("Declaration --> identifiers C COLON D mInteger\n");}
+Declaration:    identifiers C COLON D INTEGER                                  {printf("Declaration --> identifiers C COLON D INTEGER\n");}
 
-mInteger:       INTEGER {printf("myIntegerGood");}
-                ;
 
 C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");}
                 | COMMA identifiers C                                          {printf("C --> COMMA identifiers C\n");}
