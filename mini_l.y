@@ -25,7 +25,7 @@
 }
 
 %start Program_Prime
-%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS SUB SUB MULT DIV MOD COLON COMMA L_SQUARE_BRACKET IDENT R_SQUARE_BRACKET ASSIGN NUMBER	<int_val>	INTEGER
+%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS MULT DIV MOD COLON COMMA L_SQUARE_BRACKET IDENT R_SQUARE_BRACKET ASSIGN NUMBER	<int_val>	INTEGER
 %left SEMICOLON
 %left EQ NEQ LT GT LTE GTE
 %left	PLUS SUB
@@ -86,10 +86,10 @@ Statement:      D                                                        {printf
 D:              Var ASSIGN Expression                                    {printf("D --> Var ASSIGN Expression\n");}
                 ;
 
-E:                IF Bool-Expr THEN Statement SEMICOLON ENDIF SEMICOLON       {printf("E --> IF Bool-Expr THEN Statement SEMICOLON ENDIF SEMICOLON");}
-                | IF Bool-Expr THEN Statement SEMICOLON F ENDIF SEMICOLON     {printf("E --> IF Bool-Expr THEN Statement SEMICOLON F ENDIF SEMICOLON");}
-                | IF Bool-Expr THEN Statement SEMICOLON B ENDIF SEMICOLON     {printf("E --> IF Bool-Expr THEN Statement SEMICOLON B ENDIF SEMICOLON");}
-                | IF Bool-Expr THEN Statement SEMICOLON B F ENDIF SEMICOLON   {printf("E --> IF Bool-Expr THEN Statement SEMICOLON B F ENDIF SEMICOLON");}
+E:                IF Bool-Expr THEN Statement SEMICOLON ENDIF SEMICOLON       {printf("E --> IF Bool-Expr THEN Statement SEMICOLON ENDIF SEMICOLON\n");}
+                | IF Bool-Expr THEN Statement SEMICOLON F ENDIF SEMICOLON     {printf("E --> IF Bool-Expr THEN Statement SEMICOLON F ENDIF SEMICOLON\n");}
+                | IF Bool-Expr THEN Statement SEMICOLON B ENDIF SEMICOLON     {printf("E --> IF Bool-Expr THEN Statement SEMICOLON B ENDIF SEMICOLON\n");}
+                | IF Bool-Expr THEN Statement SEMICOLON B F ENDIF SEMICOLON   {printf("E --> IF Bool-Expr THEN Statement SEMICOLON B F ENDIF SEMICOLON\n");}
                 ;
 
 F:                ELSE Statement SEMICOLON                                    {printf("F --> ELSE Statement SEMICOLON\n");}
@@ -127,7 +127,7 @@ N:              RETURN Expression                                             {p
                 ;
 
 Bool-Expr:        Relation-And-Expr                                           {printf("Bool-Expr --> Relation-And-Expr\n");}
-                | Relation-And-Expr P                                         {printf("Bool-Expr --> Relation-And-Expr P\n");}
+                | Relation-And-Expr O                                         {printf("Bool-Expr --> Relation-And-Expr P\n");}
                 ;
 
 O:                OR Relation-And-Expr                                        {printf("O --> OR Relation-And-Expr\n");}
@@ -225,7 +225,7 @@ Var:              IDENT                                                {printf("
 
 void yyerror(const char *msg)
 {
-  /* extern int yylineno;	 */ /* defined and maintained in lex.c */ 
+  /* extern int yylineno;	 */ /* defined and maintained in lex.c */
   extern char *yytext;	/* defined and maintained in lex.c */
   extern int currentColumn;
   extern int currentLine;
