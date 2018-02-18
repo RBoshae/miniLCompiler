@@ -13,8 +13,7 @@
 *******************************************************************************/
 
 %{/*Include library for atof() call */
-
-#include<math.h>
+#include "mini_l.tab.h"
 /* need this for the call to atoi() below */
 #include <unistd.h>
 
@@ -35,113 +34,114 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 
 %%
+"function"      { currentColumn += yyleng; return FUNCTION; }
 
-"function"      { printf("FUNCTION\n"); currentColumn += yyleng; }
+"beginparams"   { currentColumn += yyleng; return BEGIN_PARAMS; }
 
-"beginparams"   { printf("BEGIN_PARAMS\n"); currentColumn += yyleng; }
+"endparams"     { currentColumn += yyleng; return END_PARAMS; }
 
-"endparams"     { printf("END_PARAMS\n"); currentColumn += yyleng; }
+"beginlocals"   { currentColumn += yyleng; return BEGIN_LOCALS; }
 
-"beginlocals"   { printf("BEGIN_LOCALS\n"); currentColumn += yyleng; }
+"endlocals"     { currentColumn += yyleng; return END_LOCALS; }
 
-"endlocals"     { printf("END_LOCALS\n"); currentColumn += yyleng; }
+"beginbody"     { currentColumn += yyleng; return BEGIN_BODY; }
 
-"beginbody"     { printf("BEGIN_BODY\n"); currentColumn += yyleng; }
+"endbody"       { currentColumn += yyleng; return END_BODY; }
 
-"endbody"       { printf("END_BODY\n"); currentColumn += yyleng; }
+"integer"       { currentColumn += yyleng; return INTEGER; }
 
-"integer"       { printf("INTEGER\n"); currentColumn += yyleng; }
+"array"         { currentColumn += yyleng; return ARRAY; }
 
-"array"         { printf("ARRAY\n"); currentColumn += yyleng; }
+"of"            { currentColumn += yyleng; return OF; }
 
-"of"            { printf("OF\n"); currentColumn += yyleng; }
+"if"            { currentColumn += yyleng; return IF; }
 
-"if"            { printf("IF\n"); currentColumn += yyleng; }
+"then"          { currentColumn += yyleng; return THEN; }
 
-"then"          { printf("THEN\n"); currentColumn += yyleng; }
+"endif"         { currentColumn += yyleng; return ENDIF; }
 
-"endif"         { printf("ENDIF\n"); currentColumn += yyleng; }
+"else"          { currentColumn += yyleng; return ELSE; }
 
-"else"          { printf("ELSE\n"); currentColumn += yyleng; }
+"while"         { currentColumn += yyleng; return WHILE; }
 
-"while"         { printf("WHILE\n"); currentColumn += yyleng; }
+"do"            { currentColumn += yyleng; return DO; }
 
-"do"            { printf("DO\n"); currentColumn += yyleng; }
+"foreach"       { currentColumn += yyleng; return FOREACH; }
 
-"foreach"       { printf("FOREACH\n"); currentColumn += yyleng; }
+"in"            { currentColumn += yyleng; return IN; }
 
-"in"            { printf("IN\n"); currentColumn += yyleng; }
+"beginloop"     { currentColumn += yyleng; return BEGINLOOP; }
 
-"beginloop"     { printf("BEGINLOOP\n"); currentColumn += yyleng; }
+"endloop"       { currentColumn += yyleng; return ENDLOOP; }
 
-"endloop"       { printf("ENDLOOP\n"); currentColumn += yyleng; }
+"continue"      { currentColumn += yyleng; return CONTINUE; }
 
-"continue"      { printf("CONTINUE\n"); currentColumn += yyleng; }
+"read"          { currentColumn += yyleng; return READ; }
 
-"read"          { printf("READ\n"); currentColumn += yyleng; }
+"write"         { currentColumn += yyleng; return WRITE; }
 
-"write"         { printf("WRITE\n"); currentColumn += yyleng; }
+"and"           { currentColumn += yyleng; return AND; }
 
-"and"           { printf("AND\n"); currentColumn += yyleng; }
+"or"            { currentColumn += yyleng; return OR; }
 
-"or"            { printf("OR\n"); currentColumn += yyleng; }
+"not"           { currentColumn += yyleng; return NOT; }
 
-"not"           { printf("NOT\n"); currentColumn += yyleng; }
+"true"          { currentColumn += yyleng; return TRUE; }
 
-"true"          { printf("TRUE\n"); currentColumn += yyleng; }
+"false"         { currentColumn += yyleng; return FALSE; }
 
-"false"         { printf("FALSE\n"); currentColumn += yyleng; }
+"return"        { currentColumn += yyleng; return RETURN; }
 
-"return"        { printf("RETURN\n"); currentColumn += yyleng; }
+"+"             { currentColumn += yyleng; return PLUS; }
 
-"+"             { printf("PLUS\n"); currentColumn += yyleng; }
+"-"             { currentColumn += yyleng; return SUB; }
 
-"-"             { printf("SUB\n"); currentColumn += yyleng; }
+"*"             { currentColumn += yyleng; return MULT; }
 
-"*"             { printf("MULT\n"); currentColumn += yyleng; }
+"/"             { currentColumn += yyleng; return DIV; }
 
-"/"             { printf("DIV\n"); currentColumn += yyleng; }
+"%"             { currentColumn += yyleng; return MOD; }
 
-"%"             { printf("MOD\n"); currentColumn += yyleng; }
+"=="            { currentColumn += yyleng; return EQ; }
 
-"=="            { printf("EQ\n"); currentColumn += yyleng; }
+"<>"            { currentColumn += yyleng; return NEQ; }
 
-"<>"            { printf("NEQ\n"); currentColumn += yyleng; }
+"<"             { currentColumn += yyleng; return LT; }
 
-"<"             { printf("LT\n"); currentColumn += yyleng; }
+">"             { currentColumn += yyleng; return GT; }
 
-">"             { printf("GT\n"); currentColumn += yyleng; }
+"<="            { currentColumn += yyleng; return LTE; }
 
-"<="            { printf("LTE\n"); currentColumn += yyleng; }
+">="            { currentColumn += yyleng; return GTE; }
 
-">="            { printf("GTE\n"); currentColumn += yyleng; }
+";"             { currentColumn += yyleng; return SEMICOLON; }
 
-";"             { printf("SEMICOLON\n"); currentColumn += yyleng; }
+":"             { currentColumn += yyleng; return COLON; }
 
-":"             { printf("COLON\n"); currentColumn += yyleng; }
+","             { currentColumn += yyleng; return COMMA; }
 
-","             { printf("COMMA\n"); currentColumn += yyleng; }
+"("             { currentColumn += yyleng; return L_PAREN; }
 
-"("             { printf("L_PAREN\n"); currentColumn += yyleng; }
+")"             { currentColumn += yyleng; return R_PAREN; }
 
-")"             { printf("R_PAREN\n"); currentColumn += yyleng; }
+"["             { currentColumn += yyleng; return L_SQUARE_BRACKET; }
 
-"["             { printf("L_SQUARE_BRACKET\n"); currentColumn += yyleng; }
+"]"             { currentColumn += yyleng; return R_SQUARE_BRACKET; }
 
-"]"             { printf("R_SQUARE_BRACKET\n"); currentColumn += yyleng; }
+":="            { return ASSIGN; }
 
-":="            { printf("ASSIGN\n"); currentColumn += yyleng; }
+[\n]+          {currentLine++;}
 
 [ \t\n]+          /* eat up whitespace */
 
 
-{DIGIT}+        { printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
+{DIGIT}+        { yylval.int_val = atoi(yytext); currentColumn += yyleng; return NUMBER; }
 
-{IDENT}         { printf("IDENT %s\n", yytext); currentColumn += yyleng;}
+{IDENT}         { yylval.sval = yytext; currentColumn += yyleng; return IDENT; }
 
-{ERROR_TYPE_2}  { printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter.\n" , currentColumn, currentLine, yytext); exit(0);}
+{ERROR_TYPE_2}  {  }
 
-{ERROR_TYPE_2_2} { printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore.\n" , currentColumn, currentLine, yytext); exit(0);}
+{ERROR_TYPE_2_2} { }
 
 
 
@@ -150,9 +150,3 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 .               { printf( "Error at line %d, column %d: Unrecognized character: %s\n", currentColumn, currentLine, yytext); exit(0);}
 
 %%
-
-
-int main( int argc, char **argv )
-{
-  yylex();
-}
