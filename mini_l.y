@@ -5,34 +5,36 @@
 %{
 
   #include <stdio.h>
-  #include <string>
+  /*#include <string>*/
 
   int yylex(void);
   void yyerror(const char *msg);
 
-  // stuff from flex that bison needs to know about:
+  /* stuff from flex that bison needs to know about: */
 
 
 %}
 
+/*
 // Bison fundamentally works by asking flex to get the next token, which it
 // returns as an object of type "yystype".  But tokens could be of any
 // arbitrary data type!  So we deal with that in Bison by defining a C union
 // holding each of the types of tokens that Flex could return, and have Bison
 // use that union instead of "int" for the definition of "yystype":
+*/
 %union{
   int		    int_val;
   char      *sval;
 
 }
-// error-verbose lists additional information regarding the error.
+/* error-verbose lists additional information regarding the error. */
 %error-verbose
 %start	Program_Prime
 
-// define the constant-string tokens:
+/* define the constant-string tokens: */
 
-// define the "terminal symbol" token types I'm going to use (in CAPS
-// by convention), and associate each with a field of the union:
+/* define the "terminal symbol" token types I'm going to use (in CAPS
+   by convention), and associate each with a field of the union: */
 %token <*sval> IDENT
 %token FUNCTION
 %token BEGIN_PARAMS
@@ -234,8 +236,8 @@ Var:            IDENT                                                  {printf("
 
 void yyerror(const char *msg)
 {
-  // extern int yylineno;	// defined and maintained in lex.c
-  extern char *yytext;	// defined and maintained in lex.c
+  /* extern int yylineno;	// defined and maintained in lex.c */
+  extern char *yytext;	/* defined and maintained in lex.c */
   extern int currentColumn;
   extern int currentLine;
 
@@ -246,6 +248,6 @@ void yyerror(const char *msg)
 
 int main( int argc, char **argv )
 {
-  //yylex();
+  /* yylex(); */
   yyparse();
 }

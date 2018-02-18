@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 %{/*Include library for atof() call */
-#include "y.tab.h"
+#include "mini_l.tab.h"
 /* need this for the call to atoi() below */
 #include <unistd.h>
 
