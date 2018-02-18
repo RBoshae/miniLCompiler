@@ -5,21 +5,19 @@
 %{
 
   #include <stdio.h>
-  #include <string>
 
-  int yylex(void);
   void yyerror(const char *msg);
 
-  // stuff from flex that bison needs to know about:
+  /* stuff from flex that bison needs to know about: */
 
 
 %}
 
-// Bison fundamentally works by asking flex to get the next token, which it
+/* Bison fundamentally works by asking flex to get the next token, which it
 // returns as an object of type "yystype".  But tokens could be of any
 // arbitrary data type!  So we deal with that in Bison by defining a C union
 // holding each of the types of tokens that Flex could return, and have Bison
-// use that union instead of "int" for the definition of "yystype":
+// use that union instead of "int" for the definition of "yystype":*/
 %union{
   int		    int_val;
   char      *sval;
@@ -27,12 +25,11 @@
 }
 
 %start Program_Prime
-%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS SUB UMINUS MULT DIV MOD COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET IDENT R_SQUARE_BRACKET ASSIGN NUMBER	<int_val>	INTEGER
+%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ WRITE AND OR NOT TRUE FALSE RETURN PLUS SUB SUB MULT DIV MOD COLON COMMA L_SQUARE_BRACKET IDENT R_SQUARE_BRACKET ASSIGN NUMBER	<int_val>	INTEGER
 %left SEMICOLON
 %left EQ NEQ LT GT LTE GTE
 %left	PLUS SUB
 %left	MULT DIV MOD
-%nonassoc UMINUS
 %left L_SQUARE_BRACKET R_SQUARE_BRACKET
 %token L_PAREN
 %token EQ NEQ LT GT LTE GTE
@@ -207,11 +204,11 @@ U:                MOD Term                                          {printf("W -
                 ;
 
 Term:             Var                                                  {printf("Term --> Var\n");}
-                | UMINUS Var                                           {printf("Term --> UMINUS Var\n");}
+                | SUB Var                                           {printf("Term --> SUB Var\n");}
                 | NUMBER                                               {printf("Term --> NUMBER\n");}
-                | UMINUS NUMBER                                        {printf("Term --> UMINUS NUMBER\n");}
+                | SUB NUMBER                                        {printf("Term --> SUB NUMBER\n");}
                 | L_PAREN Expression R_PAREN                           {printf("Term --> L_PAREN Expression R_PAREN\n");}
-                | UMINUS L_PAREN Expression R_PAREN                    {printf("Term --> UMINUS L_PAREN Expression R_PAREN\n");}
+                | SUB L_PAREN Expression R_PAREN                    {printf("Term --> SUB L_PAREN Expression R_PAREN\n");}
                 | IDENT L_PAREN R_PAREN                                {printf("Term --> IDENT L_PAREN R_PAREN\n");}
                 | IDENT L_PAREN Expression R_PAREN                     {printf("Term --> IDENT L_PAREN Expression R_PAREN\n");}
                 | IDENT L_PAREN Expression V R_PAREN                   {printf("Term --> IDENT L_PAREN Expression V R_PAREN\n");}
@@ -228,8 +225,8 @@ Var:              IDENT                                                {printf("
 
 void yyerror(const char *msg)
 {
-  // extern int yylineno;	// defined and maintained in lex.c
-  extern char *yytext;	// defined and maintained in lex.c
+  // extern int yylineno;	/* defined and maintained in lex.c */
+  extern char *yytext;	/* defined and maintained in lex.c */
   extern int currentColumn;
   extern int currentLine;
 
@@ -240,6 +237,5 @@ void yyerror(const char *msg)
 
 int main( int argc, char **argv )
 {
-  //yylex();
   yyparse();
 }

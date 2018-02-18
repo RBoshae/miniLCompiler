@@ -154,11 +154,11 @@ Grammar
   100  | MOD Term U
 
   101 Term: Var
-  102     | UMINUS Var
+  102     | SUB Var
   103     | NUMBER
-  104     | UMINUS NUMBER
+  104     | SUB NUMBER
   105     | L_PAREN Expression R_PAREN
-  106     | UMINUS L_PAREN Expression R_PAREN
+  106     | SUB L_PAREN Expression R_PAREN
   107     | IDENT L_PAREN R_PAREN
   108     | IDENT L_PAREN Expression R_PAREN
   109     | IDENT L_PAREN Expression V R_PAREN
@@ -203,107 +203,106 @@ TRUE (283) 60 61
 FALSE (284) 62 63
 RETURN (285) 51
 PLUS (286) 73 75 77 79 80 81
-SUB (287) 74 76 78 82 83 84
-UMINUS (288) 102 104 106
-MULT (289) 89 90 91 92
-DIV (290) 93 94 95 96
-MOD (291) 97 98 99 100
-COLON (292) 16 17 18 19
-COMMA (293) 20 21 46 47 110 111
-L_PAREN (294) 64 65 105 106 107 108 109
-R_PAREN (295) 64 65 105 106 107 108 109
-L_SQUARE_BRACKET (296) 18 19 113
-IDENT (297) 4 5 6 7 8 9 10 11 16 17 18 19 20 21 42 43 107 108 109 112
+SUB (287) 74 76 78 82 83 84 102 104 106
+MULT (288) 89 90 91 92
+DIV (289) 93 94 95 96
+MOD (290) 97 98 99 100
+COLON (291) 16 17 18 19
+COMMA (292) 20 21 46 47 110 111
+L_SQUARE_BRACKET (293) 18 19 113
+IDENT (294) 4 5 6 7 8 9 10 11 16 17 18 19 20 21 42 43 107 108 109 112
     113
-R_SQUARE_BRACKET (298) 18 19 113
-ASSIGN (299) 31
-NUMBER (300) 18 19 103 104
-INTEGER (301) 16 17 18 19
-SEMICOLON (302) 4 5 6 7 8 9 10 11 12 13 14 15 32 33 34 35 36 37 38
+R_SQUARE_BRACKET (295) 18 19 113
+ASSIGN (296) 31
+NUMBER (297) 18 19 103 104
+INTEGER (298) 16 17 18 19
+SEMICOLON (299) 4 5 6 7 8 9 10 11 12 13 14 15 32 33 34 35 36 37 38
     39 40 41 42 43
-EQ (303) 66
-NEQ (304) 67
-LT (305) 68
-GT (306) 69
-LTE (307) 70
-GTE (308) 71
+EQ (300) 66
+NEQ (301) 67
+LT (302) 68
+GT (303) 69
+LTE (304) 70
+GTE (305) 71
+L_PAREN (306) 64 65 105 106 107 108 109
+R_PAREN (307) 64 65 105 106 107 108 109
 
 
 Nonterminals, with rules where they appear
 
-$accept (54)
+$accept (53)
     on left: 0
-Program_Prime (55)
+Program_Prime (54)
     on left: 1, on right: 0
-Program (56)
+Program (55)
     on left: 2 3, on right: 1 3
-Function (57)
+Function (56)
     on left: 4 5 6 7 8 9 10 11, on right: 3
-A (58)
+A (57)
     on left: 12 13, on right: 6 7 8 9 10 11 13
-B (59)
+B (58)
     on left: 14 15, on right: 5 7 9 11 15 34 35 37 39 41 43
-Declaration (60)
+Declaration (59)
     on left: 16 17 18 19, on right: 12 13
-C (61)
+C (60)
     on left: 20 21, on right: 17 19 21
-Statement (62)
+Statement (61)
     on left: 22 23 24 25 26 27 28 29 30, on right: 14 15 32 33 34 35
     36 37 38 39 40 41 42 43
-D (63)
+D (62)
     on left: 31, on right: 22
-E (64)
+E (63)
     on left: 32 33 34 35, on right: 23
-F (65)
+F (64)
     on left: 36 37, on right: 33 35
-G (66)
+G (65)
     on left: 38 39, on right: 24
-H (67)
+H (66)
     on left: 40 41, on right: 25
-I (68)
+I (67)
     on left: 42 43, on right: 26
-J (69)
+J (68)
     on left: 44 45, on right: 27
-K (70)
+K (69)
     on left: 46 47, on right: 45 47 49
-L (71)
+L (70)
     on left: 48 49, on right: 28
-M (72)
+M (71)
     on left: 50, on right: 29
-N (73)
+N (72)
     on left: 51, on right: 30
-Bool-Expr (74)
+Bool-Expr (73)
     on left: 52 53, on right: 32 33 34 35 38 39 64 65
-Relation-And-Expr (75)
+Relation-And-Expr (74)
     on left: 54 55, on right: 52 53
-P (76)
+P (75)
     on left: 56 57, on right: 53 55 57
-Relation-Expr (77)
+Relation-Expr (76)
     on left: 58 59 60 61 62 63 64 65, on right: 54 55 56 57
-Comp (78)
+Comp (77)
     on left: 66 67 68 69 70 71, on right: 58 59
-Expression (79)
+Expression (78)
     on left: 72 73 74 75 76 77 78, on right: 31 51 58 59 105 106 108
     109 110 111 113
-Q (80)
+Q (79)
     on left: 79 80 81, on right: 75 76 80 83
-R (81)
+R (80)
     on left: 82 83 84, on right: 77 78 81 84
-Multiplicative-Expr (82)
+Multiplicative-Expr (81)
     on left: 85 86 87 88, on right: 72 73 74 75 76 77 78 79 80 81 82
     83 84
-S (83)
+S (82)
     on left: 89 90 91 92, on right: 86 90 94 98
-T (84)
+T (83)
     on left: 93 94 95 96, on right: 87 91 95 99
-U (85)
+U (84)
     on left: 97 98 99 100, on right: 88 92 96 100
-Term (86)
+Term (85)
     on left: 101 102 103 104 105 106 107 108 109, on right: 85 86 87
     88 89 90 91 92 93 94 95 96 97 98 99 100
-V (87)
+V (86)
     on left: 110 111, on right: 109 111
-Var (88)
+Var (87)
     on left: 112 113, on right: 31 44 45 46 47 48 49 101 102
 
 
@@ -687,10 +686,10 @@ State 36
     NOT      shift, and go to state 63
     TRUE     shift, and go to state 64
     FALSE    shift, and go to state 65
-    UMINUS   shift, and go to state 66
-    L_PAREN  shift, and go to state 67
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
+    L_PAREN  shift, and go to state 69
 
     Bool-Expr            go to state 70
     Relation-And-Expr    go to state 71
@@ -709,10 +708,10 @@ State 37
     NOT      shift, and go to state 63
     TRUE     shift, and go to state 64
     FALSE    shift, and go to state 65
-    UMINUS   shift, and go to state 66
-    L_PAREN  shift, and go to state 67
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
+    L_PAREN  shift, and go to state 69
 
     Bool-Expr            go to state 77
     Relation-And-Expr    go to state 71
@@ -770,10 +769,10 @@ State 43
 
    51 N: RETURN . Expression
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 83
     Multiplicative-Expr  go to state 74
@@ -974,10 +973,10 @@ State 63
 
     TRUE     shift, and go to state 96
     FALSE    shift, and go to state 97
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 98
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 99
     Multiplicative-Expr  go to state 74
@@ -1001,40 +1000,18 @@ State 65
 
 State 66
 
-  102 Term: UMINUS . Var
-  104     | UMINUS . NUMBER
-  106     | UMINUS . L_PAREN Expression R_PAREN
+  102 Term: SUB . Var
+  104     | SUB . NUMBER
+  106     | SUB . L_PAREN Expression R_PAREN
 
-    L_PAREN  shift, and go to state 100
     IDENT    shift, and go to state 44
-    NUMBER   shift, and go to state 101
+    NUMBER   shift, and go to state 100
+    L_PAREN  shift, and go to state 101
 
     Var  go to state 102
 
 
 State 67
-
-   64 Relation-Expr: L_PAREN . Bool-Expr R_PAREN
-  105 Term: L_PAREN . Expression R_PAREN
-
-    NOT      shift, and go to state 63
-    TRUE     shift, and go to state 64
-    FALSE    shift, and go to state 65
-    UMINUS   shift, and go to state 66
-    L_PAREN  shift, and go to state 67
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
-
-    Bool-Expr            go to state 103
-    Relation-And-Expr    go to state 71
-    Relation-Expr        go to state 72
-    Expression           go to state 104
-    Multiplicative-Expr  go to state 74
-    Term                 go to state 75
-    Var                  go to state 76
-
-
-State 68
 
   107 Term: IDENT . L_PAREN R_PAREN
   108     | IDENT . L_PAREN Expression R_PAREN
@@ -1042,17 +1019,39 @@ State 68
   112 Var: IDENT .
   113    | IDENT . L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 
-    L_PAREN           shift, and go to state 105
     L_SQUARE_BRACKET  shift, and go to state 84
+    L_PAREN           shift, and go to state 103
 
     $default  reduce using rule 112 (Var)
 
 
-State 69
+State 68
 
   103 Term: NUMBER .
 
     $default  reduce using rule 103 (Term)
+
+
+State 69
+
+   64 Relation-Expr: L_PAREN . Bool-Expr R_PAREN
+  105 Term: L_PAREN . Expression R_PAREN
+
+    NOT      shift, and go to state 63
+    TRUE     shift, and go to state 64
+    FALSE    shift, and go to state 65
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
+    L_PAREN  shift, and go to state 69
+
+    Bool-Expr            go to state 104
+    Relation-And-Expr    go to state 71
+    Relation-Expr        go to state 72
+    Expression           go to state 105
+    Multiplicative-Expr  go to state 74
+    Term                 go to state 75
+    Var                  go to state 76
 
 
 State 70
@@ -1217,10 +1216,10 @@ State 82
 
   105 Term: L_PAREN . Expression R_PAREN
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 131
     Multiplicative-Expr  go to state 74
@@ -1239,10 +1238,10 @@ State 84
 
   113 Var: IDENT L_SQUARE_BRACKET . Expression R_SQUARE_BRACKET
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 132
     Multiplicative-Expr  go to state 74
@@ -1299,10 +1298,10 @@ State 88
 
    31 D: Var ASSIGN . Expression
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 135
     Multiplicative-Expr  go to state 74
@@ -1404,15 +1403,15 @@ State 98
     NOT      shift, and go to state 63
     TRUE     shift, and go to state 64
     FALSE    shift, and go to state 65
-    UMINUS   shift, and go to state 66
-    L_PAREN  shift, and go to state 67
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
+    L_PAREN  shift, and go to state 69
 
     Bool-Expr            go to state 144
     Relation-And-Expr    go to state 71
     Relation-Expr        go to state 72
-    Expression           go to state 104
+    Expression           go to state 105
     Multiplicative-Expr  go to state 74
     Term                 go to state 75
     Var                  go to state 76
@@ -1434,12 +1433,19 @@ State 99
 
 State 100
 
-  106 Term: UMINUS L_PAREN . Expression R_PAREN
+  104 Term: SUB NUMBER .
 
-    UMINUS   shift, and go to state 66
+    $default  reduce using rule 104 (Term)
+
+
+State 101
+
+  106 Term: SUB L_PAREN . Expression R_PAREN
+
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 146
     Multiplicative-Expr  go to state 74
@@ -1447,59 +1453,52 @@ State 100
     Var                  go to state 76
 
 
-State 101
-
-  104 Term: UMINUS NUMBER .
-
-    $default  reduce using rule 104 (Term)
-
-
 State 102
 
-  102 Term: UMINUS Var .
+  102 Term: SUB Var .
 
     $default  reduce using rule 102 (Term)
 
 
 State 103
 
-   64 Relation-Expr: L_PAREN Bool-Expr . R_PAREN
+  107 Term: IDENT L_PAREN . R_PAREN
+  108     | IDENT L_PAREN . Expression R_PAREN
+  109     | IDENT L_PAREN . Expression V R_PAREN
 
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
+    L_PAREN  shift, and go to state 82
     R_PAREN  shift, and go to state 147
+
+    Expression           go to state 148
+    Multiplicative-Expr  go to state 74
+    Term                 go to state 75
+    Var                  go to state 76
 
 
 State 104
 
+   64 Relation-Expr: L_PAREN Bool-Expr . R_PAREN
+
+    R_PAREN  shift, and go to state 149
+
+
+State 105
+
    58 Relation-Expr: Expression . Comp Expression
   105 Term: L_PAREN Expression . R_PAREN
 
-    R_PAREN  shift, and go to state 148
     EQ       shift, and go to state 110
     NEQ      shift, and go to state 111
     LT       shift, and go to state 112
     GT       shift, and go to state 113
     LTE      shift, and go to state 114
     GTE      shift, and go to state 115
+    R_PAREN  shift, and go to state 150
 
     Comp  go to state 116
-
-
-State 105
-
-  107 Term: IDENT L_PAREN . R_PAREN
-  108     | IDENT L_PAREN . Expression R_PAREN
-  109     | IDENT L_PAREN . Expression V R_PAREN
-
-    UMINUS   shift, and go to state 66
-    L_PAREN  shift, and go to state 82
-    R_PAREN  shift, and go to state 149
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
-
-    Expression           go to state 150
-    Multiplicative-Expr  go to state 74
-    Term                 go to state 75
-    Var                  go to state 76
 
 
 State 106
@@ -1540,10 +1539,10 @@ State 107
     NOT      shift, and go to state 63
     TRUE     shift, and go to state 64
     FALSE    shift, and go to state 65
-    UMINUS   shift, and go to state 66
-    L_PAREN  shift, and go to state 67
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
+    L_PAREN  shift, and go to state 69
 
     Relation-Expr        go to state 152
     Expression           go to state 73
@@ -1612,10 +1611,10 @@ State 116
 
    58 Relation-Expr: Expression Comp . Expression
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 153
     Multiplicative-Expr  go to state 74
@@ -1629,10 +1628,10 @@ State 117
    75           | Multiplicative-Expr PLUS . Multiplicative-Expr Q
    77           | Multiplicative-Expr PLUS . Multiplicative-Expr R
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Multiplicative-Expr  go to state 154
     Term                 go to state 75
@@ -1645,10 +1644,10 @@ State 118
    76           | Multiplicative-Expr SUB . Multiplicative-Expr Q
    78           | Multiplicative-Expr SUB . Multiplicative-Expr R
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Multiplicative-Expr  go to state 155
     Term                 go to state 75
@@ -1662,10 +1661,10 @@ State 119
    91  | MULT . Term T
    92  | MULT . Term U
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Term  go to state 156
     Var   go to state 76
@@ -1678,10 +1677,10 @@ State 120
    95  | DIV . Term T
    96  | DIV . Term U
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Term  go to state 157
     Var   go to state 76
@@ -1694,10 +1693,10 @@ State 121
    99  | MOD . Term T
   100  | MOD . Term U
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Term  go to state 158
     Var   go to state 76
@@ -1796,7 +1795,7 @@ State 131
 
   105 Term: L_PAREN Expression . R_PAREN
 
-    R_PAREN  shift, and go to state 148
+    R_PAREN  shift, and go to state 150
 
 
 State 132
@@ -1894,10 +1893,10 @@ State 145
 
    59 Relation-Expr: NOT Expression Comp . Expression
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 171
     Multiplicative-Expr  go to state 74
@@ -1907,33 +1906,19 @@ State 145
 
 State 146
 
-  106 Term: UMINUS L_PAREN Expression . R_PAREN
+  106 Term: SUB L_PAREN Expression . R_PAREN
 
     R_PAREN  shift, and go to state 172
 
 
 State 147
 
-   64 Relation-Expr: L_PAREN Bool-Expr R_PAREN .
-
-    $default  reduce using rule 64 (Relation-Expr)
-
-
-State 148
-
-  105 Term: L_PAREN Expression R_PAREN .
-
-    $default  reduce using rule 105 (Term)
-
-
-State 149
-
   107 Term: IDENT L_PAREN R_PAREN .
 
     $default  reduce using rule 107 (Term)
 
 
-State 150
+State 148
 
   108 Term: IDENT L_PAREN Expression . R_PAREN
   109     | IDENT L_PAREN Expression . V R_PAREN
@@ -1942,6 +1927,20 @@ State 150
     R_PAREN  shift, and go to state 174
 
     V  go to state 175
+
+
+State 149
+
+   64 Relation-Expr: L_PAREN Bool-Expr R_PAREN .
+
+    $default  reduce using rule 64 (Relation-Expr)
+
+
+State 150
+
+  105 Term: L_PAREN Expression R_PAREN .
+
+    $default  reduce using rule 105 (Term)
 
 
 State 151
@@ -2181,7 +2180,7 @@ State 171
 
 State 172
 
-  106 Term: UMINUS L_PAREN Expression R_PAREN .
+  106 Term: SUB L_PAREN Expression R_PAREN .
 
     $default  reduce using rule 106 (Term)
 
@@ -2191,10 +2190,10 @@ State 173
   110 V: COMMA . Expression
   111  | COMMA . Expression V
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Expression           go to state 200
     Multiplicative-Expr  go to state 74
@@ -2263,10 +2262,10 @@ State 178
    80  | PLUS . Multiplicative-Expr Q
    81  | PLUS . Multiplicative-Expr R
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Multiplicative-Expr  go to state 206
     Term                 go to state 75
@@ -2279,10 +2278,10 @@ State 179
    83  | SUB . Multiplicative-Expr Q
    84  | SUB . Multiplicative-Expr R
 
-    UMINUS   shift, and go to state 66
+    SUB      shift, and go to state 66
+    IDENT    shift, and go to state 67
+    NUMBER   shift, and go to state 68
     L_PAREN  shift, and go to state 82
-    IDENT    shift, and go to state 68
-    NUMBER   shift, and go to state 69
 
     Multiplicative-Expr  go to state 207
     Term                 go to state 75

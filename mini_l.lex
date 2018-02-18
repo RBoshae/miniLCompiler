@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 %{/*Include library for atof() call */
-#include "y.tab.h"
+#include "mini_l.tab.h"
 /* need this for the call to atoi() below */
 #include <unistd.h>
 
@@ -95,8 +95,6 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 "+"             { currentColumn += yyleng; return PLUS; }
 
 "-"             { currentColumn += yyleng; return SUB; }
-
-"-"             { currentColumn += yyleng; return UMINUS; }
 
 "*"             { currentColumn += yyleng; return MULT; }
 

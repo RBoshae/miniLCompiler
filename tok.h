@@ -75,27 +75,26 @@ extern int yydebug;
     RETURN = 285,
     PLUS = 286,
     SUB = 287,
-    UMINUS = 288,
-    MULT = 289,
-    DIV = 290,
-    MOD = 291,
-    COLON = 292,
-    COMMA = 293,
-    L_PAREN = 294,
-    R_PAREN = 295,
-    L_SQUARE_BRACKET = 296,
-    IDENT = 297,
-    R_SQUARE_BRACKET = 298,
-    ASSIGN = 299,
-    NUMBER = 300,
-    INTEGER = 301,
-    SEMICOLON = 302,
-    EQ = 303,
-    NEQ = 304,
-    LT = 305,
-    GT = 306,
-    LTE = 307,
-    GTE = 308
+    MULT = 288,
+    DIV = 289,
+    MOD = 290,
+    COLON = 291,
+    COMMA = 292,
+    L_SQUARE_BRACKET = 293,
+    IDENT = 294,
+    R_SQUARE_BRACKET = 295,
+    ASSIGN = 296,
+    NUMBER = 297,
+    INTEGER = 298,
+    SEMICOLON = 299,
+    EQ = 300,
+    NEQ = 301,
+    LT = 302,
+    GT = 303,
+    LTE = 304,
+    GTE = 305,
+    L_PAREN = 306,
+    R_PAREN = 307
   };
 #endif
 
@@ -104,13 +103,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "mini_l.y" /* yacc.c:1909  */
+#line 21 "mini_l.y" /* yacc.c:1909  */
 
   int		    int_val;
   char      *sval;
 
 
-#line 114 "mini_l.tab.h" /* yacc.c:1909  */
+#line 113 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
