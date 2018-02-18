@@ -2353,7 +2353,7 @@ yyreturn:
 
 void yyerror(const char *msg)
 {
-  // extern int yylineno;	/* defined and maintained in lex.c */
+  /* extern int yylineno;	 */ /* defined and maintained in lex.c */ 
   extern char *yytext;	/* defined and maintained in lex.c */
   extern int currentColumn;
   extern int currentLine;
