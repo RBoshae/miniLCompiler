@@ -137,8 +137,8 @@ H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP           
                 | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP  {printf("H --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}
                 ;
 
-I:              DO BEGINLOOP Statement SEMICOLON ENDLOOP               {printf("I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
-                | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP               {printf("I --> DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}
+I:              DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr                {printf("I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr\n");}
+                | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr                {printf("I --> DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr\n");}
                 ;
 
 J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP  {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}

@@ -3,9 +3,9 @@ State 142 conflicts: 1 shift/reduce
 State 158 conflicts: 1 shift/reduce
 State 159 conflicts: 1 shift/reduce
 State 160 conflicts: 1 shift/reduce
-State 172 conflicts: 1 shift/reduce
 State 173 conflicts: 1 shift/reduce
-State 180 conflicts: 1 shift/reduce
+State 174 conflicts: 1 shift/reduce
+State 183 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -56,8 +56,8 @@ Grammar
    30 H: WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP
    31  | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP
 
-   32 I: DO BEGINLOOP Statement SEMICOLON ENDLOOP
-   33  | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP
+   32 I: DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr
+   33  | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr
 
    34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP
    35  | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP
@@ -152,7 +152,7 @@ IF (267) 25 26
 THEN (268) 25 26
 ENDIF (269) 25 26
 ELSE (270) 28 29
-WHILE (271) 30 31
+WHILE (271) 30 31 32 33
 DO (272) 32 33
 FOREACH (273) 34 35
 IN (274) 34 35
@@ -231,7 +231,7 @@ K (69)
 Lima (70)
     on left: 38 39, on right: 20 36 39
 Bool-Expr (71)
-    on left: 40 41, on right: 25 26 30 31 54 55
+    on left: 40 41, on right: 25 26 30 31 32 33 54 55
 Papa (72)
     on left: 42 43, on right: 40 43
 Relation-And-Expr (73)
@@ -597,8 +597,8 @@ State 32
 
 State 33
 
-   32 I: DO . BEGINLOOP Statement SEMICOLON ENDLOOP
-   33  | DO . BEGINLOOP Statement SEMICOLON Beta ENDLOOP
+   32 I: DO . BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr
+   33  | DO . BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr
 
     BEGINLOOP  shift, and go to state 65
 
@@ -915,8 +915,8 @@ State 64
 
 State 65
 
-   32 I: DO BEGINLOOP . Statement SEMICOLON ENDLOOP
-   33  | DO BEGINLOOP . Statement SEMICOLON Beta ENDLOOP
+   32 I: DO BEGINLOOP . Statement SEMICOLON ENDLOOP WHILE Bool-Expr
+   33  | DO BEGINLOOP . Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr
 
     IDENT     shift, and go to state 5
     IF        shift, and go to state 31
@@ -1412,8 +1412,8 @@ State 102
 
 State 103
 
-   32 I: DO BEGINLOOP Statement . SEMICOLON ENDLOOP
-   33  | DO BEGINLOOP Statement . SEMICOLON Beta ENDLOOP
+   32 I: DO BEGINLOOP Statement . SEMICOLON ENDLOOP WHILE Bool-Expr
+   33  | DO BEGINLOOP Statement . SEMICOLON Beta ENDLOOP WHILE Bool-Expr
 
     SEMICOLON  shift, and go to state 130
 
@@ -1661,8 +1661,8 @@ State 129
 
 State 130
 
-   32 I: DO BEGINLOOP Statement SEMICOLON . ENDLOOP
-   33  | DO BEGINLOOP Statement SEMICOLON . Beta ENDLOOP
+   32 I: DO BEGINLOOP Statement SEMICOLON . ENDLOOP WHILE Bool-Expr
+   33  | DO BEGINLOOP Statement SEMICOLON . Beta ENDLOOP WHILE Bool-Expr
 
     IDENT     shift, and go to state 5
     IF        shift, and go to state 31
@@ -1907,16 +1907,16 @@ State 149
 
 State 150
 
-   32 I: DO BEGINLOOP Statement SEMICOLON ENDLOOP .
+   32 I: DO BEGINLOOP Statement SEMICOLON ENDLOOP . WHILE Bool-Expr
 
-    $default  reduce using rule 32 (I)
+    WHILE  shift, and go to state 165
 
 
 State 151
 
-   33 I: DO BEGINLOOP Statement SEMICOLON Beta . ENDLOOP
+   33 I: DO BEGINLOOP Statement SEMICOLON Beta . ENDLOOP WHILE Bool-Expr
 
-    ENDLOOP  shift, and go to state 165
+    ENDLOOP  shift, and go to state 166
 
 
 State 152
@@ -1934,7 +1934,7 @@ State 152
     WRITE     shift, and go to state 37
     RETURN    shift, and go to state 38
 
-    Statement    go to state 166
+    Statement    go to state 167
     E            go to state 41
     F            go to state 42
     H            go to state 43
@@ -1967,7 +1967,7 @@ State 154
     WRITE     shift, and go to state 37
     RETURN    shift, and go to state 38
 
-    Statement    go to state 167
+    Statement    go to state 168
     E            go to state 41
     F            go to state 42
     H            go to state 43
@@ -1986,14 +1986,14 @@ State 155
 
     $default  reduce using rule 27 (G)
 
-    G  go to state 168
+    G  go to state 169
 
 
 State 156
 
    26 F: IF Bool-Expr THEN Statement SEMICOLON G . ENDIF
 
-    ENDIF  shift, and go to state 169
+    ENDIF  shift, and go to state 170
 
 
 State 157
@@ -2012,7 +2012,7 @@ State 158
     SUB       [reduce using rule 65 (T)]
     $default  reduce using rule 65 (T)
 
-    T  go to state 170
+    T  go to state 171
 
 
 State 159
@@ -2024,7 +2024,7 @@ State 159
     MOD       [reduce using rule 72 (W)]
     $default  reduce using rule 72 (W)
 
-    W  go to state 171
+    W  go to state 172
 
 
 State 160
@@ -2036,7 +2036,7 @@ State 160
     DIV       [reduce using rule 70 (V)]
     $default  reduce using rule 70 (V)
 
-    V  go to state 172
+    V  go to state 173
 
 
 State 161
@@ -2047,7 +2047,7 @@ State 161
 
     $default  reduce using rule 68 (U)
 
-    U  go to state 173
+    U  go to state 174
 
 
 State 162
@@ -2058,7 +2058,7 @@ State 162
 
     $default  reduce using rule 83 (Z)
 
-    Z  go to state 174
+    Z  go to state 175
 
 
 State 163
@@ -2072,61 +2072,83 @@ State 164
 
    31 H: WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta . ENDLOOP
 
-    ENDLOOP  shift, and go to state 175
+    ENDLOOP  shift, and go to state 176
 
 
 State 165
 
-   33 I: DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP .
+   32 I: DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE . Bool-Expr
 
-    $default  reduce using rule 33 (I)
+    IDENT    shift, and go to state 5
+    TRUE     shift, and go to state 50
+    FALSE    shift, and go to state 51
+    NUMBER   shift, and go to state 52
+    NOT      shift, and go to state 53
+    SUB      shift, and go to state 54
+    L_PAREN  shift, and go to state 55
+
+    Bool-Expr            go to state 177
+    Relation-And-Expr    go to state 57
+    Relation-Expr        go to state 58
+    Expression           go to state 59
+    Multiplicative-Expr  go to state 60
+    Term                 go to state 61
+    Var                  go to state 62
+    identifiers          go to state 63
 
 
 State 166
 
-   34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement . SEMICOLON Beta ENDLOOP
-   35  | FOREACH identifiers IN identifiers BEGINLOOP Statement . SEMICOLON ENDLOOP
+   33 I: DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP . WHILE Bool-Expr
 
-    SEMICOLON  shift, and go to state 176
+    WHILE  shift, and go to state 178
 
 
 State 167
 
-   28 G: ELSE Statement . SEMICOLON
-   29  | ELSE Statement . SEMICOLON Beta
+   34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement . SEMICOLON Beta ENDLOOP
+   35  | FOREACH identifiers IN identifiers BEGINLOOP Statement . SEMICOLON ENDLOOP
 
-    SEMICOLON  shift, and go to state 177
+    SEMICOLON  shift, and go to state 179
 
 
 State 168
 
-   25 F: IF Bool-Expr THEN Statement SEMICOLON Beta G . ENDIF
+   28 G: ELSE Statement . SEMICOLON
+   29  | ELSE Statement . SEMICOLON Beta
 
-    ENDIF  shift, and go to state 178
+    SEMICOLON  shift, and go to state 180
 
 
 State 169
+
+   25 F: IF Bool-Expr THEN Statement SEMICOLON Beta G . ENDIF
+
+    ENDIF  shift, and go to state 181
+
+
+State 170
 
    26 F: IF Bool-Expr THEN Statement SEMICOLON G ENDIF .
 
     $default  reduce using rule 26 (F)
 
 
-State 170
+State 171
 
    66 T: SUB Multiplicative-Expr S T .
 
     $default  reduce using rule 66 (T)
 
 
-State 171
+State 172
 
    69 U: MULT Term U V W .
 
     $default  reduce using rule 69 (U)
 
 
-State 172
+State 173
 
    71 V: DIV Term U V . W
 
@@ -2135,10 +2157,10 @@ State 172
     MOD       [reduce using rule 72 (W)]
     $default  reduce using rule 72 (W)
 
-    W  go to state 179
+    W  go to state 182
 
 
-State 173
+State 174
 
    73 W: MOD Term U . V W
 
@@ -2147,24 +2169,53 @@ State 173
     DIV       [reduce using rule 70 (V)]
     $default  reduce using rule 70 (V)
 
-    V  go to state 180
+    V  go to state 183
 
 
-State 174
+State 175
 
    84 Z: COMMA Expression Z .
 
     $default  reduce using rule 84 (Z)
 
 
-State 175
+State 176
 
    31 H: WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP .
 
     $default  reduce using rule 31 (H)
 
 
-State 176
+State 177
+
+   32 I: DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr .
+
+    $default  reduce using rule 32 (I)
+
+
+State 178
+
+   33 I: DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE . Bool-Expr
+
+    IDENT    shift, and go to state 5
+    TRUE     shift, and go to state 50
+    FALSE    shift, and go to state 51
+    NUMBER   shift, and go to state 52
+    NOT      shift, and go to state 53
+    SUB      shift, and go to state 54
+    L_PAREN  shift, and go to state 55
+
+    Bool-Expr            go to state 184
+    Relation-And-Expr    go to state 57
+    Relation-Expr        go to state 58
+    Expression           go to state 59
+    Multiplicative-Expr  go to state 60
+    Term                 go to state 61
+    Var                  go to state 62
+    identifiers          go to state 63
+
+
+State 179
 
    34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON . Beta ENDLOOP
    35  | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON . ENDLOOP
@@ -2174,13 +2225,13 @@ State 176
     WHILE     shift, and go to state 32
     DO        shift, and go to state 33
     FOREACH   shift, and go to state 34
-    ENDLOOP   shift, and go to state 181
+    ENDLOOP   shift, and go to state 185
     CONTINUE  shift, and go to state 35
     READ      shift, and go to state 36
     WRITE     shift, and go to state 37
     RETURN    shift, and go to state 38
 
-    Beta         go to state 182
+    Beta         go to state 186
     Statement    go to state 40
     E            go to state 41
     F            go to state 42
@@ -2192,7 +2243,7 @@ State 176
     identifiers  go to state 48
 
 
-State 177
+State 180
 
    28 G: ELSE Statement SEMICOLON .
    29  | ELSE Statement SEMICOLON . Beta
@@ -2209,7 +2260,7 @@ State 177
 
     $default  reduce using rule 28 (G)
 
-    Beta         go to state 183
+    Beta         go to state 187
     Statement    go to state 40
     E            go to state 41
     F            go to state 42
@@ -2221,21 +2272,21 @@ State 177
     identifiers  go to state 48
 
 
-State 178
+State 181
 
    25 F: IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF .
 
     $default  reduce using rule 25 (F)
 
 
-State 179
+State 182
 
    71 V: DIV Term U V W .
 
     $default  reduce using rule 71 (V)
 
 
-State 180
+State 183
 
    73 W: MOD Term U V . W
 
@@ -2244,38 +2295,45 @@ State 180
     MOD       [reduce using rule 72 (W)]
     $default  reduce using rule 72 (W)
 
-    W  go to state 184
+    W  go to state 188
 
 
-State 181
+State 184
+
+   33 I: DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr .
+
+    $default  reduce using rule 33 (I)
+
+
+State 185
 
    35 J: FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP .
 
     $default  reduce using rule 35 (J)
 
 
-State 182
+State 186
 
    34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta . ENDLOOP
 
-    ENDLOOP  shift, and go to state 185
+    ENDLOOP  shift, and go to state 189
 
 
-State 183
+State 187
 
    29 G: ELSE Statement SEMICOLON Beta .
 
     $default  reduce using rule 29 (G)
 
 
-State 184
+State 188
 
    73 W: MOD Term U V W .
 
     $default  reduce using rule 73 (W)
 
 
-State 185
+State 189
 
    34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP .
 
