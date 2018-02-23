@@ -15,20 +15,20 @@
 
 %}
 
-/*
-// Bison fundamentally works by asking flex to get the next token, which it
-// returns as an object of type "yystype".  But tokens could be of any
-// arbitrary data type!  So we deal with that in Bison by defining a C union
-// holding each of the types of tokens that Flex could return, and have Bison
-// use that union instead of "int" for the definition of "yystype":
-*/
+/** Some Noets on Union:
+ * Bison fundamentally works by asking flex to get the next token, which it
+ * returns as an object of type "yystype".  But tokens could be of any
+ * arbitrary data type!  So we deal with that in Bison by defining a C union
+ * holding each of the types of tokens that Flex could return, and have Bison
+ * use that union instead of "int" for the definition of "yystype":
+**/
 %union{
   int		    int_val;
   char      *sval;
 
 }
-/* error-verbose lists additional information regarding the error. */
-%error-verbose
+
+%error-verbose                /* error-verbose lists additional information regarding the error. */
 %start	Program_Prime
 
 /* define the constant-string tokens: */
@@ -106,7 +106,7 @@ C:              /* empty - epsilon */                                    {printf
                 ;
 
 D:              /* empty - epsilon */                                    {printf("D --> epsilon\n");}
-                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {printf("D --> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}
+                | ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF      {printf("D --> ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF\n");}
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
@@ -215,8 +215,8 @@ W:              /* empty - epsilon */                                        {pr
 
 Term:           Var                                                          {printf("Term --> Var\n");}
                 | SUB Var                                                    {printf("Term --> SUB Var\n");}
-                | NUMBER                                                     {printf("Term --> NUMBER\n");}
-                | SUB NUMBER                                                 {printf("Term --> SUB NUMBER\n");}
+                | numbers                                                     {printf("Term --> numbers\n");}
+                | SUB numbers                                                 {printf("Term --> SUB numbers\n");}
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
@@ -235,6 +235,9 @@ Var:            identifiers                                                  {pr
                 ;
 
 identifiers:    IDENT                                                        {printf("identifiers --> IDENT %s\n", yyval.sval);}
+                ;
+
+numbers:        NUMBER                                                       {printf("numbers --> NUMBER %d\n", yyval.int_val);}
                 ;
 %%
 
