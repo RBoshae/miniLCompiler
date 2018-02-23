@@ -1,62 +1,63 @@
-Program:  //Done
-    Program' --> Program
+Program_Prime:
+    Program_Prime --> Program
+
+Program:
     Program  --> Function Program | epsilon
 
 Function:
-    Function --> function identifier ; beginparams A endparams beginLocals A endLocals beginBody B ; endBody
-    A --> Declaration ; A | epsilon
-    B --> Statement ; B | epsilon
+    Function --> function identifier SEMICOLON beginparams A endparams beginLocals A endLocals beginBody B SEMICOLON endBody
+    A --> Declaration SEMICOLON A | epsilon
+    B --> Statement SEMICOLON | Statement SEMICOLON Beta
 
 Declaration:
-    Declaration --> identifier C : D integer
-    C --> COMMA identifier C | epsilon
-    D --> ARRAY [ number ] of | epsilon
+    Declaration --> identifier C COLON D integer
+    C --> COMMA identifier C
+    D --> ARRAY L_SQUARE_BRACKET number R_SQUARE_BRACKET of
 
 Statement:
-    Statement --> E | F | H | I | J | K | M | N | O
-    E --> Variable := Expression
-    F --> if Bool-Exp then Statement ; B G endif
-    G --> else Statement ; B | epsilon
-    H --> while Bool-Exp beginLoop Statement ; B endLoop
-    I --> do beginLoop Statement ; B endloop
-    J --> forEach identifier in identifier beginLoop Statement ; B endloop
-    K --> read Var L
-    L --> ,Var | epsilon
+    Statement --> E | F | H | I | J | K | WRITE Var Lima | WRITE Var | CONTINUE | RETURN Expression
+    E --> Variable ASSIGN Expression
+    F --> IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF | IF Bool-Expr THEN Statement SEMICOLON G ENDIF
+    G --> ELSE Statement SEMICOLON | ELSE Statement SEMICOLON Beta | epsilon
+    H --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP
+    I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr
+    J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP
+    K --> READ Var Lima | READ Var
+    Lima --> COMMA Var | COMMA Var Lima
     M --> write Var L
     N --> continue
     O --> return Expression
 
 Bool-Expr:
-    Bool-Expr --> Relation-And-Expr P
-    P --> or Relation-And-Exp P | epsilon
+    Bool-Expr --> Relation-And-Expr Papa | Relation-And-Expr
+    Papa --> OR Relation-And-Expr | OR Relation-And-Expr Papa
 
 Relation-And-Expr:
-    Relation-And-Expr --> Relation-Expr Q
-    Q --> and Relation-Expr Q | epsilon
+    Relation-And-Expr --> Relation-Expr Quebec | Relation-Expr
+    Quebec --> AND Relation-Expr | AND Relation-Expr Quebec
 
 Relation-Expr:
-    Relation-Expr --> R Expression Comp Expression | R true | R false | R ( Bool-Expr )
-    R --> not | epsilon
+    Relation-Expr --> Expression Comp Expression | NOT Expression Comp Expression | TRUE | NOT TRUE | FALSE | NOT FALSE | L_PAREN Bool-Expr R_PAREN | NOT L_PAREN Bool-Expr R_PAREN
 
 Comp:
-    Comp --> == | <> | < | > | <= | >=
+    Comp --> EQ | NEQ | LT | GT | LTE | GTE
 
 Expression:
     Expression --> Multiplicative-Expr S T
-    S --> + Multiplicative-Expr S T | epsilon
-    T --> - Multiplicative-Expr S T | epsilon
+    S --> PLUS Multiplicative-Expr S T | epsilon
+    T --> SUB Multiplicative-Expr S T | epsilon
 
 Multiplicative-Expr:
     Multiplicative-Expr --> Term U V W
-    U --> * Term U V W | epsilon
-    V --> / Term U V W | epsilon
-    W --> % Term U V W | epsilon
+    U --> MULT Term U V W | epsilon
+    V --> DIV Term U V W | epsilon
+    W --> MOD Term U V W | epsilon
 
 Term:
-    Term --> X Var | X number | X ( Expression ) | identifier ( Y )
-    X --> - | epsilon
+    Term --> Var | SUB Var | NUMBER | SUB NUMBER | L_PAREN Expression R_PAREN | SUB L_PAREN Expression R_PAREN |  identifiers L_PAREN Y R_PAREN
     Y -->  Expression Z | epsilon
-    Z -- > ,Expression Z | epsilon
+    Z -- > COMMA Expression Z | epsilon
 
 Var:
-    identifier | identifier [ Expression ]
+    identifiers | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+    identifiers --> IDENT
