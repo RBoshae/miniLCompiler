@@ -128,18 +128,18 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 "]"             { currentColumn += yyleng; return R_SQUARE_BRACKET; }
 
-":="            { return ASSIGN; }
+":="            { return ASSIGN; currentColumn += yyleng;}
 
-[\n]+          {currentLine++;}
+[\n]+           {currentLine++; currentColumn = 0;}
 
-[ \t\n]+          /* eat up whitespace */
+[ \t]+        { currentColumn += yyleng;}  /* eat up whitespace */
 
 
 {DIGIT}+        { yylval.int_val = atoi(yytext); currentColumn += yyleng; return NUMBER; }
 
 {IDENT}         { yylval.sval = yytext; currentColumn += yyleng; return IDENT; }
 
-{ERROR_TYPE_2}  {  }
+{ERROR_TYPE_2}   { }
 
 {ERROR_TYPE_2_2} { }
 
