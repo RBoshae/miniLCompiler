@@ -33,48 +33,25 @@
 
 /* define the constant-string tokens: */
 
-/* define the "terminal symbol" token types I'm going to use (in CAPS
-   by convention), and associate each with a field of the union: */
+/* define the "terminal symbol" token types I'm going to use (in CAPS by convention), and associate each with a field of the union: */
 %token <*sval> IDENT
-%token FUNCTION
-%token BEGIN_PARAMS
-%token END_PARAMS
-%token BEGIN_LOCALS
-%token END_LOCALS
-%right BEGIN_BODY
-%token ARRAY
-%token OF
-%token IF
-%token THEN
-%token ENDIF
-%token ELSE
-%token WHILE
-%token DO
-%token FOREACH
-%token IN
-%token BEGINLOOP
-%token ENDLOOP
-%token CONTINUE
-%token READ
-%token WRITE
-%token TRUE
-%token FALSE
-%right RETURN
-%left COLON
-%left COMMA
-%token <int_val> NUMBER
-%left INTEGER
-%token END_BODY
-%token SEMICOLON
-%left  AND OR
-%token ASSIGN
-%right NOT
+%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS
+
+%token ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ
+       WRITE TRUE FALSE
+
+%left COLON COMMA INTEGER AND OR
+%right BEGIN_BODY RETURN NOT
+
+%token END_BODY SEMICOLON ASSIGN
+
 %left	PLUS SUB
 %left	MULT DIV MOD
 %left L_SQUARE_BRACKET R_SQUARE_BRACKET
-%token L_PAREN
-%token EQ NEQ LT GT LTE GTE
-%token R_PAREN
+%right L_PAREN
+%left EQ NEQ LT GT LTE GTE
+%left R_PAREN
+%token <int_val> NUMBER
 
 %%
 
@@ -145,8 +122,8 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
                 ;
 
-K:              READ Var Lima                                               {printf("K --> READ Var Lima\n");}
-                | READ Var                                                  {printf("K --> READ Var Lima\n");}
+K:              READ Var Lima                                                {printf("K --> READ Var Lima\n");}
+                | READ Var                                                   {printf("K --> READ Var Lima\n");}
                 ;
 
 Lima:           COMMA Var                                                    {printf("Lima --> COMMA Var\n");}
