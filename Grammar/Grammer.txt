@@ -20,7 +20,7 @@ Statement:
     F --> IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF | IF Bool-Expr THEN Statement SEMICOLON G ENDIF
     G --> ELSE Statement SEMICOLON | ELSE Statement SEMICOLON Beta | epsilon
     H --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP
-    I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP
+    I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr
     J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP
     K --> READ Var Lima | READ Var
     Lima --> COMMA Var | COMMA Var Lima
