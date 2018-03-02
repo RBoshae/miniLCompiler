@@ -103,7 +103,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 25 "mini_l.y" /* yacc.c:1909  */
+#line 26 "mini_l.y" /* yacc.c:1909  */
 
   int		    int_val;
   char      *sval;

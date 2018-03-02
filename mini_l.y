@@ -5,10 +5,11 @@
 %{
 
   #include <stdio.h>
+  #include <iostream>
   /*#include <string>*/
 
-  int yylex(void);
-  void yyerror(const char *msg);
+  extern int yylex(void);
+  extern void yyerror(const char *msg);
 
   /* stuff from flex that bison needs to know about: */
 
@@ -35,7 +36,8 @@
 
 /* define the "terminal symbol" token types I'm going to use (in CAPS by convention), and associate each with a field of the union: */
 %token <*sval> IDENT
-%token FUNCTION BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS
+%token FUNCTION
+%token BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS
 
 %token ARRAY OF IF THEN ENDIF ELSE WHILE DO FOREACH IN BEGINLOOP ENDLOOP CONTINUE READ
        WRITE TRUE FALSE
@@ -55,14 +57,14 @@
 
 %%
 
-Program_Prime:  Program                                                  {printf("Program_Prime --> Program\n");}
+Program_Prime:  Program                                                  {std::cout << ("Program_Prime --> Program\n");}
                 ;
 
 Program:        /* empty - epsilon */                                    {printf("Program --> epsilon\n");}
                 | Function Program                                       {printf("Program --> Function Program\n");}
                 ;
 
-Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY {printf("Function --> FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta SEMICOLON END_BODY\n");}
+Function:       Function_Name identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY
                 ;
 
 
@@ -211,10 +213,13 @@ Var:            identifiers                                                  {pr
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {printf("Var --> identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n");}
                 ;
 
-identifiers:    IDENT                                                        {printf("identifiers --> IDENT %s\n", yyval.sval);}
+identifiers:    IDENT                                                        {printf("%s\n", yyval.sval);}
                 ;
 
-numbers:        NUMBER                                                       {printf("numbers --> NUMBER %d\n", yyval.int_val);}
+numbers:        NUMBER                                                       {std::cout << "numbers --> NUMBER " <<  yyval.int_val;}
+                ;
+
+Function_Name:  FUNCTION                                                     {std::cout << "func ";}
                 ;
 %%
 

@@ -2,7 +2,7 @@
 
 OBJS	= bison.o lex.o
 
-CC	= gcc
+CC	= g++
 CFLAGS	= -g -ansi
 
 mini_l:		$(OBJS)
