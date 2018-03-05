@@ -6,13 +6,19 @@
 
   #include <stdio.h>
   #include <iostream>
-  /*#include <string>*/
+  #include "./classes/ClassImplementations.h"
+
+  // TODO 1: Create FunctionRelatedStatements Class and include here.
 
   extern int yylex(void);
   extern int yyerror(const char *msg);
 
   /* stuff from flex that bison needs to know about: */
-  Type Program
+
+  // FunctionRelatedStatements Function; // Look at TODO 1
+  VariableDeclarationStatements Var; // Look at TODO 2
+  Identifiers identifiers;
+  Expression expression;
 
 %}
 
@@ -64,7 +70,7 @@ Program:        /* empty - epsilon */                                    {printf
                 | Function Program                                       {printf("Program --> Function Program\n");}
                 ;
 
-Function:       Function_Name identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY
+Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY
                 ;
 
 
@@ -166,7 +172,7 @@ Comp:           EQ                                                           {pr
                 | GTE                                                        {printf("Comp --> GTE\n");}
                 ;
 
-Expression:     Multiplicative-Expr S T
+Expression:     Multiplicative-Expr S T                                      {/*expression.value = multiplicative_expr*/}
                 ;
 
 S:              /* empty - epsilon */                                        {printf("S --> epsilon\n");}
@@ -209,17 +215,14 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {printf("Var --> identifiers\n");}
-                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {printf("Var --> identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n");}
+Var:            identifiers                                                  {Var.name = identifiers.name;}
+| identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET                   {Var.name = identifiers.name; /*Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
-identifiers:    IDENT                                                        {std::cout << yyval.sval << std::endl;}
+identifiers:    IDENT                                                        {identifiers.name = yyval.sval;}
                 ;
 
 numbers:        NUMBER                                                       {std::cout << yyval.int_val;}
-                ;
-
-Function_Name:  FUNCTION                                                     {std::cout << "func ";}
                 ;
 %%
 
