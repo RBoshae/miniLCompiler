@@ -9,10 +9,10 @@
   /*#include <string>*/
 
   extern int yylex(void);
-  extern void yyerror(const char *msg);
+  extern int yyerror(const char *msg);
 
   /* stuff from flex that bison needs to know about: */
-
+  Type Program
 
 %}
 
@@ -194,8 +194,8 @@ W:              /* empty - epsilon */                                        {pr
 
 Term:           Var                                                          {printf("Term --> Var\n");}
                 | SUB Var                                                    {printf("Term --> SUB Var\n");}
-                | numbers                                                     {printf("Term --> numbers\n");}
-                | SUB numbers                                                 {printf("Term --> SUB numbers\n");}
+                | numbers                                                    {printf("Term --> numbers\n");}
+                | SUB numbers                                                {printf("Term --> SUB numbers\n");}
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
@@ -213,17 +213,17 @@ Var:            identifiers                                                  {pr
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {printf("Var --> identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n");}
                 ;
 
-identifiers:    IDENT                                                        {printf("%s\n", yyval.sval);}
+identifiers:    IDENT                                                        {std::cout << yyval.sval << std::endl;}
                 ;
 
-numbers:        NUMBER                                                       {std::cout << "numbers --> NUMBER " <<  yyval.int_val;}
+numbers:        NUMBER                                                       {std::cout << yyval.int_val;}
                 ;
 
 Function_Name:  FUNCTION                                                     {std::cout << "func ";}
                 ;
 %%
 
-void yyerror(const char *msg)
+int yyerror(const char *msg)
 {
   /* extern int yylineno;	// defined and maintained in lex.c */
   extern char *yytext;	/* defined and maintained in lex.c */
@@ -232,7 +232,7 @@ void yyerror(const char *msg)
 
   printf("Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
 
-  return;
+  return 0;
 }
 
 int main( int argc, char **argv )

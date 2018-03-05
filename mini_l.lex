@@ -147,6 +147,6 @@ ERROR_TYPE_2_2 ({IDENT}({UNDERSCORE})+)
 
 "##"[^}\n]*     /* eat up one-line comments */
 
-.               { printf( "Error at line %d, column %d: Unrecognized character: %s\n", currentColumn, currentLine, yytext); exit(0);}
+.               { printf( "Error at line %d, column %d: Unrecognized character: %s\n", currentColumn, currentLine, yytext); }
 
 %%
