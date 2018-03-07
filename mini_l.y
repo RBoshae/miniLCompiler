@@ -32,6 +32,19 @@
 %union{
   int		    int_val;
   char      *sval;
+  int       type;
+
+  struct {
+    string name;
+    int n;
+  } VariableDeclarationStatements
+
+  struct {
+    string name;
+    string type;
+  } Declaration
+
+
 
 }
 
@@ -70,7 +83,7 @@ Program:        /* empty - epsilon */                                    {printf
                 | Function Program                                       {printf("Program --> Function Program\n");}
                 ;
 
-Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY
+Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY  {Function.name = identifiers.name;}
                 ;
 
 
@@ -83,7 +96,8 @@ Beta:             Statement SEMICOLON                                    {printf
                 | Statement SEMICOLON Beta                               {printf("Beta --> Statement SEMICOLON Beta\n");}
                 ;
 
-Declaration:    identifiers C COLON D INTEGER                            {printf("Declaration --> identifiers C COLON D INTEGER\n");}
+Declaration:    identifiers C COLON D INTEGER                            {// generate line of FunctionRelatedStatements
+                                                                          identifiers.name}
 
 
 C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");}
@@ -219,10 +233,10 @@ Var:            identifiers                                                  {Va
 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET                   {Var.name = identifiers.name; /*Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
-identifiers:    IDENT                                                        {identifiers.name = yyval.sval;}
+identifiers:    IDENT                                                        {$$ = yyval.sval;  /*$$ passes information to the parent node.*/}
                 ;
 
-numbers:        NUMBER                                                       {std::cout << yyval.int_val;}
+numbers:        NUMBER                                                       {$$ =  yyval.int_val; /*$$ passes information to the parent node.*/}
                 ;
 %%
 
