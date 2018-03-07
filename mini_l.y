@@ -96,12 +96,25 @@ Beta:             Statement SEMICOLON                                    {printf
                 | Statement SEMICOLON Beta                               {printf("Beta --> Statement SEMICOLON Beta\n");}
                 ;
 
-Declaration:    identifiers C COLON D INTEGER                            {// generate line of FunctionRelatedStatements
-                                                                          identifiers.name}
+Declaration:    identifiers C COLON D INTEGER                           {
+                                                                          /** Example Declarations:
+                                                                           *   n : integer;
+                                                                           *   i, j, k: integer;
+                                                                           */  t : array [20] of integer;
+
+                                                                          identifiers.name = $1.name;
+                                                                          C.name_list = $2;
+                                                                          Declaration.type = "int";
+
+                                                                          // If declaration is already declared in table throw error.
+                                                                          // generate line of FunctionRelatedStatements
+
+                                                                        }
 
 
 C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");}
-                | COMMA identifiers C                                    {printf("C --> COMMA identifiers C\n");}
+                | COMMA identifiers C                                    {printf("C --> COMMA identifiers C\n");
+                                                                          vector<sting> name_list.add($3)}
                 ;
 
 D:              /* empty - epsilon */                                    {printf("D --> epsilon\n");}
