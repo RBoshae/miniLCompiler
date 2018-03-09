@@ -76,11 +76,17 @@
 
 %%
 
-Program_Prime:  Program                                                  {std::cout << ("Program_Prime --> Program\n");}
+Program_Prime:  Program                                                  /*{std::cout << ("Program_Prime --> Program\n");} ORIGINAL CODE*/
+                                                                           {Program_Prime.program_list = $1.program_list;}
                 ;
 
-Program:        /* empty - epsilon */                                    {printf("Program --> epsilon\n");}
-                | Function Program                                       {printf("Program --> Function Program\n");}
+Program:        /* empty - epsilon */                                    /*{printf("Program --> epsilon\n");}*/
+                                                                           {/**/}
+                | Function Program                                       /*{printf("Program --> Function Program\n");} ORIGINAL CODE*/
+                                                                           {
+                                                                             Program.function_list = $1.function_list;
+                                                                             Program.program_list = $2.program_list;
+                                                                           }
                 ;
 
 Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY  {Function.name = identifiers.name;}
