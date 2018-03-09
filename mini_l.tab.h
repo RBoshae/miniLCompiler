@@ -103,14 +103,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 34 "mini_l.y" /* yacc.c:1909  */
+#line 35 "mini_l.y" /* yacc.c:1909  */
 
   int		    int_val;
-  char      *sval;
-  string    name;
+  char      *s_val;
   int       type;
 
-  struct {
+  /* struct {
     string name;
     int n;
   } VariableDeclarationStatements
@@ -128,12 +127,12 @@ union YYSTYPE
   struct {
     string name;
     int n;        // represents number of elements.
-  } D
+  } D */
 
 
 
 
-#line 137 "mini_l.tab.h" /* yacc.c:1909  */
+#line 136 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

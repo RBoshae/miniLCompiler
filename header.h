@@ -8,7 +8,7 @@ using namespace std;
 #include <stdio.h>
 #include <string>
 #include <cstdlib>
-
+#include <vector>
 typedef enum
 {
     ST_PROGRAM_PRIME,
@@ -55,6 +55,9 @@ typedef struct _SymbolTableEntry
 
 } SymbolTableEntry;
 
-addToList(string) {
+void addToList(string) {
 
 }
+
+
+std::vector<string> nameList;

@@ -6,21 +6,22 @@
 
   #include <stdio.h>
   #include <iostream>
-  #include "./classes/ClassImplementations.h"
+  #include "header.h"
+  #include <vector>
 
   // TODO 1: Create FunctionRelatedStatements Class and include here.
 
   extern int yylex(void);
   extern int yyerror(const char *msg);
 
-  std::vector<string> nameList;
+  extern vector<string> nameList;
 
   /* stuff from flex that bison needs to know about: */
 
   // FunctionRelatedStatements Function; // Look at TODO 1
-  VariableDeclarationStatements Var; // Look at TODO 2
+  /* VariableDeclarationStatements Var; // Look at TODO 2
   Identifiers identifiers;
-  Expression expression;
+  Expression expression; */
 
 %}
 
@@ -33,11 +34,10 @@
 **/
 %union{
   int		    int_val;
-  char      *sval;
-  string    name;
+  char      *s_val;
   int       type;
 
-  struct {
+  /* struct {
     string name;
     int n;
   } VariableDeclarationStatements
@@ -55,7 +55,7 @@
   struct {
     string name;
     int n;        // represents number of elements.
-  } D
+  } D */
 
 
 
@@ -65,8 +65,7 @@
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <name> identifiers
-%type <int_val> numbers
+%type <s_val> identifiers
 
 
 /* define the constant-string tokens: */
@@ -95,19 +94,19 @@
 %%
 
 Program_Prime:  Program                                                  /*{std::cout << ("Program_Prime --> Program\n");} ORIGINAL CODE*/
-                                                                           {Program_Prime.program_list = $1.program_list;}
+                                                                           /* {Program_Prime.program_list = $1.program_list;} */
                 ;
 
 Program:        /* empty - epsilon */                                    /*{printf("Program --> epsilon\n");}*/
                                                                            {/**/}
                 | Function Program                                       /*{printf("Program --> Function Program\n");} ORIGINAL CODE*/
                                                                            {
-                                                                             Program.function_list = $1.function_list;
-                                                                             Program.program_list = $2.program_list;
+                                                                             /* Program.function_list = $1.function_list; */
+                                                                             /* Program.program_list = $2.program_list; */
                                                                            }
                 ;
 
-Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY  {Function.name = identifiers.name;}
+Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY  {/*Function.name = identifiers.name;*/}
                 ;
 
 
@@ -146,27 +145,35 @@ Declaration:    identifiers C COLON D INTEGER                           {
 
 
                                                                           // TODO: If declaration is already declared in table throw error.
-                                                                          // TODO: generate lines of code
-                                                                          string id = $1;
-                                                                          std::cout << ". " << id << std::endl;
 
+                                                                          // TODO: generate lines of code
+                                                                          /* std::string id = $1;
+                                                                          std::cout << ". " << id << std::endl; */
+
+                                                                          // Basic integer case
                                                                           for(int i = 0; i < nameList.size(); i++) {
-                                                                            std::cout << "." << getFromList()[i]; // TODO Double check spacing
+                                                                            std::cout << ". " << nameList[i] << endl; // TODO Double check spacing
                                                                           }
+
+                                                                          // Array Case
                                                                           // clear list
+                                                                          nameList.clear();
 
                                                                         }
 
 
 C:              /* empty - epsilon */                                   {printf("C --> epsilon\n");}
                 | COMMA identifiers C                                   {
-                                                                          string identifiers_name = $2; // CONTINUE HERE
-                                                                          nameList.push_back(identifiers_name);
+                                                                          string identifiers_name = $2;
+                                                                          std::cout << "string identifiers_name = $2; // value of $2 " << $2 << std::endl;
+                                                                          /* nameList.push_back(identifiers_name); */
+
+                                                                        //  $$ = $2; // Passes list of names
                                                                         }
                 ;
 
 D:              /* empty - epsilon */                                    {printf("D --> epsilon\n");}
-                | ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF      {printf("D --> ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF\n");}
+                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {printf("D --> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
@@ -275,8 +282,8 @@ W:              /* empty - epsilon */                                        {pr
 
 Term:           Var                                                          {printf("Term --> Var\n");}
                 | SUB Var                                                    {printf("Term --> SUB Var\n");}
-                | numbers                                                    {printf("Term --> numbers\n");}
-                | SUB numbers                                                {printf("Term --> SUB numbers\n");}
+                | NUMBER                                                    {printf("Term --> NUMBER\n");}
+                | SUB NUMBER                                                {printf("Term --> SUB NUMBER\n");}
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
@@ -290,13 +297,31 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {Var.name = identifiers.name;}
-| identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET                   {Var.name = identifiers.name; /*Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
+Var:            identifiers                                                  {/*Var.name = identifiers.name;*/}
+| identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET                   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
-identifiers:    IDENT                                                        {$$ = yyval.sval;      /*$$ passes information to the parent node.*/}
-                ;
-
-numbers:        NUMBER                                                       {$$ =  yyval.int_val; /*$$ passes information to the parent node.*/}
+identifiers:    IDENT                                                        {$$ = yyval.s_val;      /*$$ passes information to the parent node.*/
+                                                                              cout << "IDENT Parsed. value of $$ " << $$ << endl;
+                                                                              nameList.push_back(yyval.s_val);
+                                                                             }
                 ;
 %%
+
+int yyerror(const char *msg)
+{
+  /* extern int yylineno;	// defined and maintained in lex.c */
+  extern char *yytext;	/* defined and maintained in lex.c */
+  extern int currentColumn;
+  extern int currentLine;
+
+  printf("Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
+
+  return 0;
+}
+
+int main( int argc, char **argv )
+{
+  /* yylex(); */
+  yyparse();
+}
