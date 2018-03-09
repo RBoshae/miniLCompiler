@@ -41,8 +41,18 @@
 
   struct {
     string name;
-    string type;
+    string type_val;
   } Declaration
+
+  struct {
+    string name;
+    string type_val;
+  } C
+
+  struct {
+    string name;
+    int n;        // represents number of elements.
+  } D
 
 
 
@@ -97,24 +107,43 @@ Beta:             Statement SEMICOLON                                    {printf
                 ;
 
 Declaration:    identifiers C COLON D INTEGER                           {
-                                                                          /** Example Declarations:
+                                                                          /** Example Input:
                                                                            *   n : integer;
                                                                            *   i, j, k: integer;
-                                                                           */  t : array [20] of integer;
+                                                                           *   t : array [20] of integer;
+                                                                           */
 
+                                                                           /** Example Output:
+                                                                            *   . n         // from 'n : integer;'
+                                                                            *   . i         // from 'i, j, k: integer;'
+                                                                            *   . j
+                                                                            *   . k
+                                                                            *   .[] t, 20   // from 't : array [20] of integer;'
+                                                                            */
+
+                                                                          // Information obtained at this rule
+                                                                          Declaration.type_val = "int";
+
+                                                                          // Pass attributes down to children
+                                                                          C.type_val = Declaration.type_val;
+
+                                                                          // Synthesis attributes from children
                                                                           identifiers.name = $1.name;
-                                                                          C.name_list = $2;
-                                                                          Declaration.type = "int";
+                                                                          D.n = $4.n;
 
-                                                                          // If declaration is already declared in table throw error.
-                                                                          // generate line of FunctionRelatedStatements
+
+                                                                          // TODO: If declaration is already declared in table throw error.
+                                                                          // TODO: generate lines of code
+                                                                          std::cout << ". " << identifiers.name << endl;
 
                                                                         }
 
 
-C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");}
-                | COMMA identifiers C                                    {printf("C --> COMMA identifiers C\n");
-                                                                          vector<sting> name_list.add($3)}
+C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");
+                | COMMA identifiers C                                     printf("C --> COMMA identifiers C\n");
+                                                                          string identifiers_name = string($2); // CONTINUE HERE
+                                                                          addToList(name)
+                                                                        }
                 ;
 
 D:              /* empty - epsilon */                                    {printf("D --> epsilon\n");}
