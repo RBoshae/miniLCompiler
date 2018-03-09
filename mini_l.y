@@ -13,6 +13,8 @@
   extern int yylex(void);
   extern int yyerror(const char *msg);
 
+  std::vector<string> nameList;
+
   /* stuff from flex that bison needs to know about: */
 
   // FunctionRelatedStatements Function; // Look at TODO 1
@@ -32,6 +34,7 @@
 %union{
   int		    int_val;
   char      *sval;
+  string    name;
   int       type;
 
   struct {
@@ -60,6 +63,11 @@
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
 %start	Program_Prime
+
+/* Added for phase 3 */
+%type <name> identifiers
+%type <int_val> numbers
+
 
 /* define the constant-string tokens: */
 
@@ -122,27 +130,32 @@ Declaration:    identifiers C COLON D INTEGER                           {
                                                                             */
 
                                                                           // Information obtained at this rule
-                                                                          Declaration.type_val = "int";
+                                                                          /* Declaration.type_val = "int"; */
 
                                                                           // Pass attributes down to children
-                                                                          C.type_val = Declaration.type_val;
+                                                                          /* C.type_val = Declaration.type_val; */
 
                                                                           // Synthesis attributes from children
-                                                                          identifiers.name = $1.name;
-                                                                          D.n = $4.n;
+
 
 
                                                                           // TODO: If declaration is already declared in table throw error.
                                                                           // TODO: generate lines of code
-                                                                          std::cout << ". " << identifiers.name << endl;
+                                                                          string id = $1;
+                                                                          std::cout << ". " << id << std::endl;
+
+                                                                          for(int i = 0; i < nameList.size(); i++) {
+                                                                            std::cout << "." << getFromList()[i]; // TODO Double check spacing
+                                                                          }
+                                                                          // clear list
 
                                                                         }
 
 
-C:              /* empty - epsilon */                                    {printf("C --> epsilon\n");
-                | COMMA identifiers C                                     printf("C --> COMMA identifiers C\n");
-                                                                          string identifiers_name = string($2); // CONTINUE HERE
-                                                                          addToList(name)
+C:              /* empty - epsilon */                                   {printf("C --> epsilon\n");}
+                | COMMA identifiers C                                   {
+                                                                          string identifiers_name = $2; // CONTINUE HERE
+                                                                          nameList.push_back(identifiers_name);
                                                                         }
                 ;
 
@@ -275,27 +288,9 @@ Var:            identifiers                                                  {Va
 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET                   {Var.name = identifiers.name; /*Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
-identifiers:    IDENT                                                        {$$ = yyval.sval;  /*$$ passes information to the parent node.*/}
+identifiers:    IDENT                                                        {$$ = yyval.sval;      /*$$ passes information to the parent node.*/}
                 ;
 
 numbers:        NUMBER                                                       {$$ =  yyval.int_val; /*$$ passes information to the parent node.*/}
                 ;
 %%
-
-int yyerror(const char *msg)
-{
-  /* extern int yylineno;	// defined and maintained in lex.c */
-  extern char *yytext;	/* defined and maintained in lex.c */
-  extern int currentColumn;
-  extern int currentLine;
-
-  printf("Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
-
-  return 0;
-}
-
-int main( int argc, char **argv )
-{
-  /* yylex(); */
-  yyparse();
-}
