@@ -61,3 +61,5 @@ void addToList(string) {
 
 
 std::vector<string> nameList;
+
+string generateDeclarationCode(nameList)

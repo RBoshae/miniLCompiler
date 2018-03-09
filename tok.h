@@ -109,11 +109,12 @@ union YYSTYPE
   char      *s_val;
   int       type;
 
-  /* struct {
-    string name;
-    int n;
-  } VariableDeclarationStatements
+  struct {
+    char *name;
+    int   int_value;
+  } variable;
 
+/*
   struct {
     string name;
     string type_val;
@@ -132,7 +133,7 @@ union YYSTYPE
 
 
 
-#line 136 "mini_l.tab.h" /* yacc.c:1909  */
+#line 137 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

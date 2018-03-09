@@ -37,11 +37,12 @@
   char      *s_val;
   int       type;
 
-  /* struct {
-    string name;
-    int n;
-  } VariableDeclarationStatements
+  struct {
+    char *name;
+    int   int_value;
+  } variable;
 
+/*
   struct {
     string name;
     string type_val;
@@ -65,7 +66,10 @@
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <s_val> identifiers
+%type <s_val>     identifiers
+%type <int_val>   D
+%type <variable>  Var
+
 
 
 /* define the constant-string tokens: */
@@ -146,16 +150,17 @@ Declaration:    identifiers C COLON D INTEGER                           {
 
                                                                           // TODO: If declaration is already declared in table throw error.
 
-                                                                          // TODO: generate lines of code
-                                                                          /* std::string id = $1;
-                                                                          std::cout << ". " << id << std::endl; */
-
-                                                                          // Basic integer case
-                                                                          for(int i = 0; i < nameList.size(); i++) {
-                                                                            std::cout << ". " << nameList[i] << endl; // TODO Double check spacing
+                                                                          if ($4 < 0) { // If D returns -1 then it is not an array. Rule set in D's production
+                                                                            // Basic integer case
+                                                                            for(int i = 0; i < nameList.size(); i++) {
+                                                                              std::cout << ". " << nameList[i] << endl;
+                                                                            }
+                                                                          } else {
+                                                                            // Array Case
+                                                                            for(int i = 0; i < nameList.size(); i++) {
+                                                                              std::cout << ".[] " << nameList[i] << ", " << (int)$4 <<endl;
+                                                                            }
                                                                           }
-
-                                                                          // Array Case
                                                                           // clear list
                                                                           nameList.clear();
 
@@ -172,8 +177,8 @@ C:              /* empty - epsilon */                                   {printf(
                                                                         }
                 ;
 
-D:              /* empty - epsilon */                                    {printf("D --> epsilon\n");}
-                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {printf("D --> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}
+D:              /* empty - epsilon */                                    {$$ = -1;}
+                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {$$ = $3;}
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
@@ -212,7 +217,7 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
                 ;
 
-K:              READ Var Lima                                                {printf("K --> READ Var Lima\n");}
+K:              READ Var Lima                                                {}
                 | READ Var                                                   {printf("K --> READ Var Lima\n");}
                 ;
 
@@ -297,8 +302,8 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {/*Var.name = identifiers.name;*/}
-| identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET                   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
+Var:            identifiers                                                  {$$.name = $1; // TODO: contiue from here. }
+                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
 identifiers:    IDENT                                                        {$$ = yyval.s_val;      /*$$ passes information to the parent node.*/
