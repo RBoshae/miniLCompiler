@@ -33,42 +33,19 @@
  * use that union instead of "int" for the definition of "yystype":
 **/
 %union{
-  int		    int_val;
-  char      *s_val;
-  int       type;
-
-  struct {
-    char *name;
-    int   int_value;
-  } variable;
-
-/*
-  struct {
-    string name;
-    string type_val;
-  } Declaration
-
-  struct {
-    string name;
-    string type_val;
-  } C
-
-  struct {
-    string name;
-    int n;        // represents number of elements.
-  } D */
-
-
-
+  int		      int_val;
+  char        *s_val;
+  int         type;
+  Attributes  *attr;
 }
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <s_val>     identifiers
-%type <int_val>   D
-%type <variable>  Var
+%type <s_val>  identifiers
+%type <attr>   D
+%type <attr>   Var
 
 
 
@@ -150,21 +127,23 @@ Declaration:    identifiers C COLON D INTEGER                           {
 
                                                                           // TODO: If declaration is already declared in table throw error.
 
-                                                                          if ($4 < 0) { // If D returns -1 then it is not an array. Rule set in D's production
+                                                                          if ($4->size_val < 0) { // If D returns -1 then it is not an array. Rule set in D's production
                                                                             // Basic integer case
                                                                             for(int i = 0; i < nameList.size(); i++) {
                                                                               std::cout << ". " << nameList[i] << endl;
                                                                             }
-                                                                          } else {
+                                                                          }
+
+                                                                          else {
                                                                             // Array Case
                                                                             for(int i = 0; i < nameList.size(); i++) {
-                                                                              std::cout << ".[] " << nameList[i] << ", " << (int)$4 <<endl;
-                                                                            }
+                                                                              std::cout << ".[] " << nameList[i] << ", " << (int)$4->size_val <<endl;
                                                                           }
                                                                           // clear list
                                                                           nameList.clear();
 
                                                                         }
+                                                                      }
 
 
 C:              /* empty - epsilon */                                   {printf("C --> epsilon\n");}
@@ -177,8 +156,8 @@ C:              /* empty - epsilon */                                   {printf(
                                                                         }
                 ;
 
-D:              /* empty - epsilon */                                    {$$ = -1;}
-                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {$$ = $3;}
+D:              /* empty - epsilon */                                    {$$->size_val = -1;}
+                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {$$->size_val = $3;}
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
@@ -302,7 +281,7 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {$$.name = $1; // TODO: contiue from here. }
+Var:            identifiers                                                  {$$->name = $1;}
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 

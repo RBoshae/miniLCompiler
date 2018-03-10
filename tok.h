@@ -105,35 +105,12 @@ union YYSTYPE
 {
 #line 35 "mini_l.y" /* yacc.c:1909  */
 
-  int		    int_val;
-  char      *s_val;
-  int       type;
+  int		      int_val;
+  char        *s_val;
+  int         type;
+  Attributes  *attr;
 
-  struct {
-    char *name;
-    int   int_value;
-  } variable;
-
-/*
-  struct {
-    string name;
-    string type_val;
-  } Declaration
-
-  struct {
-    string name;
-    string type_val;
-  } C
-
-  struct {
-    string name;
-    int n;        // represents number of elements.
-  } D */
-
-
-
-
-#line 137 "mini_l.tab.h" /* yacc.c:1909  */
+#line 114 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

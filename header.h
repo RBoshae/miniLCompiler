@@ -55,11 +55,34 @@ typedef struct _SymbolTableEntry
 
 } SymbolTableEntry;
 
-void addToList(string) {
+class Attributes{
+  public:
+    std::string name;     // This string represents an identifier
+    int int_val;          // This value refers to a user-declared int value
+    int size_val;         // This value refers to a user-declared array size
+    std::string type;
 
-}
+    Attributes(){};
+
+    void setName(string to_this){
+      name = to_this;
+    }
+    void setIntVal(int to_this){
+      int_val = to_this;
+    }
+    void setSizeVal(int to_this){
+      size_val = to_this;
+    }
+
+  private:
+
+};
+
+// void addToList(string) {
+//
+// }
 
 
 std::vector<string> nameList;
 
-string generateDeclarationCode(nameList)
+//std::string generateDeclarationCode(nameList)
