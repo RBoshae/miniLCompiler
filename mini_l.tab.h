@@ -108,9 +108,17 @@ union YYSTYPE
   int		      int_val;
   char        *s_val;
   int         type;
-  Attributes  *attr;
 
-#line 114 "mini_l.tab.h" /* yacc.c:1909  */
+  struct {
+
+      char* name;     // This string represents an identifier
+      int int_value;          // This value refers to a user-declared int value
+      int size_value;         // This value refers to a user-declared array size
+      char* type_value;
+
+  } Attributes;
+
+#line 122 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

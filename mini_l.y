@@ -36,7 +36,15 @@
   int		      int_val;
   char        *s_val;
   int         type;
-  Attributes  *attr;
+
+  struct {
+
+      char* name;     // This string represents an identifier
+      int int_value;          // This value refers to a user-declared int value
+      int size_value;         // This value refers to a user-declared array size
+      char* type_value;
+
+  } Attributes;
 }
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
@@ -127,7 +135,7 @@ Declaration:    identifiers C COLON D INTEGER                           {
 
                                                                           // TODO: If declaration is already declared in table throw error.
 
-                                                                          if ($4->size_val < 0) { // If D returns -1 then it is not an array. Rule set in D's production
+                                                                          if ($4.size_value < 0) { // If D returns -1 then it is not an array. Rule set in D's production
                                                                             // Basic integer case
                                                                             for(int i = 0; i < nameList.size(); i++) {
                                                                               std::cout << ". " << nameList[i] << endl;
@@ -137,7 +145,7 @@ Declaration:    identifiers C COLON D INTEGER                           {
                                                                           else {
                                                                             // Array Case
                                                                             for(int i = 0; i < nameList.size(); i++) {
-                                                                              std::cout << ".[] " << nameList[i] << ", " << (int)$4->size_val <<endl;
+                                                                              std::cout << ".[] " << nameList[i] << ", " << (int)$4.size_value <<endl;
                                                                           }
                                                                           // clear list
                                                                           nameList.clear();
@@ -156,8 +164,8 @@ C:              /* empty - epsilon */                                   {printf(
                                                                         }
                 ;
 
-D:              /* empty - epsilon */                                    {$$->size_val = -1;}
-                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {$$->size_val = $3;}
+D:              /* empty - epsilon */                                    {$$.size_value = -1;}
+                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {$$.size_value = $3;}
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
