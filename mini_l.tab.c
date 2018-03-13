@@ -1533,7 +1533,7 @@ yyreduce:
   case 12:
 #line 159 "mini_l.y" /* yacc.c:1646  */
     {
-                                                                          string identifiers_name = (yyvsp[-1].s_val);
+                                                                          string identifiers_name = (yyvsp[-1].s_val); // What is this doing?
                                                                           std::cout << "string identifiers_name = $2; // value of $2 " << (yyvsp[-1].s_val) << std::endl;
                                                                           /* nameList.push_back(identifiers_name); */
 
@@ -1688,19 +1688,19 @@ yyreduce:
 
   case 37:
 #line 208 "mini_l.y" /* yacc.c:1646  */
-    {}
+    { std::cout << ".< " << (yyvsp[-1].s_val) << std::endl; }
 #line 1693 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 209 "mini_l.y" /* yacc.c:1646  */
-    {printf("K --> READ Var Lima\n");}
+    { std::cout << ".< " << (yyvsp[0].s_val) << std::endl; }
 #line 1699 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
 #line 212 "mini_l.y" /* yacc.c:1646  */
-    {printf("Lima --> COMMA Var\n");}
+    {printf("Lima --> COMMA Var\n"); /*Nothing needs to happen here, the level above handles comma-separated lists.*/}
 #line 1705 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1982,7 +1982,7 @@ yyreduce:
 
   case 86:
 #line 293 "mini_l.y" /* yacc.c:1646  */
-    {(yyval.attr).name = (yyvsp[0].s_val);}
+    {(yyval.s_val) = (yyvsp[0].s_val);}
 #line 1987 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 

@@ -53,7 +53,7 @@
 /* Added for phase 3 */
 %type <s_val>  identifiers
 %type <attr>   D
-%type <attr>   Var
+%type <s_val>  Var
 
 
 
@@ -157,7 +157,7 @@ Declaration:    identifiers C COLON D INTEGER                           {
 
 C:              /* empty - epsilon */                                   {printf("C --> epsilon\n");}
                 | COMMA identifiers C                                   {
-                                                                          string identifiers_name = $2;
+                                                                          string identifiers_name = $2; // What is this doing?
                                                                           std::cout << "string identifiers_name = $2; // value of $2 " << $2 << std::endl;
                                                                           /* nameList.push_back(identifiers_name); */
 
@@ -205,11 +205,11 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
                 ;
 
-K:              READ Var Lima                                                {}
-                | READ Var                                                   {printf("K --> READ Var Lima\n");}
+K:              READ Var Lima                                                { std::cout << ".< " << $2 << std::endl; }
+                | READ Var                                                   { std::cout << ".< " << $2 << std::endl; }
                 ;
 
-Lima:           COMMA Var                                                    {printf("Lima --> COMMA Var\n");}
+Lima:           COMMA Var                                                    {printf("Lima --> COMMA Var\n"); /*Nothing needs to happen here, the level above handles comma-separated lists.*/}
                 | COMMA Var Lima                                             {printf("Lima --> COMMA Var\n");}
                 ;
 
@@ -290,7 +290,7 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {$$.name = $1;}
+Var:            identifiers                                                  {$$ = $1;}
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
