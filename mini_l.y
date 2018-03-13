@@ -39,12 +39,12 @@
 
   struct {
 
-      char* name;     // This string represents an identifier
+      char* name;              // This string represents an identifier
       int int_value;          // This value refers to a user-declared int value
       int size_value;         // This value refers to a user-declared array size
       char* type_value;
 
-  } Attributes;
+  } attr;
 }
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
@@ -147,11 +147,12 @@ Declaration:    identifiers C COLON D INTEGER                           {
                                                                             for(int i = 0; i < nameList.size(); i++) {
                                                                               std::cout << ".[] " << nameList[i] << ", " << (int)$4.size_value <<endl;
                                                                           }
-                                                                          // clear list
-                                                                          nameList.clear();
+                                                                        }
+
+                                                                        // clear list
+                                                                        nameList.clear();
 
                                                                         }
-                                                                      }
 
 
 C:              /* empty - epsilon */                                   {printf("C --> epsilon\n");}
@@ -173,7 +174,7 @@ Statement:      E                                                        {printf
                 | H                                                      {printf("Statement --> H\n");}
                 | I                                                      {printf("Statement --> I\n");}
                 | J                                                      {printf("Statement --> J\n");}
-                | K                                                      {printf("Statement --> K\n");}
+                | K                                                      {printf("Statement --> K\n"); /*Associated with READ*/}
                 | WRITE Var Lima                                         {printf("Statement --> WRITE Var Lima\n");}
                 | WRITE Var                                              {printf("Statement --> WRITE Var\n");}
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
@@ -289,7 +290,7 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {$$->name = $1;}
+Var:            identifiers                                                  {$$.name = $1;}
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 

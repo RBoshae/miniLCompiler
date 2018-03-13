@@ -111,12 +111,12 @@ union YYSTYPE
 
   struct {
 
-      char* name;     // This string represents an identifier
+      char* name;              // This string represents an identifier
       int int_value;          // This value refers to a user-declared int value
       int size_value;         // This value refers to a user-declared array size
       char* type_value;
 
-  } Attributes;
+  } attr;
 
 #line 122 "mini_l.tab.h" /* yacc.c:1909  */
 };

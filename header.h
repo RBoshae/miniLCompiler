@@ -55,15 +55,6 @@ typedef struct _SymbolTableEntry
 
 } SymbolTableEntry;
 
-struct {
-
-    std::string name;     // This string represents an identifier
-    int int_val;          // This value refers to a user-declared int value
-    int size_val;         // This value refers to a user-declared array size
-    std::string type;
-
-} Attributes;
-
 // void addToList(string) {
 //
 // }
