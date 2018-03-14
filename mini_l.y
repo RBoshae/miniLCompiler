@@ -95,7 +95,7 @@ Program:        /* empty - epsilon */                                    /*{prin
                                                                            }
                 ;
 
-Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY  {/*Function.name = identifiers.name;*/}
+Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEGIN_LOCALS Alpha END_LOCALS BEGIN_BODY Beta END_BODY       {/*Function.name = identifiers.name;*/}
                 ;
 
 
@@ -129,20 +129,20 @@ Declaration:    identifiers C COLON D INTEGER                           { // C p
 
                                                                           if ($4.size_value < 0) { // If D returns -1 then it is not an array. Rule set in D's production
                                                                             // Basic integer case
-                                                                            for(int i = 0; i < attr_list.size(); i++) {
-                                                                              std::cout << ". " << attr_list[i].name << endl;
+                                                                            for(int i = 0; i < Entry_List.size(); i++) {
+                                                                              std::cout << ". " << Entry_List[i].name << endl;
                                                                             }
                                                                           }
 
                                                                           else {
                                                                             // Array Case
-                                                                            for(int i = 0; i < attr_list.size(); i++) {
-                                                                              std::cout << ".[] " << attr_list[i].name << ", " << (int)$4.size_value <<endl;
+                                                                            for(int i = 0; i < Entry_List.size(); i++) {
+                                                                              std::cout << ".[] " << Entry_List[i].name << ", " << (int)$4.size_value <<endl;
                                                                             }
                                                                           }
 
                                                                         // clear list
-                                                                        attr_list.clear();
+                                                                        Entry_List.clear();
 
                                                                         }
 
@@ -194,15 +194,15 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 ;
 
 K:              READ Var Lima                                                {
-                                                                                for(int i = 0; i < nameList.size(); i++) {
-                                                                                  std::cout << ".< " << nameList[i] << endl;
+                                                                                for(int i = 0; i < Entry_List.size(); i++) {
+                                                                                  std::cout << ".< " << Entry_List[i].name << endl;
                                                                                 }
-                                                                                nameList.clear();
+                                                                                Entry_List.clear();
                                                                               }
 
                 | READ Var                                                   {
-                                                                                std::cout << ".< " << nameList[0] << std::endl;
-                                                                                nameList.clear();  // clear list must be called.
+                                                                                std::cout << ".< " << Entry_List[0].name << std::endl;
+                                                                                Entry_List.clear();  // clear list must be called.
                                                                               }
                 ;
 
@@ -299,11 +299,10 @@ Var:            identifiers                                                  {$$
                 ;
 
 identifiers:    IDENT                                                        {
-
                                                                               $$.name = $1;
-                                                                              entry temp;
+                                                                              Table_Entry temp;
                                                                               temp.name = $1;
-                                                                              attr_list.push_back(temp);
+                                                                              Entry_List.push_back(temp);
                                                                              }
                 ;
 %%
@@ -315,7 +314,7 @@ int yyerror(const char *msg)
   extern int currentColumn;
   extern int currentLine;
 
-  printf("Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
+  printf("Rick's Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
 
   return 0;
 }

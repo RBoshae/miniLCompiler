@@ -1497,20 +1497,20 @@ yyreduce:
 
                                                                           if ((yyvsp[-1].attr).size_value < 0) { // If D returns -1 then it is not an array. Rule set in D's production
                                                                             // Basic integer case
-                                                                            for(int i = 0; i < attr_list.size(); i++) {
-                                                                              std::cout << ". " << attr_list[i].name << endl;
+                                                                            for(int i = 0; i < Entry_List.size(); i++) {
+                                                                              std::cout << ". " << Entry_List[i].name << endl;
                                                                             }
                                                                           }
 
                                                                           else {
                                                                             // Array Case
-                                                                            /* for(int i = 0; i < attr_list.size(); i++) {
-                                                                              std::cout << ".[] " << attr_list[i].name << ", " << (int)$4.size_value <<endl;
-                                                                            } */
+                                                                            for(int i = 0; i < Entry_List.size(); i++) {
+                                                                              std::cout << ".[] " << Entry_List[i].name << ", " << (int)(yyvsp[-1].attr).size_value <<endl;
+                                                                            }
                                                                           }
 
                                                                         // clear list
-                                                                        attr_list.clear();
+                                                                        Entry_List.clear();
 
                                                                         }
 #line 1517 "mini_l.tab.c" /* yacc.c:1646  */
@@ -1677,10 +1677,10 @@ yyreduce:
   case 37:
 #line 196 "mini_l.y" /* yacc.c:1646  */
     {
-                                                                                for(int i = 0; i < nameList.size(); i++) {
-                                                                                  std::cout << ".< " << nameList[i] << endl;
+                                                                                for(int i = 0; i < Entry_List.size(); i++) {
+                                                                                  std::cout << ".< " << Entry_List[i].name << endl;
                                                                                 }
-                                                                                nameList.clear();
+                                                                                Entry_List.clear();
                                                                               }
 #line 1686 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1688,8 +1688,8 @@ yyreduce:
   case 38:
 #line 203 "mini_l.y" /* yacc.c:1646  */
     {
-                                                                                std::cout << ".< " << nameList[0] << std::endl;
-                                                                                nameList.clear();  // clear list must be called.
+                                                                                std::cout << ".< " << Entry_List[0].name << std::endl;
+                                                                                Entry_List.clear();  // clear list must be called.
                                                                               }
 #line 1695 "mini_l.tab.c" /* yacc.c:1646  */
     break;
@@ -1998,17 +1998,16 @@ yyreduce:
   case 88:
 #line 301 "mini_l.y" /* yacc.c:1646  */
     {
-
                                                                               (yyval.attr).name = (yyvsp[0].s_val);
-                                                                              entry temp;
+                                                                              Table_Entry temp;
                                                                               temp.name = (yyvsp[0].s_val);
-                                                                              attr_list.push_back(temp);
+                                                                              Entry_List.push_back(temp);
                                                                              }
-#line 2008 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2007 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2012 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2011 "mini_l.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2236,7 +2235,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 309 "mini_l.y" /* yacc.c:1906  */
+#line 308 "mini_l.y" /* yacc.c:1906  */
 
 
 int yyerror(const char *msg)
@@ -2246,7 +2245,7 @@ int yyerror(const char *msg)
   extern int currentColumn;
   extern int currentLine;
 
-  printf("Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
+  printf("Rick's Compiler Error: %s at symbol '%s' on line %d column %d \n", msg, yytext, currentLine, currentColumn);
 
   return 0;
 }

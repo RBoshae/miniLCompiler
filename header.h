@@ -63,7 +63,7 @@ typedef struct _SymbolTableEntry
 std::vector<string> nameList;
 
 
-struct entry {
+struct Table_Entry {
 
     string name;              // This string represents an identifier
     int   int_value;          // This value refers to a user-declared int value
@@ -72,6 +72,6 @@ struct entry {
 
 };
 
-std::vector<entry> attr_list;
+std::vector<Table_Entry> Entry_List;
 
 //std::string generateDeclarationCode(nameList)
