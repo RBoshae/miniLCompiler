@@ -1504,9 +1504,9 @@ yyreduce:
 
                                                                           else {
                                                                             // Array Case
-                                                                            for(int i = 0; i < attr_list.size(); i++) {
-                                                                              std::cout << ".[] " << attr_list[i].name << ", " << (int)(yyvsp[-1].attr).size_value <<endl;
-                                                                            }
+                                                                            /* for(int i = 0; i < attr_list.size(); i++) {
+                                                                              std::cout << ".[] " << attr_list[i].name << ", " << (int)$4.size_value <<endl;
+                                                                            } */
                                                                           }
 
                                                                         // clear list
@@ -1997,17 +1997,18 @@ yyreduce:
 
   case 88:
 #line 301 "mini_l.y" /* yacc.c:1646  */
-    {(yyval.attr).name = yyval.s_val;      /*$$ passes information to the parent node.*/
-                                                                              cout << "IDENT Parsed. value of $$ " << yyval.s_val << endl;
-                                                                              attr identifier;
-                                                                              identifier.name = yyval.s_val;
-                                                                              attr_list.push_back(identifier);
+    {
+
+                                                                              (yyval.attr).name = (yyvsp[0].s_val);
+                                                                              entry temp;
+                                                                              temp.name = (yyvsp[0].s_val);
+                                                                              attr_list.push_back(temp);
                                                                              }
-#line 2007 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2008 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2011 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2012 "mini_l.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2235,7 +2236,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 308 "mini_l.y" /* yacc.c:1906  */
+#line 309 "mini_l.y" /* yacc.c:1906  */
 
 
 int yyerror(const char *msg)

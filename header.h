@@ -63,15 +63,15 @@ typedef struct _SymbolTableEntry
 std::vector<string> nameList;
 
 
-struct attr {
+struct entry {
 
-    char* name;              // This string represents an identifier
+    string name;              // This string represents an identifier
     int   int_value;          // This value refers to a user-declared int value
     int   size_value;         // This value refers to a user-declared array size
-    char* type_value;
+    string type_value;
 
 };
 
-std::vector<attr> attr_list;
+std::vector<entry> attr_list;
 
 //std::string generateDeclarationCode(nameList)

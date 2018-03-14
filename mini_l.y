@@ -52,7 +52,7 @@
 
 /* Added for phase 3 */
 %type <attr>  identifiers
-%type <attr>   D
+%type <attr>  D
 %type <attr>  Var
 
 
@@ -60,7 +60,7 @@
 /* define the constant-string tokens: */
 
 /* define the "terminal symbol" token types I'm going to use (in CAPS by convention), and associate each with a field of the union: */
-%token <*sval> IDENT
+%token <s_val> IDENT
 %token FUNCTION
 %token BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS
 
@@ -298,11 +298,12 @@ Var:            identifiers                                                  {$$
                                                                               /*Var.name = identifiers.name; Var.n =                                                                expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
-identifiers:    IDENT                                                        {$$.name = yyval.s_val;      /*$$ passes information to the parent node.*/
-                                                                              cout << "IDENT Parsed. value of $$ " << yyval.s_val << endl;
-                                                                              attr identifier;
-                                                                              identifier.name = yyval.s_val;
-                                                                              attr_list.push_back(identifier);
+identifiers:    IDENT                                                        {
+
+                                                                              $$.name = $1;
+                                                                              entry temp;
+                                                                              temp.name = $1;
+                                                                              attr_list.push_back(temp);
                                                                              }
                 ;
 %%
