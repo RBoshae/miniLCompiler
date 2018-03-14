@@ -39,6 +39,12 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 36 "mini_l.y" /* yacc.c:1909  */
+
+  #include <string>
+
+#line 48 "mini_l.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -103,7 +109,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 35 "mini_l.y" /* yacc.c:1909  */
+#line 47 "mini_l.y" /* yacc.c:1909  */
 
   int		      int_val;
   char        *s_val;
@@ -118,7 +124,11 @@ union YYSTYPE
 
   } attr;
 
-#line 122 "mini_l.tab.h" /* yacc.c:1909  */
+  ID *id;
+
+
+
+#line 132 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

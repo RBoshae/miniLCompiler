@@ -12,7 +12,19 @@
  *
 *******************************************************************************/
 
-%{/*Include library for atof() call */
+%{
+  /* Putting CPP includes here */
+  #include <vector>
+  #include <iostream>
+  #include <string>
+  #include <cstdlib>
+  #include <sstream>
+  #include <iostream>
+  using namespace std;
+
+  #include "header.h"
+  
+/*Include library for atof() call */
 #include "mini_l.tab.h"
 /* need this for the call to atoi() below */
 #include <unistd.h>

@@ -610,6 +610,18 @@ char *yytext;
  *
 *******************************************************************************/
 #line 16 "mini_l.lex"
+  /* Putting CPP includes here */
+  #include <vector>
+  #include <iostream>
+  #include <string>
+  #include <cstdlib>
+  #include <sstream>
+  #include <iostream>
+  using namespace std;
+
+  #include "header.h"
+  
+/*Include library for atof() call */
 #include "mini_l.tab.h"
 /* need this for the call to atoi() below */
 #include <unistd.h>
@@ -617,7 +629,7 @@ char *yytext;
 int currentLine = 1;
 int currentColumn = 1;
 /*ERROR_TYPE_2_3 ({DIGIT})+({UNDERSCORE})+ */
-#line 621 "lex.yy.c"
+#line 633 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -835,9 +847,9 @@ YY_DECL
 		}
 
 	{
-#line 36 "mini_l.lex"
+#line 48 "mini_l.lex"
 
-#line 841 "lex.yy.c"
+#line 853 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -896,291 +908,291 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 37 "mini_l.lex"
+#line 49 "mini_l.lex"
 { currentColumn += yyleng; return FUNCTION; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 39 "mini_l.lex"
+#line 51 "mini_l.lex"
 { currentColumn += yyleng; return BEGIN_PARAMS; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 41 "mini_l.lex"
+#line 53 "mini_l.lex"
 { currentColumn += yyleng; return END_PARAMS; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 43 "mini_l.lex"
+#line 55 "mini_l.lex"
 { currentColumn += yyleng; return BEGIN_LOCALS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 45 "mini_l.lex"
+#line 57 "mini_l.lex"
 { currentColumn += yyleng; return END_LOCALS; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 47 "mini_l.lex"
+#line 59 "mini_l.lex"
 { currentColumn += yyleng; return BEGIN_BODY; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 49 "mini_l.lex"
+#line 61 "mini_l.lex"
 { currentColumn += yyleng; return END_BODY; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 51 "mini_l.lex"
+#line 63 "mini_l.lex"
 { currentColumn += yyleng; return INTEGER; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 53 "mini_l.lex"
+#line 65 "mini_l.lex"
 { currentColumn += yyleng; return ARRAY; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 55 "mini_l.lex"
+#line 67 "mini_l.lex"
 { currentColumn += yyleng; return OF; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 57 "mini_l.lex"
+#line 69 "mini_l.lex"
 { currentColumn += yyleng; return IF; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 59 "mini_l.lex"
+#line 71 "mini_l.lex"
 { currentColumn += yyleng; return THEN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 61 "mini_l.lex"
+#line 73 "mini_l.lex"
 { currentColumn += yyleng; return ENDIF; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 63 "mini_l.lex"
+#line 75 "mini_l.lex"
 { currentColumn += yyleng; return ELSE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 65 "mini_l.lex"
+#line 77 "mini_l.lex"
 { currentColumn += yyleng; return WHILE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 67 "mini_l.lex"
+#line 79 "mini_l.lex"
 { currentColumn += yyleng; return DO; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 69 "mini_l.lex"
+#line 81 "mini_l.lex"
 { currentColumn += yyleng; return FOREACH; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 71 "mini_l.lex"
+#line 83 "mini_l.lex"
 { currentColumn += yyleng; return IN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 73 "mini_l.lex"
+#line 85 "mini_l.lex"
 { currentColumn += yyleng; return BEGINLOOP; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 75 "mini_l.lex"
+#line 87 "mini_l.lex"
 { currentColumn += yyleng; return ENDLOOP; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 77 "mini_l.lex"
+#line 89 "mini_l.lex"
 { currentColumn += yyleng; return CONTINUE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 79 "mini_l.lex"
+#line 91 "mini_l.lex"
 { currentColumn += yyleng; return READ; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 81 "mini_l.lex"
+#line 93 "mini_l.lex"
 { currentColumn += yyleng; return WRITE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 83 "mini_l.lex"
+#line 95 "mini_l.lex"
 { currentColumn += yyleng; return AND; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 85 "mini_l.lex"
+#line 97 "mini_l.lex"
 { currentColumn += yyleng; return OR; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 87 "mini_l.lex"
+#line 99 "mini_l.lex"
 { currentColumn += yyleng; return NOT; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 89 "mini_l.lex"
+#line 101 "mini_l.lex"
 { currentColumn += yyleng; return TRUE; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 91 "mini_l.lex"
+#line 103 "mini_l.lex"
 { currentColumn += yyleng; return FALSE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 93 "mini_l.lex"
+#line 105 "mini_l.lex"
 { currentColumn += yyleng; return RETURN; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 95 "mini_l.lex"
+#line 107 "mini_l.lex"
 { currentColumn += yyleng; return PLUS; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 97 "mini_l.lex"
+#line 109 "mini_l.lex"
 { currentColumn += yyleng; return SUB; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 99 "mini_l.lex"
+#line 111 "mini_l.lex"
 { currentColumn += yyleng; return MULT; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 101 "mini_l.lex"
+#line 113 "mini_l.lex"
 { currentColumn += yyleng; return DIV; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 103 "mini_l.lex"
+#line 115 "mini_l.lex"
 { currentColumn += yyleng; return MOD; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 105 "mini_l.lex"
+#line 117 "mini_l.lex"
 { currentColumn += yyleng; return EQ; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 107 "mini_l.lex"
+#line 119 "mini_l.lex"
 { currentColumn += yyleng; return NEQ; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 109 "mini_l.lex"
+#line 121 "mini_l.lex"
 { currentColumn += yyleng; return LT; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 111 "mini_l.lex"
+#line 123 "mini_l.lex"
 { currentColumn += yyleng; return GT; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 113 "mini_l.lex"
+#line 125 "mini_l.lex"
 { currentColumn += yyleng; return LTE; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 115 "mini_l.lex"
+#line 127 "mini_l.lex"
 { currentColumn += yyleng; return GTE; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 117 "mini_l.lex"
+#line 129 "mini_l.lex"
 { currentColumn += yyleng; return SEMICOLON; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 119 "mini_l.lex"
+#line 131 "mini_l.lex"
 { currentColumn += yyleng; return COLON; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 121 "mini_l.lex"
+#line 133 "mini_l.lex"
 { currentColumn += yyleng; return COMMA; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 123 "mini_l.lex"
+#line 135 "mini_l.lex"
 { currentColumn += yyleng; return L_PAREN; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 125 "mini_l.lex"
+#line 137 "mini_l.lex"
 { currentColumn += yyleng; return R_PAREN; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 127 "mini_l.lex"
+#line 139 "mini_l.lex"
 { currentColumn += yyleng; return L_SQUARE_BRACKET; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 129 "mini_l.lex"
+#line 141 "mini_l.lex"
 { currentColumn += yyleng; return R_SQUARE_BRACKET; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 131 "mini_l.lex"
+#line 143 "mini_l.lex"
 { return ASSIGN; currentColumn += yyleng;}
 	YY_BREAK
 case 49:
 /* rule 49 can match eol */
 YY_RULE_SETUP
-#line 133 "mini_l.lex"
+#line 145 "mini_l.lex"
 {currentLine++; currentColumn = 0;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 135 "mini_l.lex"
+#line 147 "mini_l.lex"
 { currentColumn += yyleng;}  /* eat up whitespace */
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 138 "mini_l.lex"
+#line 150 "mini_l.lex"
 { yylval.int_val = atoi(yytext); currentColumn += yyleng; return NUMBER; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 140 "mini_l.lex"
+#line 152 "mini_l.lex"
 { yylval.s_val = yytext; currentColumn += yyleng; return IDENT; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 142 "mini_l.lex"
+#line 154 "mini_l.lex"
 { }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 144 "mini_l.lex"
+#line 156 "mini_l.lex"
 { }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 148 "mini_l.lex"
+#line 160 "mini_l.lex"
 /* eat up one-line comments */
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 150 "mini_l.lex"
+#line 162 "mini_l.lex"
 { printf( "Error at line %d, column %d: Unrecognized character: %s\n", currentColumn, currentLine, yytext); }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 152 "mini_l.lex"
+#line 164 "mini_l.lex"
 ECHO;
 	YY_BREAK
-#line 1184 "lex.yy.c"
+#line 1196 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2181,7 +2193,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 152 "mini_l.lex"
+#line 164 "mini_l.lex"
 
 
 
