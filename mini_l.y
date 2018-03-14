@@ -5,24 +5,15 @@
 %{
 
   #include <stdio.h>
-  #include <iostream>
-  #include "header.h"
-  #include <vector>
+  #include <string.h>
 
-  // TODO 1: Create FunctionRelatedStatements Class and include here.
+
+   /* TODO 1: Create FunctionRelatedStatements Class and include here. */
 
   extern int yylex(void);
   extern int yyerror(const char *msg);
 
-  extern vector<string> nameList;
-
   /* stuff from flex that bison needs to know about: */
-
-  // FunctionRelatedStatements Function; // Look at TODO 1
-  /* VariableDeclarationStatements Var; // Look at TODO 2
-  Identifiers identifiers;
-  Expression expression; */
-
 %}
 
 /** Some Noets on Union:
@@ -33,16 +24,24 @@
  * use that union instead of "int" for the definition of "yystype":
 **/
 %code requires{
-  #include <string>
-  #include "attributes.h"
+  #include "mini_helper.h"
 }
+
 %union{
   int		      int_val;
-  char        *s_val;
+  char        *str;
   int         type;
 
 
-  Attr attr;
+  struct
+	{
+	    char        *value;
+	    int   			type;
+	    int				  cType;
+	    struct      BackpatchList* 	trueList;
+	    struct      BackpatchList* 	falseList;
+	} declaration;
+
 }
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
@@ -66,7 +65,7 @@
 /* define the constant-string tokens: */
 
 /* define the "terminal symbol" token types I'm going to use (in CAPS by convention), and associate each with a field of the union: */
-%token <s_val> IDENT
+%token <str> IDENT
 %token FUNCTION
 %token BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS
 

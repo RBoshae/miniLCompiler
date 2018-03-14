@@ -40,12 +40,11 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 35 "mini_l.y" /* yacc.c:1909  */
+#line 26 "mini_l.y" /* yacc.c:1909  */
 
-  #include <string>
-  #include "attributes.h"
+  #include "mini_helper.h"
 
-#line 49 "mini_l.tab.h" /* yacc.c:1909  */
+#line 48 "mini_l.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -110,16 +109,24 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 39 "mini_l.y" /* yacc.c:1909  */
+#line 30 "mini_l.y" /* yacc.c:1909  */
 
   int		      int_val;
-  char        *s_val;
+  char        *str;
   int         type;
 
 
-  Attr attr;
+  struct
+	{
+	    char        *value;
+	    int   			type;
+	    int				  cType;
+	    struct      BackpatchList* 	trueList;
+	    struct      BackpatchList* 	falseList;
+	} declaration;
 
-#line 123 "mini_l.tab.h" /* yacc.c:1909  */
+
+#line 130 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
