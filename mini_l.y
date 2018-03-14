@@ -55,6 +55,11 @@
 %type <attr>  D
 %type <attr>  Var
 
+/* Used in Arithmetic Operator Statments*/
+%type <attr>  Expression
+%type <s_val>  Multiplicative-Expr
+%type <s_val>  S
+
 
 
 /* define the constant-string tokens: */
@@ -244,18 +249,24 @@ Comp:           EQ                                                           {pr
                 | GTE                                                        {printf("Comp --> GTE\n");}
                 ;
 
-Expression:     Multiplicative-Expr S T                                      {/*expression.value = multiplicative_expr*/}
+Expression:     Multiplicative-Expr S T                                       {
+                                                                                // Arithmetic Operator Statments  Addition
+                                                                                cout << "+ " << generateTempVariable() /*t0*/<< " " << $1 << ", " << $2 << endl;
+                                                                              }
                 ;
 
-S:              /* empty - epsilon */                                        {printf("S --> epsilon\n");}
-                | PLUS Multiplicative-Expr S T                               {printf("S --> PLUS Multiplicative-Expr S T\n");}
+S:              /* empty - epsilon */                                         {}
+                | PLUS Multiplicative-Expr S T                                {
+                                                                                // TODO HERE 2
+
+                                                                              }
                 ;
 
 T:              /* empty - epsilon */                                        {printf("T --> epsilon\n");}
                 | SUB Multiplicative-Expr S T                                {printf("T --> SUB Multiplicative-Expr S T\n");}
                 ;
 
-Multiplicative-Expr:  Term U V W                                             {printf("Multiplicative-Expr --> Term U V W\n");}
+Multiplicative-Expr:  Term U V W                                             {/* TODO HERE */}
                 ;
 
 U:              /* empty - epsilon */                                        {printf("U --> epsilon\n");}

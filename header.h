@@ -9,6 +9,7 @@ using namespace std;
 #include <string>
 #include <cstdlib>
 #include <vector>
+#include <sstream>
 typedef enum
 {
     ST_PROGRAM_PRIME,
@@ -71,6 +72,17 @@ struct Table_Entry {
     string type_value;
 
 };
+
+int current_temp_variable_count = -1; // Used to keep track of the value we should assign in getTempVariableName
+string generateTempVariable(){
+  current_temp_variable_count++;
+
+  ostringstream temp_number;
+  temp_number << current_temp_variable_count;
+  string temp_value = "t" + temp_number.str();
+
+  return temp_value;
+}
 
 std::vector<Table_Entry> Entry_List;
 

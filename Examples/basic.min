@@ -11,5 +11,5 @@ beginlocals
 endlocals
 
 beginbody	## main program
-  read n;
+  k := k + 1;
 endbody
