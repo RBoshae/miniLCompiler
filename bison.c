@@ -518,9 +518,9 @@ static const yytype_uint16 yyrline[] =
      192,   195,   196,   199,   200,   203,   204,   207,   214,   220,
      221,   224,   225,   228,   229,   232,   233,   236,   237,   240,
      241,   242,   243,   244,   245,   246,   247,   250,   251,   252,
-     253,   254,   255,   258,   286,   287,   296,   297,   300,   303,
-     304,   307,   308,   311,   312,   315,   318,   321,   324,   327,
-     328,   329,   332,   333,   336,   337,   340,   341,   345,   353
+     253,   254,   255,   258,   288,   289,   298,   299,   302,   305,
+     306,   309,   310,   313,   314,   317,   320,   323,   326,   329,
+     330,   331,   334,   335,   338,   339,   342,   343,   347,   355
 };
 #endif
 
@@ -1849,14 +1849,15 @@ yyreduce:
   case 63:
 #line 258 "mini_l.y" /* yacc.c:1646  */
     {
+                                                                                // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
                                                                                 // Arithmetic Operator Statments  Addition
+                                                                                cout << "Expression:     Multiplicative-Expr S T // Value of S: " << (yyvsp[-1].int_val) << " T: " << (yyvsp[0].int_val) << endl; // Debugging
                                                                                 if ((yyvsp[-1].int_val) == 1)
                                                                                 {
                                                                                   for (int i = 0; i < Number_List.size(); i++) {
 
                                                                                     cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Number_List.at(i) << endl;
                                                                                   }
-                                                                                  Number_List.clear();
                                                                                 }
                                                                                 else if ((yyvsp[-1].int_val) == 3)
                                                                                 {
@@ -1864,9 +1865,10 @@ yyreduce:
 
                                                                                     cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Entry_List.at(i).name << endl;
                                                                                   }
-                                                                                  Entry_List.clear();
                                                                                 }
 
+                                                                                Entry_List.clear();
+                                                                                Number_List.clear();
                                                                                 /*
                                                                                 TODO: Include conditional logic to handle other cases
                                                                                 if (S) {
@@ -1874,17 +1876,17 @@ yyreduce:
                                                                                 } else if (T){} */
                                                                                 Number_List.clear();
                                                                               }
-#line 1878 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1880 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 286 "mini_l.y" /* yacc.c:1646  */
+#line 288 "mini_l.y" /* yacc.c:1646  */
     {(yyval.int_val) = 0;}
-#line 1884 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1886 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 287 "mini_l.y" /* yacc.c:1646  */
+#line 289 "mini_l.y" /* yacc.c:1646  */
     {
                                                                                 if ((yyvsp[-2].int_val) == 1) {
                                                                                   (yyval.int_val) = 1;
@@ -1892,163 +1894,163 @@ yyreduce:
                                                                                   (yyval.int_val) = 3;
                                                                                 }
                                                                               }
-#line 1896 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1898 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 296 "mini_l.y" /* yacc.c:1646  */
+#line 298 "mini_l.y" /* yacc.c:1646  */
     {(yyval.int_val) = 0;}
-#line 1902 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1904 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 297 "mini_l.y" /* yacc.c:1646  */
+#line 299 "mini_l.y" /* yacc.c:1646  */
     {(yyval.int_val) = 2;}
-#line 1908 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1910 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 300 "mini_l.y" /* yacc.c:1646  */
+#line 302 "mini_l.y" /* yacc.c:1646  */
     {(yyval.int_val) = (yyvsp[-3].int_val);}
-#line 1914 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1916 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 303 "mini_l.y" /* yacc.c:1646  */
+#line 305 "mini_l.y" /* yacc.c:1646  */
     {printf("U --> epsilon\n");}
-#line 1920 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1922 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 304 "mini_l.y" /* yacc.c:1646  */
+#line 306 "mini_l.y" /* yacc.c:1646  */
     {printf("U --> MULT Term U V W\n");}
-#line 1926 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1928 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 307 "mini_l.y" /* yacc.c:1646  */
+#line 309 "mini_l.y" /* yacc.c:1646  */
     {printf("V --> epsilon\n");}
-#line 1932 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1934 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 308 "mini_l.y" /* yacc.c:1646  */
+#line 310 "mini_l.y" /* yacc.c:1646  */
     {printf("V --> DIV Term U V W\n");}
-#line 1938 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1940 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 311 "mini_l.y" /* yacc.c:1646  */
+#line 313 "mini_l.y" /* yacc.c:1646  */
     {printf("W --> epsilon\n");}
-#line 1944 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1946 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 312 "mini_l.y" /* yacc.c:1646  */
+#line 314 "mini_l.y" /* yacc.c:1646  */
     {printf("W --> MOD Term U V W\n");}
-#line 1950 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1952 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 315 "mini_l.y" /* yacc.c:1646  */
+#line 317 "mini_l.y" /* yacc.c:1646  */
     {
                                                                                 (yyval.int_val) = 3;  /* 3 -- represents variable*/
                                                                               }
-#line 1958 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1960 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 318 "mini_l.y" /* yacc.c:1646  */
+#line 320 "mini_l.y" /* yacc.c:1646  */
     {
                                                                                 (yyval.int_val) = 4;  /* 4 -- represents Unary minus variable*/
                                                                               }
-#line 1966 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1968 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 321 "mini_l.y" /* yacc.c:1646  */
+#line 323 "mini_l.y" /* yacc.c:1646  */
     {
                                                                                 (yyval.int_val) = 1;  /* 1 -- represents numbers */
                                                                               }
-#line 1974 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1976 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 324 "mini_l.y" /* yacc.c:1646  */
+#line 326 "mini_l.y" /* yacc.c:1646  */
     {
                                                                                 (yyval.int_val) = 2;  /* 2 -- represents unary minus numbers */
                                                                               }
-#line 1982 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1984 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 327 "mini_l.y" /* yacc.c:1646  */
+#line 329 "mini_l.y" /* yacc.c:1646  */
     {printf("Term --> L_PAREN Expression R_PAREN\n");}
-#line 1988 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1990 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 328 "mini_l.y" /* yacc.c:1646  */
+#line 330 "mini_l.y" /* yacc.c:1646  */
     {printf("Term --> X L_PAREN Expression R_PAREN\n");}
-#line 1994 "mini_l.tab.c" /* yacc.c:1646  */
+#line 1996 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 329 "mini_l.y" /* yacc.c:1646  */
+#line 331 "mini_l.y" /* yacc.c:1646  */
     {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
-#line 2000 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2002 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 332 "mini_l.y" /* yacc.c:1646  */
+#line 334 "mini_l.y" /* yacc.c:1646  */
     {printf("Y --> epsilon\n");}
-#line 2006 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2008 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 333 "mini_l.y" /* yacc.c:1646  */
+#line 335 "mini_l.y" /* yacc.c:1646  */
     {printf("Y --> Expression Z\n");}
-#line 2012 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2014 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 336 "mini_l.y" /* yacc.c:1646  */
+#line 338 "mini_l.y" /* yacc.c:1646  */
     {printf("Z --> epsilon\n");}
-#line 2018 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2020 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 337 "mini_l.y" /* yacc.c:1646  */
+#line 339 "mini_l.y" /* yacc.c:1646  */
     {printf("Z --> COMMA Expression Z\n");}
-#line 2024 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2026 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 340 "mini_l.y" /* yacc.c:1646  */
+#line 342 "mini_l.y" /* yacc.c:1646  */
     {(yyval.attr) = (yyvsp[0].attr);}
-#line 2030 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2032 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 341 "mini_l.y" /* yacc.c:1646  */
+#line 343 "mini_l.y" /* yacc.c:1646  */
     {
                                                                               /*Var.name = identifiers.name; Var.n =                                                                expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
-#line 2037 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2039 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 345 "mini_l.y" /* yacc.c:1646  */
+#line 347 "mini_l.y" /* yacc.c:1646  */
     {
                                                                               (yyval.attr).name = (yyvsp[0].s_val);
                                                                               Table_Entry temp;
                                                                               temp.name = (yyvsp[0].s_val);
                                                                               Entry_List.push_back(temp);
                                                                              }
-#line 2048 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2050 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 353 "mini_l.y" /* yacc.c:1646  */
+#line 355 "mini_l.y" /* yacc.c:1646  */
     {
                                                                               (yyval.int_val) = (yyvsp[0].int_val);
                                                                               /* string counter = generateTempVariable(); */
@@ -2059,11 +2061,11 @@ yyreduce:
 
                                                                               Number_List.push_back((int)(yyvsp[0].int_val));
                                                                              }
-#line 2063 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2065 "mini_l.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2067 "mini_l.tab.c" /* yacc.c:1646  */
+#line 2069 "mini_l.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2291,7 +2293,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 364 "mini_l.y" /* yacc.c:1906  */
+#line 366 "mini_l.y" /* yacc.c:1906  */
 
 
 int yyerror(const char *msg)

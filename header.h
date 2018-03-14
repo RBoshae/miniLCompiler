@@ -85,6 +85,8 @@ string generateTempVariable(){
 }
 
 std::vector<Table_Entry> Entry_List;
+std::vector<string> ID_List;
+std::vector<string> Variable_List;
 std::vector<int> Number_List;
 
 //std::string generateDeclarationCode(nameList)

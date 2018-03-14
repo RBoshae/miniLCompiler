@@ -256,14 +256,15 @@ Comp:           EQ                                                           {pr
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {
+                                                                                // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
                                                                                 // Arithmetic Operator Statments  Addition
+                                                                                cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
                                                                                 if ($2 == 1)
                                                                                 {
                                                                                   for (int i = 0; i < Number_List.size(); i++) {
 
                                                                                     cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Number_List.at(i) << endl;
                                                                                   }
-                                                                                  Number_List.clear();
                                                                                 }
                                                                                 else if ($2 == 3)
                                                                                 {
@@ -271,9 +272,10 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                     cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Entry_List.at(i).name << endl;
                                                                                   }
-                                                                                  Entry_List.clear();
                                                                                 }
 
+                                                                                Entry_List.clear();
+                                                                                Number_List.clear();
                                                                                 /*
                                                                                 TODO: Include conditional logic to handle other cases
                                                                                 if (S) {
@@ -338,8 +340,8 @@ Z:              /* empty - epsilon */                                        {pr
                 ;
 
 Var:            identifiers                                                  {$$ = $1;}
-                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {
-                                                                              /*Var.name = identifiers.name; Var.n =                                                                expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
+                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    { // All idents are immediately stored in a list called
+                                                                              }
                 ;
 
 identifiers:    IDENT                                                        {
