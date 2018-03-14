@@ -56,9 +56,12 @@
 %type <attr>  Var
 
 /* Used in Arithmetic Operator Statments*/
-%type <attr>  Expression
-%type <s_val>  Multiplicative-Expr
-%type <s_val>  S
+%type <attr>        Expression
+%type <int_val>        Multiplicative-Expr
+%type <int_val>     S
+%type <int_val>     numbers
+%type <int_val>     Term                /*Returns ints which represents what Mult Expr should print*/
+%type <int_val>     T
 
 
 
@@ -143,6 +146,9 @@ Declaration:    identifiers C COLON D INTEGER                           { // C p
                                                                             // Array Case
                                                                             for(int i = 0; i < Entry_List.size(); i++) {
                                                                               std::cout << ".[] " << Entry_List[i].name << ", " << (int)$4.size_value <<endl;
+
+                                                                              cout << "value if i: " << i << endl; // Debugging
+                                                                              Number_List.clear();
                                                                             }
                                                                           }
 
@@ -158,8 +164,8 @@ C:              /* empty - epsilon */                                   {printf(
                                                                         }
                 ;
 
-D:              /* empty - epsilon */                                    {$$.size_value = -1;}
-                | ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF      {$$.size_value = $3;}
+D:              /* empty - epsilon */                                     {$$.size_value = -1;}
+                | ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF      {$$.size_value = $3;}
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
@@ -251,22 +257,47 @@ Comp:           EQ                                                           {pr
 
 Expression:     Multiplicative-Expr S T                                       {
                                                                                 // Arithmetic Operator Statments  Addition
-                                                                                cout << "+ " << generateTempVariable() /*t0*/<< " " << $1 << ", " << $2 << endl;
+                                                                                if ($2 == 1)
+                                                                                {
+                                                                                  for (int i = 0; i < Number_List.size(); i++) {
+
+                                                                                    cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Number_List.at(i) << endl;
+                                                                                  }
+                                                                                  Number_List.clear();
+                                                                                }
+                                                                                else if ($2 == 3)
+                                                                                {
+                                                                                  for (int i = 0; i < Number_List.size(); i++) {
+
+                                                                                    cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Entry_List.at(i).name << endl;
+                                                                                  }
+                                                                                  Entry_List.clear();
+                                                                                }
+
+                                                                                /*
+                                                                                TODO: Include conditional logic to handle other cases
+                                                                                if (S) {
+
+                                                                                } else if (T){} */
+                                                                                Number_List.clear();
                                                                               }
                 ;
 
-S:              /* empty - epsilon */                                         {}
+S:              /* empty - epsilon */                                         {$$ = 0;}
                 | PLUS Multiplicative-Expr S T                                {
-                                                                                // TODO HERE 2
-
+                                                                                if ($2 == 1) {
+                                                                                  $$ = 1;
+                                                                                } else if ($2 == 3) {
+                                                                                  $$ = 3;
+                                                                                }
                                                                               }
                 ;
 
-T:              /* empty - epsilon */                                        {printf("T --> epsilon\n");}
-                | SUB Multiplicative-Expr S T                                {printf("T --> SUB Multiplicative-Expr S T\n");}
+T:              /* empty - epsilon */                                        {$$ = 0;}
+                | SUB Multiplicative-Expr S T                                {$$ = 2;}
                 ;
 
-Multiplicative-Expr:  Term U V W                                             {/* TODO HERE */}
+Multiplicative-Expr:  Term U V W                                             {$$ = $1;}
                 ;
 
 U:              /* empty - epsilon */                                        {printf("U --> epsilon\n");}
@@ -281,16 +312,18 @@ W:              /* empty - epsilon */                                        {pr
                 | MOD Term U V W                                             {printf("W --> MOD Term U V W\n");}
                 ;
 
-Term:           Var                                                          {
-
-                                                                              printf("Term --> Var\n");
-                                                                            }
-                | SUB Var                                                    {
-                                                                                // SUB is UNARY MINUS in this production.
-
+Term:           Var                                                           {
+                                                                                $$ = 3;  /* 3 -- represents variable*/
                                                                               }
-                | NUMBER                                                     {printf("Term --> NUMBER\n");}
-                | SUB NUMBER                                                 {printf("Term --> SUB NUMBER\n");}
+                | SUB Var                                                     {
+                                                                                $$ = 4;  /* 4 -- represents Unary minus variable*/
+                                                                              }
+                | numbers                                                     {
+                                                                                $$ = 1;  /* 1 -- represents numbers */
+                                                                              }
+                | SUB numbers                                                 {
+                                                                                $$ = 2;  /* 2 -- represents unary minus numbers */
+                                                                              }
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
@@ -314,6 +347,18 @@ identifiers:    IDENT                                                        {
                                                                               Table_Entry temp;
                                                                               temp.name = $1;
                                                                               Entry_List.push_back(temp);
+                                                                             }
+                ;
+
+numbers:        NUMBER                                                       {
+                                                                              $$ = $1;
+                                                                              /* string counter = generateTempVariable(); */
+                                                                              cout <<  "NUMBER: value of $$: " << $$ << endl;
+                                                                              Table_Entry temp;
+                                                                              temp.int_value = $1;
+                                                                              /* Entry_List.push_back(temp); */
+
+                                                                              Number_List.push_back((int)$1);
                                                                              }
                 ;
 %%
