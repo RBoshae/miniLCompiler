@@ -28,6 +28,13 @@ public:
   string name;
 };
 
+class Declaration {
+public:
+  std::vector<ID*> list_of_ids;
+  string type;        // Stores Declaration type like: INTEGER, BOOL, etc.
+  bool array = false; // Determine if the declations is an array
+};
+
 struct Table_Entry {
 
     string name;              // This string represents an identifier
@@ -39,5 +46,8 @@ struct Table_Entry {
 
 
 //std::string generateDeclarationCode(nameList)
+void addToStack(){
+
+};
 
 #endif
