@@ -40,8 +40,8 @@
   struct {
 
       char* name;              // This string represents an identifier
-      int int_value;          // This value refers to a user-declared int value
-      int size_value;         // This value refers to a user-declared array size
+      int   int_value;          // This value refers to a user-declared int value
+      int   size_value;         // This value refers to a user-declared array size
       char* type_value;
 
   } attr;
@@ -51,9 +51,9 @@
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <s_val>  identifiers
+%type <attr>  identifiers
 %type <attr>   D
-%type <s_val>  Var
+%type <attr>  Var
 
 
 
@@ -108,7 +108,9 @@ Beta:             Statement SEMICOLON                                    {printf
                 | Statement SEMICOLON Beta                               {printf("Beta --> Statement SEMICOLON Beta\n");}
                 ;
 
-Declaration:    identifiers C COLON D INTEGER                           {
+Declaration:    identifiers C COLON D INTEGER                           { // C produces comma separated identifiers
+                                                                          // D produces arrays
+
                                                                           /** Example Input:
                                                                            *   n : integer;
                                                                            *   i, j, k: integer;
@@ -123,45 +125,31 @@ Declaration:    identifiers C COLON D INTEGER                           {
                                                                             *   .[] t, 20   // from 't : array [20] of integer;'
                                                                             */
 
-                                                                          // Information obtained at this rule
-                                                                          /* Declaration.type_val = "int"; */
-
-                                                                          // Pass attributes down to children
-                                                                          /* C.type_val = Declaration.type_val; */
-
-                                                                          // Synthesis attributes from children
-
-
-
                                                                           // TODO: If declaration is already declared in table throw error.
 
                                                                           if ($4.size_value < 0) { // If D returns -1 then it is not an array. Rule set in D's production
                                                                             // Basic integer case
-                                                                            for(int i = 0; i < nameList.size(); i++) {
-                                                                              std::cout << ". " << nameList[i] << endl;
+                                                                            for(int i = 0; i < attr_list.size(); i++) {
+                                                                              std::cout << ". " << attr_list[i].name << endl;
                                                                             }
                                                                           }
 
                                                                           else {
                                                                             // Array Case
-                                                                            for(int i = 0; i < nameList.size(); i++) {
-                                                                              std::cout << ".[] " << nameList[i] << ", " << (int)$4.size_value <<endl;
+                                                                            for(int i = 0; i < attr_list.size(); i++) {
+                                                                              std::cout << ".[] " << attr_list[i].name << ", " << (int)$4.size_value <<endl;
+                                                                            }
                                                                           }
-                                                                        }
 
                                                                         // clear list
-                                                                        nameList.clear();
+                                                                        attr_list.clear();
 
                                                                         }
 
 
 C:              /* empty - epsilon */                                   {printf("C --> epsilon\n");}
                 | COMMA identifiers C                                   {
-                                                                          string identifiers_name = $2; // What is this doing?
-                                                                          std::cout << "string identifiers_name = $2; // value of $2 " << $2 << std::endl;
-                                                                          /* nameList.push_back(identifiers_name); */
-
-                                                                        //  $$ = $2; // Passes list of names
+                                                                          // Nothing to see here yet.
                                                                         }
                 ;
 
@@ -205,8 +193,17 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
                 ;
 
-K:              READ Var Lima                                                { std::cout << ".< " << $2 << std::endl; }
-                | READ Var                                                   { std::cout << ".< " << $2 << std::endl; }
+K:              READ Var Lima                                                {
+                                                                                for(int i = 0; i < nameList.size(); i++) {
+                                                                                  std::cout << ".< " << nameList[i] << endl;
+                                                                                }
+                                                                                nameList.clear();
+                                                                              }
+
+                | READ Var                                                   {
+                                                                                std::cout << ".< " << nameList[0] << std::endl;
+                                                                                nameList.clear();  // clear list must be called.
+                                                                              }
                 ;
 
 Lima:           COMMA Var                                                    {printf("Lima --> COMMA Var\n"); /*Nothing needs to happen here, the level above handles comma-separated lists.*/}
@@ -273,10 +270,16 @@ W:              /* empty - epsilon */                                        {pr
                 | MOD Term U V W                                             {printf("W --> MOD Term U V W\n");}
                 ;
 
-Term:           Var                                                          {printf("Term --> Var\n");}
-                | SUB Var                                                    {printf("Term --> SUB Var\n");}
-                | NUMBER                                                    {printf("Term --> NUMBER\n");}
-                | SUB NUMBER                                                {printf("Term --> SUB NUMBER\n");}
+Term:           Var                                                          {
+
+                                                                              printf("Term --> Var\n");
+                                                                            }
+                | SUB Var                                                    {
+                                                                                // SUB is UNARY MINUS in this production.
+
+                                                                              }
+                | NUMBER                                                     {printf("Term --> NUMBER\n");}
+                | SUB NUMBER                                                 {printf("Term --> SUB NUMBER\n");}
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
@@ -291,12 +294,15 @@ Z:              /* empty - epsilon */                                        {pr
                 ;
 
 Var:            identifiers                                                  {$$ = $1;}
-                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {/*Var.name = identifiers.name; Var.n = expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
+                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET   {
+                                                                              /*Var.name = identifiers.name; Var.n =                                                                expression.value; // TODO: requires ArithmeticOperatorStatments to be completed. */}
                 ;
 
-identifiers:    IDENT                                                        {$$ = yyval.s_val;      /*$$ passes information to the parent node.*/
-                                                                              cout << "IDENT Parsed. value of $$ " << $$ << endl;
-                                                                              nameList.push_back(yyval.s_val);
+identifiers:    IDENT                                                        {$$.name = yyval.s_val;      /*$$ passes information to the parent node.*/
+                                                                              cout << "IDENT Parsed. value of $$ " << yyval.s_val << endl;
+                                                                              attr identifier;
+                                                                              identifier.name = yyval.s_val;
+                                                                              attr_list.push_back(identifier);
                                                                              }
                 ;
 %%
