@@ -32,19 +32,17 @@
  * holding each of the types of tokens that Flex could return, and have Bison
  * use that union instead of "int" for the definition of "yystype":
 **/
+%code requires{
+  #include <string>
+  #include "attributes.h"
+}
 %union{
   int		      int_val;
   char        *s_val;
   int         type;
 
-  struct {
 
-      char* name;              // This string represents an identifier
-      int   int_value;          // This value refers to a user-declared int value
-      int   size_value;         // This value refers to a user-declared array size
-      char* type_value;
-
-  } attr;
+  Attr attr;
 }
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
@@ -134,26 +132,9 @@ Declaration:    identifiers C COLON D INTEGER                           { // C p
                                                                             */
 
                                                                           // TODO: If declaration is already declared in table throw error.
-
-                                                                          if ($4.size_value < 0) { // If D returns -1 then it is not an array. Rule set in D's production
-                                                                            // Basic integer case
-                                                                            for(int i = 0; i < Entry_List.size(); i++) {
-                                                                              std::cout << ". " << Entry_List[i].name << endl;
-                                                                            }
-                                                                          }
-
-                                                                          else {
-                                                                            // Array Case
-                                                                            for(int i = 0; i < Entry_List.size(); i++) {
-                                                                              std::cout << ".[] " << Entry_List[i].name << ", " << (int)$4.size_value <<endl;
-
-                                                                              cout << "value if i: " << i << endl; // Debugging
-                                                                              Number_List.clear();
-                                                                            }
-                                                                          }
-
-                                                                        // clear list
-                                                                        Entry_List.clear();
+                                                                          // Print out the first identifier
+                                                                            cout <<  "Declaration: value of $1: " << $1 << endl;
+                                                                          cout << ". " << $1.my_name << endl;
 
                                                                         }
 
@@ -339,16 +320,15 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {$$ = $1;}
+Var:            identifiers                                                  {}
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    { // All idents are immediately stored in a list called
                                                                               }
                 ;
 
 identifiers:    IDENT                                                        {
-                                                                              $$.name = $1;
-                                                                              Table_Entry temp;
-                                                                              temp.name = $1;
-                                                                              Entry_List.push_back(temp);
+                                                                              string temp ($1);
+                                                                              $$.my_name = temp;
+                                                                              cout <<  "identifiers: value of $$: " << temp << endl;
                                                                              }
                 ;
 

@@ -39,6 +39,13 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 35 "mini_l.y" /* yacc.c:1909  */
+
+  #include <string>
+  #include "attributes.h"
+
+#line 49 "mini_l.tab.h" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -103,22 +110,16 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 35 "mini_l.y" /* yacc.c:1909  */
+#line 39 "mini_l.y" /* yacc.c:1909  */
 
   int		      int_val;
   char        *s_val;
   int         type;
 
-  struct {
 
-      char* name;              // This string represents an identifier
-      int   int_value;          // This value refers to a user-declared int value
-      int   size_value;         // This value refers to a user-declared array size
-      char* type_value;
+  Attr attr;
 
-  } attr;
-
-#line 122 "mini_l.tab.h" /* yacc.c:1909  */
+#line 123 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
