@@ -39,7 +39,7 @@
 
   struct {
 
-      char* name;              // This string represents an identifier
+      char* name;               // This string represents an identifier
       int   int_value;          // This value refers to a user-declared int value
       int   size_value;         // This value refers to a user-declared array size
       char* type_value;
@@ -57,7 +57,7 @@
 
 /* Used in Arithmetic Operator Statments*/
 %type <attr>        Expression
-%type <int_val>        Multiplicative-Expr
+%type <int_val>     Multiplicative-Expr
 %type <int_val>     S
 %type <int_val>     numbers
 %type <int_val>     Term                /*Returns ints which represents what Mult Expr should print*/
@@ -119,42 +119,35 @@ Beta:             Statement SEMICOLON                                    {printf
 Declaration:    identifiers C COLON D INTEGER                           { // C produces comma separated identifiers
                                                                           // D produces arrays
 
-                                                                          /** Example Input:
-                                                                           *   n : integer;
-                                                                           *   i, j, k: integer;
-                                                                           *   t : array [20] of integer;
-                                                                           */
+                                                                          cout << "Entry_List front type is " << Entry_List.front().type << endl;
 
-                                                                           /** Example Output:
-                                                                            *   . n         // from 'n : integer;'
-                                                                            *   . i         // from 'i, j, k: integer;'
-                                                                            *   . j
-                                                                            *   . k
-                                                                            *   .[] t, 20   // from 't : array [20] of integer;'
-                                                                            */
-
-                                                                          // TODO: If declaration is already declared in table throw error.
-
-                                                                          if ($4.size_value < 0) { // If D returns -1 then it is not an array. Rule set in D's production
+                                                                          if (Entry_List.front().type == ST_INTEGER) {
                                                                             // Basic integer case
-                                                                            for(int i = 0; i < Entry_List.size(); i++) {
+                                                                            /* for(int i = 0; i < Entry_List.size(); i++) {
                                                                               std::cout << ". " << Entry_List[i].name << endl;
+                                                                            } */
+                                                                            while ( !Entry_List.empty() )
+                                                                            {
+                                                                              cout << ". " << Entry_List.front().name << endl;
+                                                                              Entry_List.pop();
                                                                             }
                                                                           }
 
-                                                                          else {
+                                                                          else if ( Entry_List.front().type == ST_ARRAY ) {
+
                                                                             // Array Case
-                                                                            for(int i = 0; i < Entry_List.size(); i++) {
-                                                                              std::cout << ".[] " << Entry_List[i].name << ", " << (int)$4.size_value <<endl;
+                                                                            cout << ".[] ";
 
-                                                                              cout << "value if i: " << i << endl; // Debugging
-                                                                              Number_List.clear();
+                                                                            while ( !Entry_List.empty() )
+                                                                            {
+                                                                               cout << Entry_List.front().name << ", ";
+
+                                                                              if ( Entry_List.size() == 1 )
+                                                                                cout << Entry_List.front().offsetOrSize << endl;
+
+                                                                              Entry_List.pop();
                                                                             }
                                                                           }
-
-                                                                        // clear list
-                                                                        Entry_List.clear();
-
                                                                         }
 
 
@@ -204,16 +197,15 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
                 ;
 
-K:              READ Var Lima                                                {
-                                                                                for(int i = 0; i < Entry_List.size(); i++) {
-                                                                                  std::cout << ".< " << Entry_List[i].name << endl;
-                                                                                }
-                                                                                Entry_List.clear();
+K:              READ Var Lima                                                 {
+                                                                                /* for(int i = 0; i < Entry_List.size(); i++) {
+                                                                                  std::cout << ".< " << Entry_List[i].name << endl; */
+                                                                                //Entry_List.clear();
                                                                               }
 
                 | READ Var                                                   {
-                                                                                std::cout << ".< " << Entry_List[0].name << std::endl;
-                                                                                Entry_List.clear();  // clear list must be called.
+                                                                                /* std::cout << ".< " << Entry_List[0].name << std::endl; */
+                                                                                //Entry_List.clear();  // clear list must be called.
                                                                               }
                 ;
 
@@ -258,30 +250,30 @@ Comp:           EQ                                                           {pr
 Expression:     Multiplicative-Expr S T                                       {
                                                                                 // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
                                                                                 // Arithmetic Operator Statments  Addition
-                                                                                cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
+                                                                                //cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
                                                                                 if ($2 == 1)
                                                                                 {
-                                                                                  for (int i = 0; i < Number_List.size(); i++) {
+                                                                                  /* for (int i = 0; i < Number_List.size(); i++) {
 
-                                                                                    cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Number_List.at(i) << endl;
-                                                                                  }
+                                                                                    cout << "+ " << generateTempVariable() << " " <<  ", " << Number_List.at(i) << endl;
+                                                                                  } */
                                                                                 }
                                                                                 else if ($2 == 3)
                                                                                 {
-                                                                                  for (int i = 0; i < Number_List.size(); i++) {
+                                                                                  /* for (int i = 0; i < Number_List.size(); i++) {
 
-                                                                                    cout << "+ " << generateTempVariable() /*t0*/<< " " <<  ", " << Entry_List.at(i).name << endl;
-                                                                                  }
+                                                                                    cout << "+ " << generateTempVariable() /*t0<< " " <<  ", " << Entry_List.at(i).name << endl;
+                                                                                  }*/
                                                                                 }
 
-                                                                                Entry_List.clear();
-                                                                                Number_List.clear();
+                                                                                //Entry_List.clear();
+                                                                                //Number_List.clear();
                                                                                 /*
                                                                                 TODO: Include conditional logic to handle other cases
                                                                                 if (S) {
 
                                                                                 } else if (T){} */
-                                                                                Number_List.clear();
+                                                                                //Number_List.clear();
                                                                               }
                 ;
 
@@ -345,22 +337,25 @@ Var:            identifiers                                                  {$$
                 ;
 
 identifiers:    IDENT                                                        {
-                                                                              $$.name = $1;
-                                                                              Table_Entry temp;
+                                                                              //$$.name = $1;
+                                                                              _SymbolTableEntry temp;
+                                                                              temp.type = ST_IDENTIFER;
                                                                               temp.name = $1;
-                                                                              Entry_List.push_back(temp);
+                                                                              Entry_List.push(temp);
                                                                              }
                 ;
 
 numbers:        NUMBER                                                       {
-                                                                              $$ = $1;
+                                                                              //$$ = $1;
                                                                               /* string counter = generateTempVariable(); */
-                                                                              cout <<  "NUMBER: value of $$: " << $$ << endl;
-                                                                              Table_Entry temp;
-                                                                              temp.int_value = $1;
+                                                                              //cout <<  "NUMBER: value of $$: " << $$ << endl;
+                                                                              //Table_Entry temp;
+                                                                              //temp.int_value = $1;
                                                                               /* Entry_List.push_back(temp); */
-
-                                                                              Number_List.push_back((int)$1);
+                                                                              _SymbolTableEntry temp;
+                                                                              temp.type = ST_NUMBER;
+                                                                              temp.int_value = (int)$1;
+                                                                              Entry_List.push(temp);
                                                                              }
                 ;
 %%

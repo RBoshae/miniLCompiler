@@ -9,7 +9,9 @@ using namespace std;
 #include <string>
 #include <cstdlib>
 #include <vector>
+#include <queue>
 #include <sstream>
+
 typedef enum
 {
     ST_PROGRAM_PRIME,
@@ -45,33 +47,28 @@ typedef enum
 typedef struct _SymbolTableEntry
 {
     string                    name;
+
     SYMBOL_TYPE               type;
     SYMBOL_INTERNAL_TYPE      internalType;
-    // unsigned long             offsetOrSize, line;
-    // long                      index1, index2;
-    // char                     *parent;
-    // unsigned long             parameter;
+
+    int                       int_value;
+    int                       offsetOrSize, line;
+    long                      index1, index2;
+    //char                     *parent;
+    //unsigned long             parameter;
 
     // struct _SymbolTableEntry *next;
-
-} SymbolTableEntry;
-
-// void addToList(string) {
-//
-// }
-
-
-std::vector<string> nameList;
-
-
-struct Table_Entry {
-
-    string name;              // This string represents an identifier
-    int   int_value;          // This value refers to a user-declared int value
-    int   size_value;         // This value refers to a user-declared array size
-    string type_value;
-
 };
+
+
+// struct Table_Entry {
+//
+//     string name;              // This string represents an identifier
+//     int   int_value;          // This value refers to a user-declared int value
+//     int   size_value;         // This value refers to a user-declared array size
+//     string type_value;
+// };
+
 
 int current_temp_variable_count = -1; // Used to keep track of the value we should assign in getTempVariableName
 string generateTempVariable(){
@@ -84,7 +81,12 @@ string generateTempVariable(){
   return temp_value;
 }
 
-std::vector<Table_Entry> Entry_List;
+// This is a contained for passing strings up the syntax tree.
+std::vector<string> nameList;
+
+// This is a container for passing symbols (and their properties) up the syntax tree.
+std::queue<_SymbolTableEntry> Entry_List;
+
 std::vector<string> ID_List;
 std::vector<string> Variable_List;
 std::vector<int> Number_List;
