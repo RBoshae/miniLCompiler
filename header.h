@@ -41,30 +41,43 @@ public:
 
   Declaration(){
     isArray = false; // assume the value of array is false.
+    arraySize = -1;
   }
 
   void printIntermediateCode() {
 
-    cout << "Inside PIC \n";
-    cout << "isArray: " << isArray << endl;
-
     if (isArray) {
-      cout << "Inside isArray PIC \n";
       for (int i = 0; i < list_of_ids.size(); i++) {
         cout << ". [] " << list_of_ids.at(i)->name << ", " << arraySize << endl;
       }
     }
     else if(!isArray) {
-      cout << "Inside !isArray PIC \n";
       for (int i = 0; i < list_of_ids.size(); i++) {
         cout << ". " << list_of_ids.at(i)->name << endl;
       }
-      cout << "Done wit !isArray PIC \n";
     }
     else {
       cout << "RG Error: Check Declaration class";
     }
+  }
+};
 
+
+class Variable {
+public:
+  std::vector<ID*> list_of_ids;
+  string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
+  bool isArray;                     // Determine if the declations is an array
+  int arraySize;
+
+  Variable(){
+    isArray = false;                // assume the value of array is false.
+    arraySize = -1;
+  }
+
+  void printIntermediateCode() {
+
+    /* Intentionally empty */
   }
 };
 

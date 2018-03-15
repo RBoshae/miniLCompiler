@@ -58,8 +58,9 @@
 
   } attr;
 
-  ID *id;
-  Declaration *list_of_ids;            // needs a better name and im already using declations within the production code blocks
+  ID          *id;
+  Declaration *list_of_ids;
+  Variable    *list_of_variables;
 
 
 }
@@ -70,7 +71,6 @@
 /* Added for phase 3 */
 %type <id>            identifiers
 %type <int_val>       D
-%type <attr>          Var
 
 /* Used in Variable Declaration Statements*/
 %type <list_of_ids> C
@@ -81,8 +81,10 @@
 %type <int_val>     S
 %type <int_val>     numbers
 %type <int_val>     Term                /*Returns ints which represents what Mult Expr should print*/
-%type <int_val>     T
+%type <int_val>                    T
 
+/* Multiple Uses */
+%type <list_of_variables>          Var
 
 
 /* define the constant-string tokens: */
@@ -294,8 +296,8 @@ G:              /* empty - epsilon */                                           
                 | ELSE Statement SEMICOLON Beta                                          {printf("G --> ELSE Statement SEMICOLON Beta\n");}
                 ;
 
-H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP                    {printf("WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP");}
-                | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP             {printf("H --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}
+H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP                          {printf("WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP");}
+                | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP                   {printf("H --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}
                 ;
 
 I:              DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr                       {printf("I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr\n");}
@@ -441,7 +443,11 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {/*$$ = $1;*/}
+Var:            identifiers                                                  {
+                                                                                Variable *synthesized_variable = new Variable();
+                                                                                synthesized_variable = $1;
+
+                                                                              }
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    { // All idents are immediately stored in a list called
                                                                               }
                 ;
