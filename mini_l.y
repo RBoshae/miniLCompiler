@@ -59,7 +59,7 @@
   } attr;
 
   ID *id;
-  Declaration dec;            // needs a better name and im already using declations within the production code blocks
+  Declaration *list_of_ids;            // needs a better name and im already using declations within the production code blocks
 
 
 }
@@ -71,6 +71,9 @@
 %type <id>  identifiers
 %type <attr>  D
 %type <attr>  Var
+
+/* Used in Variable Declaration Statements*/
+%type <list_of_ids> C
 
 /* Used in Arithmetic Operator Statments*/
 %type <attr>        Expression
@@ -126,14 +129,16 @@ Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEG
 
 
 Alpha:              /* empty - epsilon */                                {printf("Alpha --> epsilon\n");}
-                | Declaration SEMICOLON Alpha                            {printf("Alpha --> Declaration SEMICOLON Alpha\n");}
+                |  Declaration SEMICOLON Alpha                           {printf("Alpha --> Declaration SEMICOLON Alpha\n");}
                 ;
+
+
 
 Beta:             Statement SEMICOLON                                    {printf("Beta --> Statement SEMICOLON\n");}
                 | Statement SEMICOLON Beta                               {printf("Beta --> Statement SEMICOLON Beta\n");}
                 ;
 
-Declaration:    identifiers C COLON D INTEGER                           { // C produces comma separated identifiers
+Declaration:  identifiers  C  COLON  D  INTEGER                         { // C produces comma separated identifiers
                                                                           // D produces arrays
 
                                                                           // Examples of input to expect
@@ -151,48 +156,106 @@ Declaration:    identifiers C COLON D INTEGER                           { // C p
                                                                             *   .[] t, 20   // from 't : array [20] of integer;'
                                                                             */
 
+                                                                          // Now we need a declaration container to store the value of synthesized_id
+                                                                          /* Declaration* declarations = new Declaration(); */
+                                                                          Declaration *synthesized_list_of_ids = new Declaration();
+
+                                                                          // Check if C aka $2 is not Null
+                                                                          if ($2 != NULL)
+                                                                          {
+                                                                            synthesized_list_of_ids = $2;
+                                                                          } // consider if $2 is NULL
+
+
                                                                           // Things that I will do later:
                                                                           // TODO: If declaration is already declared in table throw error.
 
                                                                           // Grab the synthesized value from identifiers
                                                                           ID *synthesized_id = new ID();
                                                                           synthesized_id = $1;
+                                                                          cout << "Declaration: synthesized_id = $1; // value of synthesized_id: " << synthesized_id->name << endl;
+                                                                          cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl;
 
-                                                                          // Now we need a declaration container to store the value of synthesized_id
-                                                                          Declaration* declations = new Declaration();
-
+                                                                          /* synthesized_list_of_ids->printIntermediateCode(); // HITLER */
+                                                                          cout << "NO SEGFAult yet" << endl;
                                                                           // Push backthe value of synthesized_id in the Declaration.list_of_ids
-                                                                          declations->list_of_ids.push_back(synthesized_id);
+                                                                          synthesized_list_of_ids->list_of_ids.push_back(synthesized_id);
+
+
 
                                                                           // Print Declarations
-
-                                                                          // If there are additional declarations being generated by C, it is C's job to print the other Declarations.
+                                                                          synthesized_list_of_ids->printIntermediateCode(); // HITLER
                                                                         }
 
 
-C:              /* empty - epsilon */                                   {}
+C:              /* empty - epsilon */                                   {$$ = NULL;}
                 | COMMA identifiers C                                   {
                                                                           // The C rule at the moment only applies to Declaration production. So it is safe to assume
                                                                           // the values used in C are used in Declaration
 
-                                                                          /* // Similar to the process used in Declaration. Store the synthesized value of identifier.
-                                                                          // See declation for more detail.
-                                                                          Declaration* declations = new Declaration(); */
+                                                                          // Assume C or $3 is an object of Type Declaration and we want to move the id's stored in $3's list to the $$ we are sending up.
 
                                                                           // Grab the synthesized value from identifiers
                                                                           ID *synthesized_id = new ID();
                                                                           synthesized_id = $2;
 
-                                                                          /* // Now we need a declaration container to store the value of synthesized_id
+
+                                                                          if ($3 != NULL)
+                                                                          {
+                                                                            cout << " I am not null" << endl;
+                                                                            /* declarations = $3; */
+                                                                            cout << "C: synthesized_id = $2; // value of $2: " << $2->name << endl;
+                                                                            cout << "C: synthesized_id = $2; // value of synthesized_id: " << synthesized_id->name << endl;
+                                                                            $3->list_of_ids.push_back(synthesized_id);
+                                                                            $$ = $3;
+
+                                                                          }
+                                                                          else if ($3 == NULL)
+                                                                          {
+                                                                            Declaration *declarations = new Declaration();
+                                                                            cout << " I AM null" << endl;
+                                                                            cout << "C: synthesized_id = $2; // value of $2: " << $2->name << endl;
+                                                                            cout << "C: synthesized_id = $2; // value of synthesized_id: " << synthesized_id->name << endl;
+
+                                                                            declarations->list_of_ids.push_back(synthesized_id);
+                                                                            $$ = declarations;
+
+                                                                          }
+                                                                          else
+                                                                          {
+                                                                            cout << "Error in production C: What are you doing here." << endl;
+                                                                            $$ = NULL;
+                                                                          }
+
+
+                                                                          /* if (declarations->list_of_ids.size() != 0) {
+                                                                            for (int i = 0; i < declarations->list_of_ids.size(); i++) {
+                                                                              $$->list_of_ids.push_back(declarations->list_of_ids.at(i));
+                                                                            }
+                                                                          } */ // HITLER
+
+
+                                                                          /* if (($3)->list_of_ids.size() != 0) {
+                                                                            for (int i = 0; i < ($3)->list_of_ids.size(); i++) {
+                                                                              $$->list_of_ids.push_back($3->list_of_ids.at(i));
+                                                                            }
+                                                                          } */ // HITLER
+
+
+                                                                          /* // Similar to the process used in Declaration. Store the synthesized value of identifier.
+                                                                          // See declation for more detail.
                                                                           Declaration* declations = new Declaration(); */
 
-                                                                          /* // Push backthe value of synthesized_id in the Declaration.list_of_ids
-                                                                          declations->list_of_ids.push_back(synthesized_id); */
-
-                                                                          $$->list_of_ids.push_back(synthesized_id);
 
 
 
+                                                                          // Now we need a declaration container to store the value of synthesized_id
+                                                                          /* Declaration* declations = new Declaration(); */
+
+                                                                          // Push backthe value of synthesized_id in the Declaration.list_of_ids
+                                                                          /* declarations->list_of_ids.push_back(synthesized_id); */
+
+                                                                          /* $$->list_of_ids.push_back(synthesized_id); */ // HITLER
 
                                                                         }
                 ;
@@ -381,7 +444,7 @@ identifiers:    IDENT                                                        {
                                                                               //
                                                                               ID *temp_id = new ID();
                                                                               temp_id->name = $1;
-                                                                              $$ = temp_id; // passes up string to parent node.
+                                                                              $$ = temp_id; // passes up pointer to ID object to parent node.
                                                                              }
                 ;
 
@@ -396,6 +459,9 @@ numbers:        NUMBER                                                       {
                                                                               Number_List.push_back((int)$1); */
                                                                              }
                 ;
+
+DebugLeft: {cout << "passed at DebugLeft" << endl;};
+DebugRight: {cout << "passed at DebugRight" << endl;};
 %%
 
 void yyerror(const char *msg)

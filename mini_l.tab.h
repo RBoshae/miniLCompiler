@@ -125,10 +125,11 @@ union YYSTYPE
   } attr;
 
   ID *id;
+  Declaration *list_of_ids;            // needs a better name and im already using declations within the production code blocks
 
 
 
-#line 132 "mini_l.tab.h" /* yacc.c:1909  */
+#line 133 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

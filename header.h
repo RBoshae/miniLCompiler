@@ -2,12 +2,16 @@
 #define _HEADER_H_
 
 class God;
+class Declaration;
+class ID;
 
 class God {
 public:
   int myInt;
-  int current_temp_variable_count = -1; // Used to keep track of the value we should assign in getTempVariableName
-  God(){};
+  int current_temp_variable_count; // Used to keep track of the value we should assign in getTempVariableName
+  God(){
+    current_temp_variable_count = -1;
+  };
 
   string generateTempVariable(){
 
@@ -31,11 +35,36 @@ public:
 class Declaration {
 public:
   std::vector<ID*> list_of_ids;
-  string type;        // Stores Declaration type like: INTEGER, BOOL, etc.
-  bool isArray = false; // Determine if the declations is an array
+  string type;          // Stores Declaration type like: INTEGER, BOOL, etc.
+  bool isArray; // Determine if the declations is an array
+  int arraySize;
 
   Declaration(){
     isArray = false; // assume the value of array is false.
+  }
+
+  void printIntermediateCode() {
+
+    cout << "Inside PIC \n";
+    cout << "isArray: " << isArray << endl;
+
+    if (isArray) {
+      cout << "Inside isArray PIC \n";
+      for (int i = 0; i < list_of_ids.size(); i++) {
+        cout << ". [] " << list_of_ids.at(i)->name << ", " << arraySize << endl;
+      }
+    }
+    else if(!isArray) {
+      cout << "Inside !isArray PIC \n";
+      for (int i = 0; i < list_of_ids.size(); i++) {
+        cout << ". " << list_of_ids.at(i)->name << endl;
+      }
+      cout << "Done wit !isArray PIC \n";
+    }
+    else {
+      cout << "RG Error: Check Declaration class";
+    }
+
   }
 };
 
@@ -48,10 +77,5 @@ struct Table_Entry {
 
 };
 
-
-//std::string generateDeclarationCode(nameList)
-void addToStack(){
-
-};
 
 #endif

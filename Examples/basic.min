@@ -5,13 +5,10 @@ endparams
 beginlocals
 
   n : integer;
-  i, j, k: integer;
-  v : array [20] of integer;
+  i, j, k : integer;
 
 endlocals
 
 beginbody	## main program
-  k := 2 + 1;
-  z := e + d;
-  m := 3 + p;
+  read i;
 endbody
