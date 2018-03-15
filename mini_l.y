@@ -180,11 +180,11 @@ Declaration:  identifiers  C  COLON  D  INTEGER                         { // C p
                                                                           // Grab the synthesized value from identifiers
                                                                           ID *synthesized_id = new ID();
                                                                           synthesized_id = $1;
-                                                                          cout << "Declaration: synthesized_id = $1; // value of synthesized_id: " << synthesized_id->name << endl;
-                                                                          cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl;
+                                                                          /* cout << "Declaration: synthesized_id = $1; // value of synthesized_id: " << synthesized_id->name << endl; // Debugging */
+                                                                          /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
 
                                                                           /* synthesized_list_of_ids->printIntermediateCode(); // HITLER */
-                                                                          cout << "NO SEGFAult yet" << endl;
+                                                                          // cout << "NO SEGFAult yet" << endl; // Debugging
                                                                           // Push backthe value of synthesized_id in the Declaration.list_of_ids
                                                                           synthesized_list_of_ids->list_of_ids.push_back(synthesized_id);
 
@@ -209,10 +209,10 @@ C:              /* empty - epsilon */                                   {$$ = NU
 
                                                                           if ($3 != NULL)
                                                                           {
-                                                                            cout << " I am not null" << endl;
+                                                                            /* cout << " I am not null" << endl; // Debugging */
                                                                             /* declarations = $3; */
-                                                                            cout << "C: synthesized_id = $2; // value of $2: " << $2->name << endl;
-                                                                            cout << "C: synthesized_id = $2; // value of synthesized_id: " << synthesized_id->name << endl;
+                                                                            /* cout << "C: synthesized_id = $2; // value of $2: " << $2->name << endl; // Debugging */
+                                                                            /* cout << "C: synthesized_id = $2; // value of synthesized_id: " << synthesized_id->name << endl; // Debugging */
                                                                             $3->list_of_ids.push_back(synthesized_id);
                                                                             $$ = $3;
 
@@ -220,9 +220,9 @@ C:              /* empty - epsilon */                                   {$$ = NU
                                                                           else if ($3 == NULL)
                                                                           {
                                                                             Declaration *declarations = new Declaration();
-                                                                            cout << " I AM null" << endl;
-                                                                            cout << "C: synthesized_id = $2; // value of $2: " << $2->name << endl;
-                                                                            cout << "C: synthesized_id = $2; // value of synthesized_id: " << synthesized_id->name << endl;
+                                                                            /* cout << " I AM null" << endl; // Debugging */
+                                                                            /* cout << "C: synthesized_id = $2; // value of $2: " << $2->name << endl; // Debugging */
+                                                                            /* cout << "C: synthesized_id = $2; // value of synthesized_id: " << synthesized_id->name << endl; // Debugging */
 
                                                                             declarations->list_of_ids.push_back(synthesized_id);
                                                                             $$ = declarations;
@@ -309,14 +309,22 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
                 ;
 
-K:              READ Var Lima                                                {
-                                                                                // If this is confusing think of it as read var into register.
-                                                                                /* cout << ".<" << $2->id->name << endl; */
-                                                                              }
+K:              READ Var                                      { // Done
+                                                                /* cout << "K: | READ Var // value of $2.id.name: " << $2->id.name << endl; // Debugging */
+                                                                Read r;
+                                                                r.mSingleVariable.id.name = $2->id.name;
+                                                                /* Read r((*($2))); // Don't hate me Gabe. I made a constructor to make printing easier. Check Variable class. */
 
-                | READ Var                                                   {
-                                                                                cout << ".<" << $2->id.name << endl;
-                                                                              }
+                                                                r.printIntermediateCodeSingleVariable();
+                                                              }
+
+
+                | READ Var Lima                                 {
+                                                                  // If 'read' is confusing think of it as read var into register.
+
+                                                                }
+
+
                 ;
 
 Lima:           COMMA Var                                                    {printf("Lima --> COMMA Var\n"); /*Nothing needs to happen here, the level above handles comma-separated lists.*/}
@@ -449,7 +457,7 @@ Z:              /* empty - epsilon */                                        {pr
 Var:            identifiers                                                   {
                                                                                 /* ID *synthesized_id = new ID(); */
                                                                                 ID synthesized_id = *($1);
-                                                                                cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl;
+                                                                                /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
                                                                                 /* synthesized_id = $1; */
                                                                                 $$->id = synthesized_id;
                                                                               }
