@@ -11,6 +11,8 @@ beginlocals
 endlocals
 
 beginbody	## main program
-  read i;
+  read a;
+  write c;
+  read b[1];   ## Can't hand this case without Expression
   i := 2 * 3;
 endbody

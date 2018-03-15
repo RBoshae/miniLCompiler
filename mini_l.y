@@ -279,8 +279,16 @@ Statement:      E                                                        {printf
                 | I                                                      {printf("Statement --> I\n");}
                 | J                                                      {printf("Statement --> J\n");}
                 | K                                                      {printf("Statement --> K\n"); /*Associated with READ*/}
+                | WRITE Var                                             {
+                                                                          // Think of write into register.
+                                                                          cout << "Inside of Write Var\n";
+                                                                          Write w;
+                                                                          w.mSingleVariable.id.name = $2->id.name;
+
+                                                                          w.printIntermediateCodeSingleVariable();
+
+                                                                        }
                 | WRITE Var Lima                                         {printf("Statement --> WRITE Var Lima\n");}
-                | WRITE Var                                              {printf("Statement --> WRITE Var\n");}
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
                 | RETURN Expression                                      {printf("Statement --> RETURN Expression\n");}
                 ;
@@ -311,9 +319,8 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
 
 K:              READ Var                                      { // Done
                                                                 /* cout << "K: | READ Var // value of $2.id.name: " << $2->id.name << endl; // Debugging */
-                                                                Read r;
+                                                                Read r;                                      // Storing variable in read to handle print.
                                                                 r.mSingleVariable.id.name = $2->id.name;
-                                                                /* Read r((*($2))); // Don't hate me Gabe. I made a constructor to make printing easier. Check Variable class. */
 
                                                                 r.printIntermediateCodeSingleVariable();
                                                               }
