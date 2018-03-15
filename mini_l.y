@@ -310,15 +310,12 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
                 ;
 
 K:              READ Var Lima                                                {
-                                                                                /* for(int i = 0; i < Entry_List.size(); i++) {
-                                                                                  std::cout << ".< " << Entry_List[i].name << endl;
-                                                                                }
-                                                                                Entry_List.clear(); */
+                                                                                // If this is confusing think of it as read var into register.
+                                                                                /* cout << ".<" << $2->id->name << endl; */
                                                                               }
 
                 | READ Var                                                   {
-                                                                                /* std::cout << ".< " << Entry_List[0].name << std::endl;
-                                                                                Entry_List.clear();  // clear list must be called. */
+                                                                                cout << ".<" << $2->id.name << endl;
                                                                               }
                 ;
 
@@ -406,7 +403,7 @@ T:              /* empty - epsilon */                                        {/*
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {/*$$ = $1;*/
-                                                                              cout << "*t0 " << $1->id.name << ", " << $2->id.name << endl;
+                                                                              /* cout << "*t0 " << $1->id.name << ", " << $2->id.name << endl; */
                                                                             }
                 ;
 
@@ -450,9 +447,11 @@ Z:              /* empty - epsilon */                                        {pr
                 ;
 
 Var:            identifiers                                                   {
-                                                                                ID *synthesized_id = new ID();
-                                                                                synthesized_id = $1;
-                                                                                $$->id = *(synthesized_id);
+                                                                                /* ID *synthesized_id = new ID(); */
+                                                                                ID synthesized_id = *($1);
+                                                                                cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl;
+                                                                                /* synthesized_id = $1; */
+                                                                                $$->id = synthesized_id;
                                                                               }
 
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    { // All idents are immediately stored in a list called

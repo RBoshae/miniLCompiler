@@ -30,6 +30,8 @@ public:
 class ID {
 public:
   string name;
+
+  ID(){};
 };
 
 class Declaration {
@@ -73,11 +75,6 @@ public:
   Variable(){
     isArray = false;                // assume the value of array is false.
     arraySize = -1;
-  }
-
-  void printIntermediateCode() {
-
-    /* Intentionally empty */
   }
 };
 

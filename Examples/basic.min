@@ -11,5 +11,6 @@ beginlocals
 endlocals
 
 beginbody	## main program
+  read i;
   i := 2 * 3;
 endbody
