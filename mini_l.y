@@ -358,6 +358,8 @@ Comp:           EQ                                                           {pr
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {
+                                                                                cout << "We're in expression." << endl;
+
                                                                                 // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
                                                                                 // Arithmetic Operator Statments  Addition
                                                                                 /* cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
@@ -403,7 +405,7 @@ T:              /* empty - epsilon */                                        {/*
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {/*$$ = $1;*/
-                                                                              /* cout << "*t0 " << $1->id.name << ", " << $2->id.name << endl; */
+                                                                              cout << "*t0 " << $1->id.name << ", " << $2->id.name << endl;
                                                                             }
                 ;
 
