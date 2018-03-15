@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Specific Ignores
+bison.c
+mini_l.tab.c
+parser
