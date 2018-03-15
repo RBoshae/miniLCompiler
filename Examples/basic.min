@@ -11,8 +11,5 @@ beginlocals
 endlocals
 
 beginbody	## main program
-  read i;
-  n = 1 + 2;
-  i = n + 3;
-  j = k + m;
+  i := 2 * 3;
 endbody

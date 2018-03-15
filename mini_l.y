@@ -60,7 +60,7 @@
 
   ID          *id;
   Declaration *list_of_ids;
-  Variable    *list_of_variables;
+  Variable    *variable;
 
 
 }
@@ -80,11 +80,12 @@
 %type <int_val>     Multiplicative-Expr
 %type <int_val>     S
 %type <int_val>     numbers
-%type <int_val>     Term                /*Returns ints which represents what Mult Expr should print*/
-%type <int_val>                    T
+%type <variable>    Term                /*Returns ints which represents what Mult Expr should print*/
+%type <int_val>     T
+%type <variable>    U
 
 /* Multiple Uses */
-%type <list_of_variables>          Var
+%type <variable>          Var
 
 
 /* define the constant-string tokens: */
@@ -396,6 +397,7 @@ S:              /* empty - epsilon */                                         {/
                                                                                 } else if ($2 == 3) {
                                                                                   $$ = 3;
                                                                                 } */
+
                                                                               }
                 ;
 
@@ -403,11 +405,15 @@ T:              /* empty - epsilon */                                        {/*
                 | SUB Multiplicative-Expr S T                                {/*$$ = 2;*/}
                 ;
 
-Multiplicative-Expr:  Term U V W                                             {/*$$ = $1;*/}
+Multiplicative-Expr:  Term U V W                                            {/*$$ = $1;*/
+                                                                              cout << "*t0 " << $1->id.name << ", " << $2->id.name << endl;
+                                                                            }
                 ;
 
-U:              /* empty - epsilon */                                        {printf("U --> epsilon\n");}
-                | MULT Term U V W                                            {printf("U --> MULT Term U V W\n");}
+U:              /* empty - epsilon */                                         {printf("U --> epsilon\n");}
+                | MULT Term U V W                                             {/*printf("U --> MULT Term U V W\n");*/
+                                                                                $$ = $2;
+                                                                              }
                 ;
 
 V:              /* empty - epsilon */                                        {printf("V --> epsilon\n");}
@@ -419,16 +425,16 @@ W:              /* empty - epsilon */                                        {pr
                 ;
 
 Term:           Var                                                           {
-                                                                                /*$$ = 3;*/  /* 3 -- represents variable*/
+                                                                                $$ = $1;
                                                                               }
                 | SUB Var                                                     {
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
                                                                               }
                 | numbers                                                     {
-                                                                                $$ = 1;  /* 1 -- represents numbers */
+                                                                                //$$ = 1;  /* 1 -- represents numbers */
                                                                               }
                 | SUB numbers                                                 {
-                                                                                $$ = 2;  /* 2 -- represents unary minus numbers */
+                                                                                //$$ = 2;  /* 2 -- represents unary minus numbers */
                                                                               }
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
@@ -443,11 +449,12 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-Var:            identifiers                                                  {
-                                                                                Variable *synthesized_variable = new Variable();
-                                                                                synthesized_variable = $1;
-
+Var:            identifiers                                                   {
+                                                                                ID *synthesized_id = new ID();
+                                                                                synthesized_id = $1;
+                                                                                $$->id = *(synthesized_id);
                                                                               }
+
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    { // All idents are immediately stored in a list called
                                                                               }
                 ;

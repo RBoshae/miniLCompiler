@@ -65,7 +65,7 @@ public:
 
 class Variable {
 public:
-  std::vector<ID*> list_of_ids;
+  ID id;
   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
   bool isArray;                     // Determine if the declations is an array
   int arraySize;
