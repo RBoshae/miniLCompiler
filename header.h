@@ -32,7 +32,11 @@ class Declaration {
 public:
   std::vector<ID*> list_of_ids;
   string type;        // Stores Declaration type like: INTEGER, BOOL, etc.
-  bool array = false; // Determine if the declations is an array
+  bool isArray = false; // Determine if the declations is an array
+
+  Declaration(){
+    isArray = false; // assume the value of array is false.
+  }
 };
 
 struct Table_Entry {
