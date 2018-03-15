@@ -52,8 +52,8 @@ Grammar
    17          | I
    18          | J
    19          | K
-   20          | WRITE Var Lima
-   21          | WRITE Var
+   20          | WRITE Var
+   21          | WRITE Var Lima
    22          | CONTINUE
    23          | RETURN Expression
 
@@ -75,8 +75,8 @@ Grammar
    34 J: FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP
    35  | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP
 
-   36 K: READ Var Lima
-   37  | READ Var
+   36 K: READ Var
+   37  | READ Var Lima
 
    38 Lima: COMMA Var
    39     | COMMA Var Lima
@@ -244,7 +244,7 @@ J (68)
 K (69)
     on left: 36 37, on right: 19
 Lima (70)
-    on left: 38 39, on right: 20 36 39
+    on left: 38 39, on right: 21 37 39
 Bool-Expr (71)
     on left: 40 41, on right: 25 26 30 31 32 33 54 55
 Papa (72)
@@ -650,8 +650,8 @@ State 36
 
 State 37
 
-   36 K: READ . Var Lima
-   37  | READ . Var
+   36 K: READ . Var
+   37  | READ . Var Lima
 
     IDENT  shift, and go to state 5
 
@@ -661,8 +661,8 @@ State 37
 
 State 38
 
-   20 Statement: WRITE . Var Lima
-   21          | WRITE . Var
+   20 Statement: WRITE . Var
+   21          | WRITE . Var Lima
 
     IDENT  shift, and go to state 5
 
@@ -981,24 +981,24 @@ State 67
 
 State 68
 
-   36 K: READ Var . Lima
-   37  | READ Var .
+   36 K: READ Var .
+   37  | READ Var . Lima
 
     COMMA  shift, and go to state 106
 
-    $default  reduce using rule 37 (K)
+    $default  reduce using rule 36 (K)
 
     Lima  go to state 107
 
 
 State 69
 
-   20 Statement: WRITE Var . Lima
-   21          | WRITE Var .
+   20 Statement: WRITE Var .
+   21          | WRITE Var . Lima
 
     COMMA  shift, and go to state 106
 
-    $default  reduce using rule 21 (Statement)
+    $default  reduce using rule 20 (Statement)
 
     Lima  go to state 108
 
@@ -1484,16 +1484,16 @@ State 106
 
 State 107
 
-   36 K: READ Var Lima .
+   37 K: READ Var Lima .
 
-    $default  reduce using rule 36 (K)
+    $default  reduce using rule 37 (K)
 
 
 State 108
 
-   20 Statement: WRITE Var Lima .
+   21 Statement: WRITE Var Lima .
 
-    $default  reduce using rule 20 (Statement)
+    $default  reduce using rule 21 (Statement)
 
 
 State 109

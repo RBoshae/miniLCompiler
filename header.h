@@ -67,16 +67,106 @@ public:
 
 class Variable {
 public:
-  ID id;
+  ID id;                            // Used in a single variable case.
   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
   bool isArray;                     // Determine if the declations is an array
   int arraySize;
+  int arrayIndex;                   // index of array
+  std::vector<ID> list_of_ids;      //
 
   Variable(){
     isArray = false;                // assume the value of array is false.
     arraySize = -1;
   }
 };
+
+class Read {
+public:
+  Variable mSingleVariable;                 // The 'm' mSingleVariable is a convetion for member
+  std::vector<Variable> list_of_variables;
+
+  Read(){
+    mSingleVariable.isArray = false;
+  };
+
+  Read(Variable v){
+    mSingleVariable = v;
+    mSingleVariable.isArray = false;
+  };
+
+  void printIntermediateCodeFromListOfVariables() {
+
+    if (mSingleVariable.isArray) {
+      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
+        cout << ". [] < " << mSingleVariable.list_of_ids.at(i).name << ", " << mSingleVariable.arrayIndex << endl;
+      }
+    }
+    else if(!mSingleVariable.isArray) {
+      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
+        cout << ". " << mSingleVariable.list_of_ids.at(i).name << endl;
+      }
+    }
+  };
+
+  void printIntermediateCodeSingleVariable() {
+    if (mSingleVariable.isArray) {
+
+      cout << ". [] < " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;
+
+    }
+    else if(!mSingleVariable.isArray) {
+      cout << ". < " << mSingleVariable.id.name << endl;
+    }
+
+  };
+
+};
+
+
+class Write {
+public:
+  Variable mSingleVariable;                 // The 'm' mSingleVariable is a convetion for member
+  std::vector<Variable> list_of_variables;
+
+  Write(){
+    mSingleVariable.isArray = false;
+  };
+
+  Write(Variable* v){
+    mSingleVariable = *(v);
+    mSingleVariable.isArray = false;
+  };
+
+  void printIntermediateCodeFromListOfVariables() {
+
+    if (mSingleVariable.isArray) {
+      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
+        cout << ". [] > " << mSingleVariable.list_of_ids.at(i).name << ", " << mSingleVariable.arrayIndex << endl;
+      }
+    }
+    else if(!mSingleVariable.isArray) {
+      cout << "inside write print " << endl;
+      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
+        cout << ". > " << mSingleVariable.list_of_ids.at(i).name << endl;
+      }
+    }
+  };
+
+  void printIntermediateCodeSingleVariable() {
+    if (mSingleVariable.isArray) {
+
+      cout << ". [] > " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;
+
+    }
+    else if(!mSingleVariable.isArray) {
+      cout << ". > " << mSingleVariable.id.name << endl;
+    }
+
+  };
+
+}; // End of Write class
+
+
 
 struct Table_Entry {
 
