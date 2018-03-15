@@ -61,6 +61,7 @@
   ID          *id;
   Declaration *list_of_ids;
   Variable    *variable;
+  Read        *list_of_read_variables;
 
 
 }
@@ -83,6 +84,9 @@
 %type <variable>    Term                /*Returns ints which represents what Mult Expr should print*/
 %type <int_val>     T
 %type <variable>    U
+
+/* Used in Input/Output Statements */
+%type <list_of_read_variables>    Lima     /*Used in Read*/
 
 /* Multiple Uses */
 %type <variable>          Var
@@ -235,20 +239,6 @@ C:              /* empty - epsilon */                                   {$$ = NU
                                                                           }
 
 
-                                                                          /* if (declarations->list_of_ids.size() != 0) {
-                                                                            for (int i = 0; i < declarations->list_of_ids.size(); i++) {
-                                                                              $$->list_of_ids.push_back(declarations->list_of_ids.at(i));
-                                                                            }
-                                                                          } */ // HITLER
-
-
-                                                                          /* if (($3)->list_of_ids.size() != 0) {
-                                                                            for (int i = 0; i < ($3)->list_of_ids.size(); i++) {
-                                                                              $$->list_of_ids.push_back($3->list_of_ids.at(i));
-                                                                            }
-                                                                          } */ // HITLER
-
-
                                                                           /* // Similar to the process used in Declaration. Store the synthesized value of identifier.
                                                                           // See declation for more detail.
                                                                           Declaration* declations = new Declaration(); */
@@ -281,12 +271,11 @@ Statement:      E                                                        {printf
                 | K                                                      {printf("Statement --> K\n"); /*Associated with READ*/}
                 | WRITE Var                                             {
                                                                           // Think of write into register.
-                                                                          cout << "Inside of Write Var\n";
+                                                                          /* cout << "Inside of Write Var\n"; // Debugging */
                                                                           Write w;
                                                                           w.mSingleVariable.id.name = $2->id.name;
 
                                                                           w.printIntermediateCodeSingleVariable();
-
                                                                         }
                 | WRITE Var Lima                                         {printf("Statement --> WRITE Var Lima\n");}
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
@@ -319,7 +308,7 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
 
 K:              READ Var                                      { // Done
                                                                 /* cout << "K: | READ Var // value of $2.id.name: " << $2->id.name << endl; // Debugging */
-                                                                Read r;                                      // Storing variable in read to handle print.
+                                                                Read r;         // Storing variable in read to handle print.
                                                                 r.mSingleVariable.id.name = $2->id.name;
 
                                                                 r.printIntermediateCodeSingleVariable();
@@ -328,14 +317,38 @@ K:              READ Var                                      { // Done
 
                 | READ Var Lima                                 {
                                                                   // If 'read' is confusing think of it as read var into register.
+                                                                  // This production rule will always produce a list of vars
+                                                                  Read r;                                      // Storing variable in read to handle print.
+                                                                  r.mSingleVariable.id.name = $2->id.name;
+
+                                                                  r.printIntermediateCodeSingleVariable();
+                                                                  ($3)->printIntermediateCodeFromListOfVariables();
 
                                                                 }
 
 
                 ;
 
-Lima:           COMMA Var                                                    {printf("Lima --> COMMA Var\n"); /*Nothing needs to happen here, the level above handles comma-separated lists.*/}
-                | COMMA Var Lima                                             {printf("Lima --> COMMA Var\n");}
+Lima:           COMMA Var                                                   {
+                                                                              // Lima is used specifically in read. It's safe to use a Read container.
+                                                                              // Lima needs to push it's var up to parent. Container used is of type Read..
+                                                                              $$->list_of_variables.push_back(*($2));
+                                                                            }
+                | COMMA Var Lima                                            {
+                                                                              // Recieve data from Lima
+                                                                              Read *synthesized_read_var;     // Remember Read is our transport container
+                                                                              synthesized_read_var = $3;  // Not sure if i can do this but i hope so
+
+                                                                              synthesized_read_var->list_of_variables.push_back(*($2));
+
+                                                                              $$ = synthesized_read_var;
+
+
+
+                                                                              // Attach it to list of variable in variable Containe
+                                                                              // Add Var to list of variables.
+                                                                              // Send data up to parent.
+                                                                            }
                 ;
 
 Bool-Expr:      Relation-And-Expr Papa                                       {printf("Bool-Expr --> Relation-And-Expr Papa\n");}

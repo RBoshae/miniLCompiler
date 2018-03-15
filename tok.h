@@ -127,10 +127,11 @@ union YYSTYPE
   ID          *id;
   Declaration *list_of_ids;
   Variable    *variable;
+  Read        *list_of_read_variables;
 
 
 
-#line 134 "mini_l.tab.h" /* yacc.c:1909  */
+#line 135 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
