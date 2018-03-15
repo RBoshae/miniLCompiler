@@ -6,6 +6,7 @@ beginlocals
 
   n : integer;
   i, j, k : integer;
+  x, y, z : array [20] of integer;
 
 endlocals
 

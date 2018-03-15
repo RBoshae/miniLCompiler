@@ -68,16 +68,16 @@
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <id>  identifiers
-%type <attr>  D
-%type <attr>  Var
+%type <id>            identifiers
+%type <int_val>       D
+%type <attr>          Var
 
 /* Used in Variable Declaration Statements*/
 %type <list_of_ids> C
 
 /* Used in Arithmetic Operator Statments*/
 %type <attr>        Expression
-%type <int_val>        Multiplicative-Expr
+%type <int_val>     Multiplicative-Expr
 %type <int_val>     S
 %type <int_val>     numbers
 %type <int_val>     Term                /*Returns ints which represents what Mult Expr should print*/
@@ -166,7 +166,11 @@ Declaration:  identifiers  C  COLON  D  INTEGER                         { // C p
                                                                             synthesized_list_of_ids = $2;
                                                                           } // consider if $2 is NULL
 
-
+                                                                          if ($4 > 0)
+                                                                          {
+                                                                            synthesized_list_of_ids->isArray = true;
+                                                                            synthesized_list_of_ids->arraySize = $4;
+                                                                          }
                                                                           // Things that I will do later:
                                                                           // TODO: If declaration is already declared in table throw error.
 
@@ -260,8 +264,10 @@ C:              /* empty - epsilon */                                   {$$ = NU
                                                                         }
                 ;
 
-D:              /* empty - epsilon */                                     {/*$$.size_value = -1;*/}
-                | ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF      {/*$$.size_value = $3;*/}
+D:              /* empty - epsilon */                                     { $$ = -1; }
+                | ARRAY L_SQUARE_BRACKET numbers R_SQUARE_BRACKET OF      {
+                                                                            $$ = $3;
+                                                                          }
                 ;
 
 Statement:      E                                                        {printf("Statement --> E\n");}
