@@ -314,6 +314,10 @@ K:              READ Var                                      { // Done
                                                                 Read r;         // Storing variable in read to handle print.
                                                                 r.mSingleVariable.id.name = $2->id.name;
 
+<<<<<<< HEAD
+=======
+                                                                /* cout << "K: | READ Var // No SEGFAult" << endl; // Debugging */
+>>>>>>> acfa967cffb765a8ead8f9bdb5b270c3a1582ef9
                                                                 r.printIntermediateCodeSingleVariable();
                                                               }
 
@@ -321,10 +325,11 @@ K:              READ Var                                      { // Done
                 | READ Var Lima                                 { // Done
                                                                   // If 'read' is confusing think of it as read var into register.
                                                                   // This production rule will always produce a list of vars
-                                                                  Read synthesized_var;                                      // Storing variable in read to handle print.
-                                                                  synthesized_var.mSingleVariable.id.name = $2->id.name;
-                                                                  synthesized_var.mSingleVariable.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex);
+                                                                  Variable synthesized_var = *($2);                                      // Storing variable in read to handle print.
+                                                                  /* synthesized_var.mSingleVariable.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); */
                                                                   /* cout << "K: | READ Var Lima // value of $2.id.name: " << $2->id.name << endl; // Debugging */
+
+                                                                  $3->list_of_variables.push_back(synthesized_var);
 
 
                                                                   /* cout << "Debugging\n"; // Debugging */
@@ -342,6 +347,7 @@ Lima:           COMMA Var                                                   {
                                                               // Lima is used specifically in read. It's safe to use a Read container.
                                                               // Lima needs to push it's var up to parent. Container used is of type Read..
                                                               /* cout << "Lima: COMMA Var // value of $2->id.name: " << ($2)->getIdName() << endl; // Debugging */
+<<<<<<< HEAD
                                                               Variable synthesized_read_var;
                                                               synthesized_read_var.setIdName($2->id.name);
                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
@@ -352,12 +358,38 @@ Lima:           COMMA Var                                                   {
                                                             }
                 | COMMA Var Lima                                            {
                                                                               // Recieve data from Lima
+=======
+                                                              Variable synthesized_var;
+                                                              synthesized_var = *($2);
+
+                                                              Read *r = new Read();
+                                                              r->list_of_variables.push_back(synthesized_var);
+
+                                                              /* synthesized_read_var->list_of_variables.push_back(*($2)); */
+                                                              /* synthesized_read_var.setIdName($2->id.name);
+                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex) */
+
+
+                                                              /* synthesized_read_var->printMemberInfo(); */
+                                                              /* $2->printMemberInfo(); // Debugging */
+
+                                                              /* synthesized_read_var->push_back(*($2)); */
+                                                              /* $$ = synthesized_read_var; */
+                                                              /* $$->list_of_variables.push_back(synthesized_read_var); */
+                                                              /* $$->list_of_variables.push_back(synthesized_var); */
+                                                              $$ = r;
+                                                              /* cout << "Lima: | COMMA Var // No SEGFAult\n"; // Debugging */
+                                                            }
+                | COMMA Var Lima                                            {
+                                                                              // Recieve data from Lima
+                                                                              /* cout << "Lima: | COMMA Var Lima // No SEGFAult\n"; // Debugging */
+>>>>>>> acfa967cffb765a8ead8f9bdb5b270c3a1582ef9
                                                                               Variable synthesized_read_var;           // Remember Read is our transport container
                                                                               synthesized_read_var.setIdName($2->id.name);               // Not sure if i can do this but i hope so
                                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
 
-                                                                              cout << "Debugging\n"; // Debugging
-                                                                              synthesized_read_var.printMemberInfo();
+
+                                                                              /* synthesized_read_var.printMemberInfo(); // Debugging */
 
 
 
@@ -590,6 +622,23 @@ Var:            identifiers                                                   {
                                                                                 ID synthesized_id = *($1);
                                                                                 /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
                                                                                 /* synthesized_id = $1; */
+<<<<<<< HEAD
+=======
+
+                                                                                Variable *v = new Variable();
+                                                                                v->setId(synthesized_id);
+                                                                                v->setArrayInfo(true, 100, 100);   // Hard coded data -- needs to be fixed
+
+                                                                                /* v->printMemberInfo();  // Debugging */
+
+                                                                                /* $$->isArray = false;
+                                                                                $$->id = synthesized_id; */
+                                                                                $$ = v;
+
+                                                                                /* Variable synthesized_var;
+                                                                                synthesized_var.setId(synthesized_id);
+                                                                                synthesized_var.setArrayInfo(true, 100, 100);
+>>>>>>> acfa967cffb765a8ead8f9bdb5b270c3a1582ef9
                                                                                 $$->id = synthesized_id;
                                                                                 $$->isArray = true;
                                                                                 $$->arraySize = 1000; // hard coded for testing
