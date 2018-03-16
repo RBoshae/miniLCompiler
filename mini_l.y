@@ -444,12 +444,30 @@ Relation-Expr:  Expression Comp Expression                                {
                 | NOT L_PAREN Bool-Expr R_PAREN                              {printf("Relation-Expr --> L_PAREN Bool-Expr R_PAREN\n");}
                 ;
 
-Comp:           EQ                                                           {printf("Comp --> EQ\n");}
-                | NEQ                                                        {printf("Comp --> NEQ\n");}
-                | LT                                                         {printf("Comp --> LT\n");}
-                | GT                                                         {printf("Comp --> GT\n");}
-                | LTE                                                        {printf("Comp --> LTE\n");}
-                | GTE                                                        {printf("Comp --> GTE\n");}
+Comp:           EQ                                                           {
+                                                                                Comp *c = new Comp(1); // 1 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | NEQ                                                        {
+                                                                                Comp *c = new Comp(2); // 2 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | LT                                                         {
+                                                                                Comp *c = new Comp(3); // 3 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | GT                                                         {
+                                                                                Comp *c = new Comp(3); // 3 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | LTE                                                        {
+                                                                                Comp *c = new Comp(4); // 4 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | GTE                                                        {
+                                                                                Comp *c = new Comp(5); // 5 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {

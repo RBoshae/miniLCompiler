@@ -255,9 +255,10 @@ class Comp {
 public:
   string mComparisonOperator; // Allows us to return operators as strings.
   enum ComparisonOperator { EQ, NEQ, LT, GT, LTE, GTE };
+  //EQ = 0, NEQ = 1, LT = 2, GT = 3, LTE = 4, GTE = 5
 
   Comp(){};
-  Comp(ComparisonOperator c){
+  Comp(int c){
     switch (c) {
       case EQ : mComparisonOperator  = "EQ";   break;
       case NEQ: mComparisonOperator  = "NEQ";  break;
