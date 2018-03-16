@@ -315,14 +315,20 @@ K:              READ Var                                      { // Done
                                                               }
 
 
-                | READ Var Lima                                 {
+                | READ Var Lima                                 { // Done
                                                                   // If 'read' is confusing think of it as read var into register.
                                                                   // This production rule will always produce a list of vars
-                                                                  Read r;                                      // Storing variable in read to handle print.
-                                                                  r.mSingleVariable.id.name = $2->id.name;
+                                                                  Read synthesized_var;                                      // Storing variable in read to handle print.
+                                                                  synthesized_var.mSingleVariable.id.name = $2->id.name;
+                                                                  synthesized_var.mSingleVariable.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex);
+                                                                  /* cout << "K: | READ Var Lima // value of $2.id.name: " << $2->id.name << endl; // Debugging */
 
-                                                                  r.printIntermediateCodeSingleVariable();
+
+                                                                  /* cout << "Debugging\n"; // Debugging */
+                                                                  //$3->printMemberInfo();
+
                                                                   ($3)->printIntermediateCodeFromListOfVariables();
+
 
                                                                 }
 
@@ -330,19 +336,31 @@ K:              READ Var                                      { // Done
                 ;
 
 Lima:           COMMA Var                                                   {
-                                                                              // Lima is used specifically in read. It's safe to use a Read container.
-                                                                              // Lima needs to push it's var up to parent. Container used is of type Read..
-                                                                              $$->list_of_variables.push_back(*($2));
-                                                                            }
+                                                              // Lima is used specifically in read. It's safe to use a Read container.
+                                                              // Lima needs to push it's var up to parent. Container used is of type Read..
+                                                              /* cout << "Lima: COMMA Var // value of $2->id.name: " << ($2)->getIdName() << endl; // Debugging */
+                                                              Variable synthesized_read_var;
+                                                              synthesized_read_var.setIdName($2->id.name);
+                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
+                                                              cout << "Debugging\n"; // Debugging
+                                                              synthesized_read_var.printMemberInfo();
+
+                                                              $$->list_of_variables.push_back(synthesized_read_var);
+                                                            }
                 | COMMA Var Lima                                            {
                                                                               // Recieve data from Lima
-                                                                              Read *synthesized_read_var;     // Remember Read is our transport container
-                                                                              synthesized_read_var = $3;  // Not sure if i can do this but i hope so
+                                                                              Variable synthesized_read_var;           // Remember Read is our transport container
+                                                                              synthesized_read_var.setIdName($2->id.name);               // Not sure if i can do this but i hope so
+                                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
 
-                                                                              synthesized_read_var->list_of_variables.push_back(*($2));
+                                                                              cout << "Debugging\n"; // Debugging
+                                                                              synthesized_read_var.printMemberInfo();
 
-                                                                              $$ = synthesized_read_var;
 
+
+                                                                              $3->list_of_variables.push_back(synthesized_read_var);
+
+                                                                              $$ = $3;
 
 
                                                                               // Attach it to list of variable in variable Containe
@@ -479,10 +497,24 @@ Var:            identifiers                                                   {
                                                                                 ID synthesized_id = *($1);
                                                                                 /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
                                                                                 /* synthesized_id = $1; */
+                                                                                $$->isArray = false;
                                                                                 $$->id = synthesized_id;
                                                                               }
 
-                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    { // All idents are immediately stored in a list called
+                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    {
+                                                                                // All idents are immediately stored in a list called
+
+                                                                                // TODO Expression must be handled before we can use array access.
+                                                                                cout << "Don't stress array index yet. You still need to complete Expression\n";
+
+                                                                                /* ID *synthesized_id = new ID(); */
+                                                                                ID synthesized_id = *($1);
+                                                                                /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
+                                                                                /* synthesized_id = $1; */
+                                                                                $$->id = synthesized_id;
+                                                                                $$->isArray = true;
+                                                                                $$->arraySize = 1000; // hard coded for testing
+                                                                                $$->arrayIndex = 9999; // hard coded for testing
                                                                               }
                 ;
 
@@ -522,6 +554,7 @@ void yyerror(const char *msg)
 
 int main( int argc, char **argv )
 {
+  /* God apollo; */
   /* yylex(); */
   yyparse();
 }

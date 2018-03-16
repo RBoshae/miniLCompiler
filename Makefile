@@ -1,5 +1,4 @@
 # Makefile
-
 OBJS	= bison.o lex.o
 
 CC	= g++

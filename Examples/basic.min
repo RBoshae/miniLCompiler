@@ -12,8 +12,8 @@ endlocals
 
 beginbody	## main program
   read a;
-  ## read aa, bb, cc;
+  read ii, jj[10], kk;
   write c;
-  read b[1];   ## Can't hand this case without Expression
+  read b[10];   ## Can't hand this case without Expression
   i := 2 * 3;
 endbody
