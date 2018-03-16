@@ -204,12 +204,12 @@ class Term{
       cout << "--------------------------" << endl;
       cout << "Object information " << endl;
       cout << "mIntVal:           " << mIntVal << endl;
-      cout << "bool:              " << isNumber << endl;
+      cout << "isNumber:              " << isNumber << endl;
       cout << "mLeftOperatorType  " << mLeftOperatorType << endl;
       cout << "mVariable information" << endl;
       mVariable.printMemberInfo();
       cout << "End of Report\n";
-      cout << "============================" << endl;
+      cout << "============================" << endl << endl;
     }
 }; // End of Term Class
 

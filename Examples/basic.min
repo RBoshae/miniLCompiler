@@ -6,12 +6,12 @@ beginlocals
 
 ##  n : integer;
 ##  i, j, k : integer;
-##  x, y, z : array [20] of integer;
+## x, y, z : array [20] of integer;
 
 endlocals
 
 beginbody	## main program
-i := 200 * 300;
+## i := 200 * 300;
 ##  read a;
 ##  read i[10];
 ##  read aa, bb, cc;
@@ -25,7 +25,7 @@ i := 200 * 300;
 ##    write d;
 ##  endif;
 
-
+  i := 44444 * 55555;
   i := 4 * q[0];
   ## j := 15 / 5;
   ## k := 20 / 10;

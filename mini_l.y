@@ -82,7 +82,7 @@
 %type <list_of_ids>               C
 
 /* Used in Arithmetic Operator Statments*/
-%type <int_val>                   Multiplicative-Expr
+%type <list_of_terms>             Multiplicative-Expr
 %type <int_val>                   S
 %type <int_val>                   numbers
 %type <term>                      Term                /*Returns ints which represents what Mult Expr should print*/
@@ -99,7 +99,7 @@
 
 /* Multiple Uses */
 %type <variable>                  Var
-%type <variable>                  Expression
+%type <expression>                  Expression
 
 
 /* define the constant-string tokens: */
@@ -473,8 +473,14 @@ Comp:           EQ                                                            {
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {
+
                                                                                 cout << "We're in expression." << endl;
-                                                                                // Need to work with Gabe to build the bridge here.
+
+                                                                                MultiplicativeExpr synthesized_me = *($1);
+                                                                                Expression *expression = new Expression(synthesized_me);
+
+                                                                                $$ = expression;
+
 
 
                                                                               }
@@ -497,21 +503,41 @@ T:              /* empty - epsilon */                                        {/*
 
 Multiplicative-Expr:  Term U V W                                            {
                                                                               MultiplicativeExpr m;
+
+                                                                              MultiplicativeExpr *m_copy = new MultiplicativeExpr();
+
+                                                                              // USED TO RETURN THINGS TO EXPRESSION
+                                                                              Term synthesized_term = *($1);
+                                                                              cout << "VVVVVVVVVVVVVVVVV  synthesized_term.printMemberInfo();VVVVVVVVVVVVVVVVVVVVV" << endl;
+                                                                              synthesized_term.printMemberInfo();
+                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl;
+
+                                                                              m_copy->list_of_terms.push_back(synthesized_term);
+
+                                                                              m.list_of_terms.push_back(synthesized_term);               // For non Expression use
+
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
-                                                                                cout << "In ME\n";
+                                                                                /* cout << "In ME\n"; */
                                                                                 $2->mLeftSideTerm = *($1);
-                                                                                m = *($2);
+                                                                                m = *($2);                  // OVERWRITES M.
 
-                                                                                cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl;
+                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
                                                                                 //m.list_of_terms.push_back(*($1));
 
                                                                                 /* m.mLeftSideTerm = *($1);
                                                                                 m.list_of_terms = $2->list_of_terms; */
                                                                               }
 
-                                                                              m.printIntermediateCode();
 
+
+                                                                              m.printIntermediateCode();
+                                                                              // TODO
+                                                                              /* cout << "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n";
+                                                                              m_copy->list_of_terms.back().printMemberInfo();
+                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"; */
+
+                                                                              $$ = m_copy;
                                                                             }
 
 
@@ -525,6 +551,8 @@ U:              /* empty - epsilon */                                       {
                                                                               if ( $3 == NULL && $4 == NULL && $5 == NULL )
                                                                               {
                                                                                 Term t = *($2);
+                                                                                t.mLeftOperatorType = "*";
+
                                                                                 MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
                                                                                 synthesized_terms->list_of_terms.push_back(t);
                                                                                 $$ = synthesized_terms;
@@ -572,6 +600,8 @@ Term:           Var                                                           { 
                                                                                 cout << "In Term: |numbers\n";
                                                                                 Term *synthesized_term = new Term(0, $1, true);
 
+                                                                                synthesized_term->printMemberInfo();
+
                                                                                 /* cout << "$1: " << $1 << endl;
 
                                                                                 synthesized_term->mIntVal = $1; */
@@ -599,50 +629,51 @@ Z:              /* empty - epsilon */                                        {pr
                 | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
                 ;
 
-                Var:            identifiers                                                   {
-                                                                                                /* ID *synthesized_id = new ID(); */
-                                                                                                ID synthesized_id = *($1);
-                                                                                                /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
-                                                                                                /* synthesized_id = $1; */
-                                                                                                Variable *v = new Variable();
-                                                                                                v->setId(synthesized_id);
-                                                                                                v->setArrayInfo(false, -1, -1);
+Var:            identifiers                                                   {
+                                                                                // Done
 
-                                                                                                /* $$->isArray = false;
-                                                                                                $$->id = synthesized_id; */
-                                                                                                $$ = v;
-                                                                                              }
+                                                                                ID synthesized_id = *($1);
 
-                                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    {
-                                                                                                // All idents are immediately stored in a list called
+                                                                                Variable *v = new Variable();
+                                                                                v->setId(synthesized_id);
+                                                                                v->setArrayInfo(false, -1, -1);
 
-                                                                                                // TODO Expression must be handled before we can use array access.
-                                                                                                cout << "Don't stress array index yet. You still need to complete Expression\n";
+                                                                                $$ = v;
+                                                                              }
+
+                | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    {
+                                                                                // All idents are immediately stored in a list called
+
+                                                                                // TODO Expression must be handled before we can use array access.
+                                                                                cout << "Don't stress array index yet. You still need to complete Expression\n";
 
 
-                                                                                                /* ID *synthesized_id = new ID(); */
-                                                                                                ID synthesized_id = *($1);
-                                                                                                /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
-                                                                                                /* synthesized_id = $1; */
+                                                                                /* ID *synthesized_id = new ID(); */
+                                                                                ID synthesized_id = *($1);
 
-                                                                                                Variable *v = new Variable();
-                                                                                                v->setId(synthesized_id);
-                                                                                                v->setArrayInfo(true, 100, 100);   // Hard coded data -- needs to be fixed
+                                                                                cout << synthesized_id.name << endl;
 
-                                                                                                /* v->printMemberInfo();  // Debugging */
 
-                                                                                                /* $$->isArray = false;
-                                                                                                $$->id = synthesized_id; */
-                                                                                                $$ = v;
+                                                                                Variable *v = new Variable();
+                                                                                v->setId(synthesized_id);
+                                                                                /* v->setArrayInfo(true, $3->mMultiplicativeExpr.list_of_terms.at(0).mVariable.arraySize, $3->mMultiplicativeExpr.list_of_terms.at(0).mVariable.arrayIndex);   // Hard coded data -- needs to be fixed */
 
-                                                                                                /* Variable synthesized_var;
-                                                                                                synthesized_var.setId(synthesized_id);
-                                                                                                synthesized_var.setArrayInfo(true, 100, 100);
-                                                                                                $$->id = synthesized_id;
-                                                                                                $$->isArray = true;
-                                                                                                $$->arraySize = 1000; // hard coded for testing
-                                                                                                $$->arrayIndex = 9999; // hard coded for testing */
-                                                                                              }
+                                                                                Expression synthesized_me = *($3);
+
+                                                                                synthesized_me.mMultiplicativeExpr.list_of_terms.back().printMemberInfo();
+
+                                                                                cout << "WE ARE OKAYYYYYYYYYYYYYYYYYYYYYYYYY" << endl; //TODO: HERE
+
+                                                                                cout << synthesized_me.mMultiplicativeExpr.list_of_terms.at(0).mIntVal << endl;
+
+                                                                                v->setArrayInfo(true, 100, $3->mMultiplicativeExpr.list_of_terms.back().mIntVal);
+
+                                                                                /* v->printMemberInfo();  // Debugging */
+
+                                                                                /* $$->isArray = false;
+                                                                                $$->id = synthesized_id; */
+                                                                                $$ = v;
+                                                                              }
                                 ;
 
 identifiers:    IDENT                                                        {
