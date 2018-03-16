@@ -14,7 +14,7 @@
   using namespace std;
 
   #include "header.h"
-  #include "globalFunctions.cpp"
+  #include "globalFunctions.h"
 
   /* Putting C includes here */
   #include <stdio.h>
@@ -496,12 +496,18 @@ T:              /* empty - epsilon */                                        {/*
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {
+                                                                              MultiplicativeExpr m;
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
+                                                                                cout << "In ME\n";
+                                                                                $2->mLeftSideTerm = *($1);
+                                                                                m = *($2);
 
-                                                                                MultiplicativeExpr m;
-                                                                                m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = *($2).list_of_terms;
+                                                                                cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl;
+                                                                                //m.list_of_terms.push_back(*($1));
+
+                                                                                /* m.mLeftSideTerm = *($1);
+                                                                                m.list_of_terms = $2->list_of_terms; */
                                                                               }
 
                                                                               m.printIntermediateCode();
@@ -517,11 +523,15 @@ U:              /* empty - epsilon */                                       { /*
                                                                             }
                 | MULT Term U V W                                           {/*printf("U --> MULT Term U V W\n");*/
                                                                                 // Case: Term NOT NULL, U V W all return NULL
-                                                                              if ( $2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL )
+                                                                              if ( $3 == NULL && $4 == NULL && $5 == NULL )
                                                                               {
+                                                                                /* Term *t = new Term( 1, $2->mIntVal, true ); */
+                                                                                Term t( 1, $2->mIntVal, $2->isNumber );
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+                                                                                synthesized_terms->list_of_terms.push_back(t);
+                                                                                cout << "U: | MULT Term U V W\n";
+                                                                                $$ = synthesized_terms;
 
-                                                                                Term *t = new Term( 0, $2->mIntVal );
-                                                                                $$->list_of_terms.push_back( *(t) );
                                                                               }
 
                                                                             }
@@ -531,41 +541,7 @@ V:              /* empty - epsilon */                                       { /*
                                                                               //cout << "Test: in V-epsilon..." << endl;
                                                                               /* $$ = NULL; */
                                                                             }
-                | DIV Term U V W                                            {/*printf("V --> DIV Term U V W\n");*/
-
-                                                                              /* // Case: Term NOT NULL, U V W all return NULL
-                                                                              if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
-                                                                              {
-                                                                                /* $2->convertIntToIdName( $2->mIntVal );
-                                                                                $$ = $2; */
-                                                                              }
-                                                                              // else if U is returning
-                                                                              else if ( $2 != NULL && $3 != NULL )
-                                                                              {
-                                                                                /* cout << "/ t-dummy-in-U, " << $2->mIntVal << ", " << $3->getIdName() << endl;
-
-                                                                                Term *t = new Term();
-                                                                                t->setIdName("t-dummy-in-U");
-                                                                                $$ = t; */
-                                                                              }
-                                                                              // else if V is returning
-                                                                              else if ( $2 != NULL && $4 != NULL )
-                                                                              {
-                                                                                /* cout << "/ t-dummy-in-U, " << $2->mIntVal << ", " << $4->getIdName() << endl;
-
-                                                                                Term *t = new Term();
-                                                                                t->setIdName("t-dummy-in-U");
-                                                                                $$ = t; */
-                                                                              }
-                                                                              // else if W is returning
-                                                                              else if ( $2 != NULL && $5 != NULL )
-                                                                              {
-                                                                                /* cout << "/ t-dummy-in-U, " << $2->mIntVal << ", " << $5->getIdName() << endl;
-
-                                                                                Term *t = new Term();
-                                                                                t->setIdName("t-dummy-in-U");
-                                                                                $$ = t; */
-                                                                              }
+                | DIV Term U V W                                            {
                                                                             }
                 ;
 
@@ -574,41 +550,7 @@ W:              /* empty - epsilon */                                       { /*
                                                                               /* $$ = NULL; */
                                                                             }
 
-                | MOD Term U V W                                            {/*printf("W --> MOD Term U V W\n");*/
-
-                                                                              /* // Case: Term NOT NULL, U V W all return NULL
-                                                                              if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
-                                                                              {
-                                                                                /* $2->convertIntToIdName( $2->mIntVal );
-                                                                                $$ = $2; */
-                                                                              }
-                                                                              // else if U is returning
-                                                                              else if ( $2 != NULL && $3 != NULL )
-                                                                              {
-                                                                                /* cout << "% t-dummy-in-U, " << $2->mIntVal << ", " << $3->getIdName() << endl;
-
-                                                                                Term *t = new Term();
-                                                                                t->setIdName("t-dummy-in-U");
-                                                                                $$ = t; */
-                                                                              }
-                                                                              // else if V is returning
-                                                                              else if ( $2 != NULL && $4 != NULL )
-                                                                              {
-                                                                                /* cout << "% t-dummy-in-U, " << $2->mIntVal << ", " << $4->getIdName() << endl;
-
-                                                                                Term *t = new Term();
-                                                                                t->setIdName("t-dummy-in-U");
-                                                                                $$ = t; */
-                                                                              }
-                                                                              // else if W is returning
-                                                                              else if ( $2 != NULL && $5 != NULL )
-                                                                              {
-                                                                                /* cout << "% t-dummy-in-U, " << $2->mIntVal << ", " << $5->getIdName() << endl;
-
-                                                                                Term *t = new Term();
-                                                                                t->setIdName("t-dummy-in-U");
-                                                                                $$ = t; */
-                                                                              }
+                | MOD Term U V W                                            {
                                                                             }
                 ;
 
@@ -621,14 +563,12 @@ Term:           Var                                                           { 
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
                                                                               }
                 | numbers                                                     {
-                                                                                Term *synthesized_term = new Term();
+                                                                                cout << "In Term: |numbers\n";
+                                                                                Term *synthesized_term = new Term(0, $1, true);
 
-                                                                                //char *intStr = itoa( *($1) );
-                                                                                //synthesized_variable->id.name = itoa( *($1) );
+                                                                                /* cout << "$1: " << $1 << endl;
 
-                                                                                //string s = to_string( $1 );
-
-                                                                                synthesized_term->mIntVal = $1;
+                                                                                synthesized_term->mIntVal = $1; */
                                                                                 //synthesized_term->setIdName( s ); // Possible problem
                                                                                 /* cout << "Inside Term->numbers: mIntVal is " << synthesized_term->mIntVal << endl; */
 

@@ -1,6 +1,8 @@
 #ifndef _HEADER_H_
 #define _HEADER_H_
 
+#include "globalFunctions.h"
+
 class God;
 class Declaration;
 class Variable;
@@ -125,7 +127,7 @@ class Term{
   public:
     int mIntVal;
     Variable mVariable;
-    isNumber;                    // Determines if Term is a variable or a number
+    bool isNumber;                    // Determines if Term is a variable or a number
 
     string mLeftOperatorType; // Exs: * n, / n, % n
 
@@ -184,12 +186,25 @@ class Term{
       }
       else if (mVariable.isArray)
       {
-        // return mVariable.getIdName
-        // TODO: if works return here and complete.
+        string temp_var_array_name = generateTempVariable();
+        // TODO this should be mapped in the symbol table so array matches with the temp name.
+
+        return temp_var_array_name;
       }
-      else if ({/* condition */}) {
-        /* code */
-      }
+    }
+
+    void printMemberInfo() {
+      cout << "============================" << endl;
+      cout << "Term Object information" << endl;
+      cout << "--------------------------" << endl;
+      cout << "Object information " << endl;
+      cout << "mIntVal:           " << mIntVal << endl;
+      cout << "bool:              " << isNumber << endl;
+      cout << "mLeftOperatorType  " << mLeftOperatorType << endl;
+      cout << "mVariable information" << endl;
+      mVariable.printMemberInfo();
+      cout << "End of Report\n";
+      cout << "============================" << endl;
     }
 }; // End of Term Class
 
@@ -215,8 +230,12 @@ public:
   }
 
   void printIntermediateCode() {
+
+    cout << "In ME PIC" << endl;
+
     for (int i = (list_of_terms.size()-1); i > 0; i--) {
       // get generated temp value
+      // string temp_var_id_name = generateTempVariable(); // TODO: Fix globale temp generator
       string temp_var_id_name = generateTempVariable();
 
       // pop two off the list.
@@ -227,16 +246,18 @@ public:
       leftOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
-      cout << leftOperand.mLeftOperatorType <<  temp_value << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
+      cout << leftOperand.mLeftOperatorType <<  temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
 
       // need to make temp a variable
-      Variable v(temp_value);
+      Variable v(temp_var_id_name);
 
 
       Term merged_temp_term(leftOperand.mLeftOperatorType, v);  // (operandType, variable)
       list_of_terms.push_back(merged_temp_term);
 
-    }
+    } // end of for-loop
+
+    cout << "WAAAHHHH" << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
   }
 }; // End of MultiplicativeExpr Class
 

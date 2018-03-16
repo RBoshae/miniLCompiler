@@ -23,7 +23,7 @@
   using namespace std;
 
   #include "header.h"
-  
+
 /*Include library for atof() call */
 #include "mini_l.tab.h"
 /* need this for the call to atoi() below */

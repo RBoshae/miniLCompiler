@@ -5,7 +5,7 @@ CC	= g++
 CFLAGS	= -std=c++11 -g -ansi
 
 mini_l:		$(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o parser -lfl
+		$(CC) $(CFLAGS) $(OBJS) -o parser globalFunctions.cpp -lfl
 
 lex.o:		lex.c
 		$(CC) $(CFLAGS) -c lex.c -o lex.o
