@@ -10,6 +10,7 @@
   #include <cstdlib>
   #include <sstream>
   #include <iostream>
+
   using namespace std;
 
   #include "header.h"
@@ -470,23 +471,23 @@ T:              /* empty - epsilon */                                        {/*
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {/*$$ = $1;*/
-                                                                              if ($1 != NULL) { cout << "$1 is NOT NULL" << endl; }
+                                                                              /* if ($1 != NULL) { cout << "$1 is NOT NULL" << endl; }
                                                                               if ($1 == NULL) { cout << "$1 is NULL" << endl; }
                                                                               if ($2 == NULL) { cout << "$2 is NULL" << endl; }
                                                                               if ($3 == NULL) { cout << "$3 is NULL" << endl; }
-                                                                              if ($4 == NULL) { cout << "$4 is NULL" << endl; }
+                                                                              if ($4 == NULL) { cout << "$4 is NULL" << endl; } */
 
                                                                               if ($2 != NULL)
                                                                               {
-                                                                                cout << "* t-dummy " << $1->mIntVal << ", " << $2->mIntVal << endl;
+                                                                                cout << "* t-dummy " << $1->mIntVal << ", " << $2->getIdName() << endl;
                                                                               }
                                                                               else if ($3 != NULL)
                                                                               {
-                                                                                cout << "/ t-dummy " << $1->mIntVal << ", " << $3->mIntVal << endl;
+                                                                                cout << "/ t-dummy " << $1->mIntVal << ", " << $3->getIdName() << endl;
                                                                               }
                                                                               else if ($4 != NULL)
                                                                               {
-                                                                                cout << "% t-dummy " << $1->mIntVal << ", " << $4->mIntVal << endl;
+                                                                                cout << "% t-dummy " << $1->mIntVal << ", " << $4->getIdName() << endl;
                                                                               }
                                                                             }
 
@@ -494,48 +495,90 @@ Multiplicative-Expr:  Term U V W                                            {/*$
                 ;
 
 U:              /* empty - epsilon */                                       { /*printf("U --> epsilon\n");*/
-                                                                              cout << "Test: in U-epsilon..." << endl;
+                                                                              //cout << "Test: in U-epsilon..." << endl;
                                                                               $$ = NULL;
                                                                             }
                 | MULT Term U V W                                             {/*printf("U --> MULT Term U V W\n");*/
                                                                                 // Case: Term NOT NULL, U V W all return NULL
                                                                                 if ( $2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL )
                                                                                 {
+                                                                                  $2->convertIntToIdName( $2->mIntVal );
                                                                                   $$ = $2;
                                                                                 }
+                                                                                // else if U is returning
                                                                                 else if ( $2 != NULL && $3 != NULL )
                                                                                 {
-                                                                                  cout << "* t-dummy-in-U, " << $2->mIntVal << ", " << $3->mIntVal << endl;
+                                                                                  cout << "* t-dummy-in-U, " << $2->mIntVal << ", " << $3->getIdName() << endl;
 
                                                                                   Term *t = new Term();
                                                                                   t->setIdName("t-dummy-in-U");
                                                                                   $$ = t;
-                                                                                  //$$->id.name = "t-dummy-in-U";
-                                                                                  //$$->mIntVal = ($2->mIntVal) * ($3->mIntVal);
                                                                                 }
-                                                                                // else if (V){}
-                                                                                // else if (W){}
+                                                                                // else if V is returning
+                                                                                else if ( $2 != NULL && $4 != NULL )
+                                                                                {
+                                                                                  cout << "* t-dummy-in-U, " << $2->mIntVal << ", " << $4->getIdName() << endl;
+
+                                                                                  Term *t = new Term();
+                                                                                  t->setIdName("t-dummy-in-U");
+                                                                                  $$ = t;
+                                                                                }
+                                                                                // else if W is returning
+                                                                                else if ( $2 != NULL && $5 != NULL )
+                                                                                {
+                                                                                  cout << "* t-dummy-in-U, " << $2->mIntVal << ", " << $5->getIdName() << endl;
+
+                                                                                  Term *t = new Term();
+                                                                                  t->setIdName("t-dummy-in-U");
+                                                                                  $$ = t;
+                                                                                }
                                                                               }
                 ;
 
 V:              /* empty - epsilon */                                       { /*printf("V --> epsilon\n");*/
-                                                                              cout << "Test: in V-epsilon..." << endl;
+                                                                              //cout << "Test: in V-epsilon..." << endl;
                                                                               $$ = NULL;
                                                                             }
                 | DIV Term U V W                                            {/*printf("V --> DIV Term U V W\n");*/
 
                                                                               // Case: Term NOT NULL, U V W all return NULL
                                                                               if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
+                                                                              {
+                                                                                $2->convertIntToIdName( $2->mIntVal );
                                                                                 $$ = $2;
+                                                                              }
+                                                                              // else if U is returning
+                                                                              else if ( $2 != NULL && $3 != NULL )
+                                                                              {
+                                                                                cout << "/ t-dummy-in-U, " << $2->mIntVal << ", " << $3->getIdName() << endl;
 
-                                                                              // else if (U){}
-                                                                              // else if (V){}
-                                                                              // else if (W){}
+                                                                                Term *t = new Term();
+                                                                                t->setIdName("t-dummy-in-U");
+                                                                                $$ = t;
+                                                                              }
+                                                                              // else if V is returning
+                                                                              else if ( $2 != NULL && $4 != NULL )
+                                                                              {
+                                                                                cout << "/ t-dummy-in-U, " << $2->mIntVal << ", " << $4->getIdName() << endl;
+
+                                                                                Term *t = new Term();
+                                                                                t->setIdName("t-dummy-in-U");
+                                                                                $$ = t;
+                                                                              }
+                                                                              // else if W is returning
+                                                                              else if ( $2 != NULL && $5 != NULL )
+                                                                              {
+                                                                                cout << "/ t-dummy-in-U, " << $2->mIntVal << ", " << $5->getIdName() << endl;
+
+                                                                                Term *t = new Term();
+                                                                                t->setIdName("t-dummy-in-U");
+                                                                                $$ = t;
+                                                                              }
                                                                             }
                 ;
 
 W:              /* empty - epsilon */                                       { /*printf("W --> epsilon\n");*/
-                                                                              cout << "Test: in W-epsilon..." << endl;
+                                                                              //cout << "Test: in W-epsilon..." << endl;
                                                                               $$ = NULL;
                                                                             }
 
@@ -543,17 +586,41 @@ W:              /* empty - epsilon */                                       { /*
 
                                                                               // Case: Term NOT NULL, U V W all return NULL
                                                                               if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
+                                                                              {
+                                                                                $2->convertIntToIdName( $2->mIntVal );
                                                                                 $$ = $2;
+                                                                              }
+                                                                              // else if U is returning
+                                                                              else if ( $2 != NULL && $3 != NULL )
+                                                                              {
+                                                                                cout << "% t-dummy-in-U, " << $2->mIntVal << ", " << $3->getIdName() << endl;
 
-                                                                              // else if (U){}
-                                                                              // else if (V){}
-                                                                              // else if (W){}
+                                                                                Term *t = new Term();
+                                                                                t->setIdName("t-dummy-in-U");
+                                                                                $$ = t;
+                                                                              }
+                                                                              // else if V is returning
+                                                                              else if ( $2 != NULL && $4 != NULL )
+                                                                              {
+                                                                                cout << "% t-dummy-in-U, " << $2->mIntVal << ", " << $4->getIdName() << endl;
+
+                                                                                Term *t = new Term();
+                                                                                t->setIdName("t-dummy-in-U");
+                                                                                $$ = t;
+                                                                              }
+                                                                              // else if W is returning
+                                                                              else if ( $2 != NULL && $5 != NULL )
+                                                                              {
+                                                                                cout << "% t-dummy-in-U, " << $2->mIntVal << ", " << $5->getIdName() << endl;
+
+                                                                                Term *t = new Term();
+                                                                                t->setIdName("t-dummy-in-U");
+                                                                                $$ = t;
+                                                                              }
                                                                             }
                 ;
 
 Term:           Var                                                           {
-                                                                                cout << "Test: in Term: Var..." << endl;
-                                                                                cout << "$$->id.name is " << $$->getIdName() << endl;
                                                                                 Term *synthesized_var = new Term();
                                                                                 synthesized_var->setVariable(*($1));
                                                                                 $$ = synthesized_var;
@@ -562,14 +629,16 @@ Term:           Var                                                           {
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
                                                                               }
                 | numbers                                                     {
-                                                                                cout << "Inside Term->numbers" << endl;
                                                                                 Term *synthesized_term = new Term();
 
                                                                                 //char *intStr = itoa( *($1) );
                                                                                 //synthesized_variable->id.name = itoa( *($1) );
 
+                                                                                //string s = to_string( $1 );
+
                                                                                 synthesized_term->mIntVal = $1;
-                                                                                cout << "Inside Term->numbers: mIntVal is " << synthesized_term->mIntVal << endl;
+                                                                                //synthesized_term->setIdName( s ); // Possible problem
+                                                                                /* cout << "Inside Term->numbers: mIntVal is " << synthesized_term->mIntVal << endl; */
 
                                                                                 $$ = synthesized_term;
                                                                               }

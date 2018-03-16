@@ -21,7 +21,10 @@ class ID {
 public:
   string name;
 
-  ID(){};
+  ID()
+  {
+    name;
+  }
 };
 
 class Declaration {
@@ -129,6 +132,14 @@ class Term{
 
     void setVariable(Variable v) {
       mVariable = v;
+    }
+
+    void convertIntToIdName( int n )
+    {
+      stringstream ss;
+      ss << n;
+
+      this->setIdName( ss.str() );
     }
 }; // End of Term Class
 
