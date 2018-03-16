@@ -238,19 +238,30 @@ public:
 
   void printIntermediateCode() {
 
-    for (int i = 0; i < list_of_terms.size(); i++) {
+    vector<Term> in_order;
+
+    for (int i = list_of_terms.size()-1; i >= 0; i--)
+    {
+      in_order.push_back( list_of_terms.at(i) );
+    }
+
+    list_of_terms.clear();
+
+    while ( in_order.size() > 1 ) {
       // get generated temp value
       // string temp_var_id_name = generateTempVariable(); // TODO: Fix globale temp generator
+
       string temp_var_id_name = generateTempVariable();
 
       // pop two off the list.
       Term leftOperand, rightOperand;
-      leftOperand = list_of_terms.back();
-      list_of_terms.pop_back();
+
+      rightOperand = in_order.back();
+      in_order.pop_back();
 
 
-      rightOperand = list_of_terms.back();
-      list_of_terms.pop_back();
+      leftOperand = in_order.back();
+      in_order.pop_back();
 
       cout << rightOperand.mLeftOperatorType << " " << temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
 
@@ -260,10 +271,11 @@ public:
 
       Term merged_temp_term(leftOperand.mLeftOperatorType, v);  // (operandType, variable)
       //merged_temp_term.printMemberInfo();
-      list_of_terms.push_back(merged_temp_term);
+      in_order.push_back(merged_temp_term);
 
     } // end of for-loop
-    // list_of_terms.at(0).printMemberInfo();
+
+    list_of_terms = in_order;
 
     // ALL OF THIS POST LOOP CODE IS LIKELY PROBLEMATIC
     // string temp_var_id_name = generateTempVariable();
