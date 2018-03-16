@@ -394,7 +394,9 @@ public:
   std::vector<MultiplicativeExpr> list_of_multiplicative_expressions;
 
   Expression(){};
-  Expression(MultiplicativeExpr m){};
+  Expression(MultiplicativeExpr m){
+    list_of_multiplicative_expressions.push_back(m);
+  };
 
 
   string getIdName(){

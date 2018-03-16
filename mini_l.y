@@ -97,9 +97,13 @@
 /* Used in Input/Output Statements */
 %type <comparisonOperator>        Comp
 
+/* Function Relation Statements */
+%type <expression>                Y
+%type <expression>                Z
+
 /* Multiple Uses */
 %type <variable>                  Var
-%type <expression>                  Expression
+%type <expression>                Expression
 
 
 /* define the constant-string tokens: */
@@ -487,9 +491,6 @@ Expression:     Multiplicative-Expr S T                                       {
                                                                                 expression->mMultiplicativeExpr = synthesized_me;
 
                                                                                 /* synthesized_me.list_of_terms.front().printMemberInfo(); */
-
-                                                                                /* expression->mMultiplicativeExpr = synthesized_me; */
-                                                                                /* expression->mMultiplicativeExpr.list_of_terms.front().printMemberInfo(); */
                                                                                 $$ = expression;
                                                                                 }
 
@@ -517,7 +518,7 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               MultiplicativeExpr *m_copy = new MultiplicativeExpr();
 
-                                                                              // USED TO RETURN THINGS TO EXPRESSION
+                                                                              // USED TO RETURN THINGS mTO EXPRESSION
                                                                               Term synthesized_term = *($1);
                                                                               /* cout << "VVVVVVVVVVVVVVVVV  synthesized_term.printMemberInfo();VVVVVVVVVVVVVVVVVVVVV" << endl;
                                                                               synthesized_term.printMemberInfo();
@@ -752,17 +753,23 @@ Term:           Var                                                           { 
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {
-                                                                                /* cout << "call" << *($1) << ", " << getTermTypeString() << endl; */
+                                                                                cout << "call " << $1->name << ", " << "$3" << endl;
 
                                                                               }
                 ;
 
 Y:              /* empty - epsilon */                                        {printf("Y --> epsilon\n");}
-                | Expression Z                                               {printf("Y --> Expression Z\n");}
+                | Expression Z                                               {
+                                                                                printf("Y --> Expression Z\n");
+                                                                                /* if() */
+                                                                                $$ = $1;
+                                                                              }
                 ;
 
-Z:              /* empty - epsilon */                                        {printf("Z --> epsilon\n");}
-                | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
+Z:              /* empty - epsilon */                                        { $$ = NULL;}
+                | COMMA Expression Z                                         {
+
+                                                                             }
                 ;
 
 Var:            identifiers                                                   {
