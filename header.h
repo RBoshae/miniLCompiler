@@ -191,6 +191,10 @@ class Term{
 
         return temp_var_array_name;
       }
+      else
+      {
+        return mVariable.getIdName();
+      }
     }
 
     void printMemberInfo() {
@@ -241,6 +245,7 @@ public:
       rightOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
+
       leftOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
@@ -248,15 +253,18 @@ public:
 
       // need to make temp a variable
       Variable v(temp_var_id_name);
-      v.printMemberInfo();
+      //v.printMemberInfo();
 
       Term merged_temp_term(leftOperand.mLeftOperatorType, v);  // (operandType, variable)
-      merged_temp_term.printMemberInfo();
+      //merged_temp_term.printMemberInfo();
       list_of_terms.push_back(merged_temp_term);
 
     } // end of for-loop
     // list_of_terms.at(0).printMemberInfo();
+
     cout << list_of_terms.at(0).mLeftOperatorType << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
+
+
   }
 }; // End of MultiplicativeExpr Class
 
