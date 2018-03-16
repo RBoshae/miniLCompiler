@@ -125,9 +125,8 @@ public:
   };
 
   void printIntermediateCodeFromListOfVariables() {
-    cout << " In PILOV" << endl;
+    // cout << " In PILOV" << endl;
     for (int i = 0; i < list_of_variables.size(); i++) {
-      cout << "if (list_of_variables.at(i).isArray) // isArray: " << list_of_variables.at(i).isArray << endl;
       if (list_of_variables.at(i).isArray)
       {
         cout << ". [] < " << list_of_variables.at(i).id.name << ", " << list_of_variables.at(i).arrayIndex << endl;
@@ -140,7 +139,7 @@ public:
   };
 
   void printIntermediateCodeSingleVariable() {
-    cout << " In PILCSV" << endl;
+    // cout << " In PILCSV" << endl; // Debugging
     if (mSingleVariable.isArray) {
 
       cout << ". [] < " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;

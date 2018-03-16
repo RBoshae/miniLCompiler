@@ -313,8 +313,7 @@ K:              READ Var                                      { // Done
                                                                 Read r;         // Storing variable in read to handle print.
                                                                 r.mSingleVariable = *($2);
 
-                                                                cout << "K: | READ Var // No SEGFAult" << endl; // Debugging
-                                                                /* r.mSingleVariable.printMemberInfo(); // Debugging */
+                                                                /* cout << "K: | READ Var // No SEGFAult" << endl; // Debugging */
                                                                 r.printIntermediateCodeSingleVariable();
                                                               }
 
@@ -355,7 +354,7 @@ Lima:           COMMA Var                                   {
                                                               /* synthesized_read_var.setIdName($2->id.name);
                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex) */
 
-                                                              cout << "Debugging\n"; // Debugging
+
                                                               /* synthesized_read_var->printMemberInfo(); */
                                                               /* $2->printMemberInfo(); // Debugging */
 
@@ -364,16 +363,16 @@ Lima:           COMMA Var                                   {
                                                               /* $$->list_of_variables.push_back(synthesized_read_var); */
                                                               /* $$->list_of_variables.push_back(synthesized_var); */
                                                               $$ = r;
-                                                              cout << "Lima: | COMMA Var // No SEGFAult\n"; // Debugging
+                                                              /* cout << "Lima: | COMMA Var // No SEGFAult\n"; // Debugging */
                                                             }
                 | COMMA Var Lima                                            {
                                                                               // Recieve data from Lima
-                                                                              cout << "Lima: | COMMA Var Lima // No SEGFAult\n"; // Debugging
+                                                                              /* cout << "Lima: | COMMA Var Lima // No SEGFAult\n"; // Debugging */
                                                                               Variable synthesized_read_var;           // Remember Read is our transport container
                                                                               synthesized_read_var.setIdName($2->id.name);               // Not sure if i can do this but i hope so
                                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
 
-                                                                              cout << "Debugging\n"; // Debugging
+
                                                                               /* synthesized_read_var.printMemberInfo(); // Debugging */
 
 
