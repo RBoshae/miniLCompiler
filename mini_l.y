@@ -588,7 +588,10 @@ Term:           Var                                                           { 
                                                                               }
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
-                | identifiers L_PAREN Y R_PAREN                              {printf("Term --> identifiers L_PAREN Y R_PAREN\n");}
+                | identifiers L_PAREN Y R_PAREN                              {
+                                                                                /* cout << "call" << *($1) << ", " << getTermTypeString() << endl; */
+
+                                                                              }
                 ;
 
 Y:              /* empty - epsilon */                                        {printf("Y --> epsilon\n");}
