@@ -25,7 +25,8 @@ beginbody	## main program
 ##    write d;
 ##  endif;
 
-  i := 2 * 3 * 4;
+  ii := 222 * 333;
+  ## i := 2 * 3 / 4 % 5;
   ## i := 4 * q[0];
   ## j := 15 / 5;
   ## k := 20 / 10;

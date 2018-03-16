@@ -80,6 +80,9 @@ public:
 
   Variable(string idName){
     setIdName(idName);
+    isArray = false;                // assume the value of array is false.
+    arraySize = -1;
+    arrayIndex = -1;
 
   }
 
@@ -220,7 +223,6 @@ public:
   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
 
   Term mLeftSideTerm;
-  Term mRightSideTerm;
 
   std::vector<Term> list_of_terms;  // Container for passing chains of multiplicative expressions.
 
@@ -236,7 +238,7 @@ public:
 
   void printIntermediateCode() {
 
-    for (int i = (list_of_terms.size()-1); i > 0; i--) {
+    for (int i = 0; i < list_of_terms.size()-1; i++) {
       // get generated temp value
       // string temp_var_id_name = generateTempVariable(); // TODO: Fix globale temp generator
       string temp_var_id_name = generateTempVariable();
@@ -263,9 +265,23 @@ public:
     } // end of for-loop
     // list_of_terms.at(0).printMemberInfo();
 
-    cout << list_of_terms.at(0).mLeftOperatorType << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
+    string temp_var_id_name = generateTempVariable();
+
+    cout << list_of_terms.front().mLeftOperatorType << " " << temp_var_id_name << ", " << list_of_terms.front().getTermTypeString() << ", " << list_of_terms.back().getTermTypeString() << endl;
 
 
+    Variable v(temp_var_id_name);
+    Term merged_temp_term(list_of_terms.front().mLeftOperatorType, v);  // (operandType, variable)
+
+    cout  << "list_of_terms.front():  " << list_of_terms.front().getTermTypeString() << endl;
+    cout  << "list_of_terms.back():  " << list_of_terms.back().getTermTypeString() << endl;
+
+    list_of_terms.pop_back();
+    list_of_terms.pop_back();
+
+
+
+    list_of_terms.push_back(merged_temp_term);
   }
 
   void printMemberInfo()
@@ -368,6 +384,11 @@ public:
 
   Expression(){};
   Expression(MultiplicativeExpr m){};
+
+  string getIdName(){
+    cout << "in expression getIdName " << mMultiplicativeExpr.list_of_terms.size() << endl;
+    return mMultiplicativeExpr.list_of_terms.back().getIdName();
+  }
 }; // End of Expression class
 
 

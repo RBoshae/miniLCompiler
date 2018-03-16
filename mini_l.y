@@ -315,7 +315,10 @@ Statement:      E                                                        {printf
                 | RETURN Expression                                      {cout << "ret"  << "$2 -- finish expression" << endl;}
                 ;
 
-E:              Var ASSIGN Expression                                    {printf("E --> Var ASSIGN Expression\n");}
+E:              Var ASSIGN Expression                                     {
+                                                                            /*printf("E --> Var ASSIGN Expression\n");*/
+                                                                            cout << "= " << $1->getIdName() << ", " << $3->getIdName() << endl;
+                                                                          }
                 ;
 
 F:              IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF             {printf("F --> IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF \n");}
@@ -476,13 +479,13 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                 cout << "We're in expression." << endl;
 
+                                                                                Expression *expression = new Expression();
+
                                                                                 MultiplicativeExpr synthesized_me = *($1);
-                                                                                Expression *expression = new Expression(synthesized_me);
+
+                                                                                expression->mMultiplicativeExpr = synthesized_me;
 
                                                                                 $$ = expression;
-
-
-
                                                                               }
                 ;
 
@@ -514,13 +517,27 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               m_copy->list_of_terms.push_back(synthesized_term);
 
-                                                                              m.list_of_terms.push_back(synthesized_term);               // For non Expression use
+                                                                              /* m.list_of_terms.push_back(synthesized_term);               // For non Expression use */
+
+                                                                              /* if ($2 == NULL) {
+                                                                                cout << "At bedrock now" << endl;
+                                                                                cout << "Value of synth is:   " << endl; synthesized_term.getIdName();
+                                                                                $$->list_of_terms.push_back(synthesized_term);
+                                                                                cout << "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\n";
+                                                                                $$->printIntermediateCode();
+                                                                              } */
 
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
                                                                                 /* cout << "In ME\n"; */
-                                                                                $2->mLeftSideTerm = *($1);
-                                                                                m = *($2);                  // OVERWRITES M.
+                                                                                /* $2->mLeftSideTerm = *($1); */
+                                                                                /* m = *($2);                  // OVERWRITES M. */
+                                                                                $2->list_of_terms.push_back(synthesized_term);
+
+
+                                                                                $$ = $2;
+                                                                                $$->printIntermediateCode();
+                                                                                /* m.list_of_terms.push_back() */
 
                                                                                 /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
                                                                                 //m.list_of_terms.push_back(*($1));
@@ -532,9 +549,9 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                               else if ($3 != NULL) // only V is active
                                                                               {
                                                                                 /* cout << "In ME\n"; */
-                                                                                $3->mLeftSideTerm = *($1);
+                                                                                /* $3->mLeftSideTerm = *($1); */
                                                                                 m = *($3);                  // OVERWRITES M.
-
+                                                                                $$ = $3;
                                                                                 /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
                                                                                 //m.list_of_terms.push_back(*($1));
 
@@ -545,23 +562,29 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                               else if ($4 != NULL) // only W is active
                                                                               {
                                                                                 /* cout << "In ME\n"; */
-                                                                                $4->mLeftSideTerm = *($1);
+                                                                                /* $4->mLeftSideTerm = *($1); */
                                                                                 m = *($4);                  // OVERWRITES M.
-
+                                                                                $$ = $4;
                                                                                 /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
                                                                                 //m.list_of_terms.push_back(*($1));
 
                                                                                 /* m.mLeftSideTerm = *($1);
                                                                                 m.list_of_terms = $2->list_of_terms; */
                                                                               }
+                                                                              else // bedrock case only term is left
+                                                                              {
 
-                                                                              m.printIntermediateCode();
-                                                                              // TODO
-                                                                              cout << "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n";
-                                                                              m_copy->list_of_terms.back().printMemberInfo();
-                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+                                                                                /* cout << "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\n";
+                                                                                $$->printIntermediateCode(); */
+                                                                                // TODO
+                                                                                /* cout << "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n";
+                                                                                m_copy->list_of_terms.back().printMemberInfo();
+                                                                                cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"; */
 
-                                                                              $$ = m_copy;
+                                                                                /* $$ = m_copy; */
+                                                                              }
+
+
                                                                             }
 
 
@@ -572,23 +595,46 @@ U:              /* empty - epsilon */                                       {
                                                                             }
                 | MULT Term U V W                                           {/*printf("U --> MULT Term U V W\n");*/
                                                                               // Case: Term NOT NULL, U V W all return NULL
-                                                                              if ( $3 == NULL && $4 == NULL && $5 == NULL )
+                                                                              if ( $3 == NULL /*&& $4 == NULL && $5 == NULL*/ )
                                                                               {
+                                                                                cout << "one above bedrock. \n";
                                                                                 Term t = *($2);
+                                                                                cout << "value of t:    " << t.mIntVal << endl;
                                                                                 t.mLeftOperatorType = "*";
 
                                                                                 MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+
                                                                                 synthesized_terms->list_of_terms.push_back(t);
+
+
+                                                                                /* $3->list_of_terms.push_back(t); */
+                                                                                /* $$ = synthesized_terms; */
+
                                                                                 $$ = synthesized_terms;
                                                                               }
                                                                               // Case: U or V or W returns a value
-                                                                              else if ( $3 != NULL || $4 != NULL || $5 != NULL )
+                                                                              /* else if ( $3 != NULL || $4 != NULL || $5 != NULL ) */
+                                                                              else if ( $3 != NULL )
                                                                               {
                                                                                 Term t = *($2);
+                                                                                t.mLeftOperatorType = "*";
                                                                                 $3->list_of_terms.push_back(t);
                                                                                 $$ = $3;
                                                                               }
-
+                                                                              else if ( $4 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "*";
+                                                                                $4->list_of_terms.push_back(t);
+                                                                                $$ = $4;
+                                                                              }
+                                                                              else if ( $5 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "*";
+                                                                                $5->list_of_terms.push_back(t);
+                                                                                $$ = $5;
+                                                                              }
                                                                             }
                 ;
 
@@ -608,11 +654,27 @@ V:              /* empty - epsilon */                                       { /*
                                                                                 $$ = synthesized_terms;
                                                                               }
                                                                               // Case: U or V or W returns a value
-                                                                              else if ( $3 != NULL || $4 != NULL || $5 != NULL )
+                                                                              /* else if ( $3 != NULL || $4 != NULL || $5 != NULL ) */
+                                                                              else if ( $3 != NULL )
                                                                               {
                                                                                 Term t = *($2);
+                                                                                t.mLeftOperatorType = "/";
+                                                                                $3->list_of_terms.push_back(t);
+                                                                                $$ = $3;
+                                                                              }
+                                                                              else if ( $4 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "/";
                                                                                 $4->list_of_terms.push_back(t);
                                                                                 $$ = $4;
+                                                                              }
+                                                                              else if ( $5 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "/";
+                                                                                $5->list_of_terms.push_back(t);
+                                                                                $$ = $5;
                                                                               }
                                                                             }
                 ;
@@ -634,9 +696,25 @@ W:              /* empty - epsilon */                                       { /*
                                                                                 $$ = synthesized_terms;
                                                                               }
                                                                               // Case: U or V or W returns a value
-                                                                              else if ( $3 != NULL || $4 != NULL || $5 != NULL )
+                                                                              /* else if ( $3 != NULL || $4 != NULL || $5 != NULL ) */
+                                                                              else if ( $3 != NULL )
                                                                               {
                                                                                 Term t = *($2);
+                                                                                t.mLeftOperatorType = "%";
+                                                                                $3->list_of_terms.push_back(t);
+                                                                                $$ = $3;
+                                                                              }
+                                                                              else if ( $4 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "%";
+                                                                                $4->list_of_terms.push_back(t);
+                                                                                $$ = $4;
+                                                                              }
+                                                                              else if ( $5 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "%";
                                                                                 $5->list_of_terms.push_back(t);
                                                                                 $$ = $5;
                                                                               }
