@@ -311,8 +311,10 @@ J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON
 K:              READ Var                                      { // Done
                                                                 /* cout << "K: | READ Var // value of $2.id.name: " << $2->id.name << endl; // Debugging */
                                                                 Read r;         // Storing variable in read to handle print.
-                                                                r.mSingleVariable.id.name = $2->id.name;
+                                                                r.mSingleVariable = *($2);
 
+                                                                cout << "K: | READ Var // No SEGFAult" << endl; // Debugging
+                                                                r.mSingleVariable.printMemberInfo();
                                                                 r.printIntermediateCodeSingleVariable();
                                                               }
 
@@ -337,27 +339,36 @@ K:              READ Var                                      { // Done
 
                 ;
 
-Lima:           COMMA Var                                                   {
+Lima:           COMMA Var                                   {
                                                               // Lima is used specifically in read. It's safe to use a Read container.
                                                               // Lima needs to push it's var up to parent. Container used is of type Read..
-                                                              /* cout << "Lima: COMMA Var // value of $2->id.name: " << ($2)->getIdName() << endl; // Debugging */
-                                                              Variable synthesized_read_var;
-                                                              synthesized_read_var.setIdName($2->id.name);
-                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
-                                                              cout << "Debugging\n"; // Debugging
-                                                              synthesized_read_var.printMemberInfo();
 
-                                                              $$->list_of_variables.push_back(synthesized_read_var);
+                                                              /* cout << "Lima: COMMA Var // value of $2->id.name: " << ($2)->getIdName() << endl; // Debugging */
+                                                              Variable synthesized_var;
+                                                              synthesized_var = *($2);
+                                                              /* synthesized_read_var->list_of_variables.push_back(*($2)); */
+                                                              /* synthesized_read_var.setIdName($2->id.name);
+                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex) */
+
+                                                              cout << "Debugging\n"; // Debugging
+                                                              /* synthesized_read_var->printMemberInfo(); */
+                                                              $2->printMemberInfo();
+
+                                                              /* synthesized_read_var->push_back(*($2)); */
+                                                              /* $$ = synthesized_read_var; */
+                                                              /* $$->list_of_variables.push_back(synthesized_read_var); */
+                                                              $$->list_of_variables.push_back(synthesized_var);
+                                                              cout << "Lima: | COMMA Var // No SEGFAult\n"; // Debugging
                                                             }
                 | COMMA Var Lima                                            {
                                                                               // Recieve data from Lima
+                                                                              cout << "Lima: | COMMA Var Lima // No SEGFAult\n"; // Debugging
                                                                               Variable synthesized_read_var;           // Remember Read is our transport container
                                                                               synthesized_read_var.setIdName($2->id.name);               // Not sure if i can do this but i hope so
                                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
 
                                                                               cout << "Debugging\n"; // Debugging
                                                                               synthesized_read_var.printMemberInfo();
-
 
 
                                                                               $3->list_of_variables.push_back(synthesized_read_var);
@@ -543,8 +554,13 @@ Var:            identifiers                                                   {
                                                                                 ID synthesized_id = *($1);
                                                                                 /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
                                                                                 /* synthesized_id = $1; */
-                                                                                $$->isArray = false;
-                                                                                $$->id = synthesized_id;
+                                                                                Variable *v = new Variable();
+                                                                                v->setId(synthesized_id);
+                                                                                v->setArrayInfo(false, -1, -1);
+
+                                                                                /* $$->isArray = false;
+                                                                                $$->id = synthesized_id; */
+                                                                                $$ = v;
                                                                               }
 
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    {
@@ -553,14 +569,29 @@ Var:            identifiers                                                   {
                                                                                 // TODO Expression must be handled before we can use array access.
                                                                                 cout << "Don't stress array index yet. You still need to complete Expression\n";
 
+
                                                                                 /* ID *synthesized_id = new ID(); */
                                                                                 ID synthesized_id = *($1);
                                                                                 /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
                                                                                 /* synthesized_id = $1; */
+
+                                                                                Variable *v = new Variable();
+                                                                                v->setId(synthesized_id);
+                                                                                v->setArrayInfo(true, 100, 100);   // Hard coded data -- needs to be fixed
+
+                                                                                v->printMemberInfo();
+
+                                                                                /* $$->isArray = false;
+                                                                                $$->id = synthesized_id; */
+                                                                                $$ = v;
+
+                                                                                /* Variable synthesized_var;
+                                                                                synthesized_var.setId(synthesized_id);
+                                                                                synthesized_var.setArrayInfo(true, 100, 100);
                                                                                 $$->id = synthesized_id;
                                                                                 $$->isArray = true;
                                                                                 $$->arraySize = 1000; // hard coded for testing
-                                                                                $$->arrayIndex = 9999; // hard coded for testing
+                                                                                $$->arrayIndex = 9999; // hard coded for testing */
                                                                               }
                 ;
 

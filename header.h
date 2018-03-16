@@ -66,8 +66,13 @@ public:
   std::vector<ID> list_of_ids;      //
 
   Variable(){
-    // isArray = false;                // assume the value of array is false.
+    isArray = false;                // assume the value of array is false.
     arraySize = -1;
+    arrayIndex = -1;
+  }
+
+  void setId(ID i) {
+    id = i;
   }
 
   void setIdName(string n) {
@@ -78,13 +83,10 @@ public:
     return id.name;
   }
 
-  void setArrayInfo(bool isA,int aSize, int aIndex){
+  void setArrayInfo(bool isA, int aSize, int aIndex){
     isArray = isA;
-    if (isArray) {
-      arraySize = aSize;
-      arrayIndex = aIndex;
-    }
-
+    arraySize = aSize;
+    arrayIndex = aIndex;
   }
 
   // Used for debugging
@@ -99,13 +101,14 @@ public:
     cout << "isArray:    " << isArray << endl;
     cout << "type:       " << type << endl;
     cout << "arraySize:  " << arraySize << endl;
-    cout << "arrayIndex: " << type << endl;
+    cout << "arrayIndex: " << arrayIndex << endl;
     cout << "list_of_ids Info " << endl;
     cout << "list_of_ids.size(): " << list_of_ids.size() << endl;
     cout << "End of Report\n";
     cout << "============================" << endl;
   }
-};
+}; // End of Variable Class
+
 
 class Read {
 public:
@@ -137,6 +140,7 @@ public:
   };
 
   void printIntermediateCodeSingleVariable() {
+    cout << " In PILCSV" << endl;
     if (mSingleVariable.isArray) {
 
       cout << ". [] < " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;
