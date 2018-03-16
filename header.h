@@ -115,10 +115,21 @@ public:
 class Term{
 
   public:
-    int int_val;
-    Variable variable;
+    int mIntVal;
+    Variable mVariable;
 
     Term(){}
+
+    void setIdName(string n){
+      mVariable.id.name = n;
+    }
+    string getIdName() {
+      return mVariable.id.name;
+    }
+
+    void setVariable(Variable v) {
+      mVariable = v;
+    }
 }; // End of Term Class
 
 

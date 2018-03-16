@@ -314,10 +314,6 @@ K:              READ Var                                      { // Done
                                                                 Read r;         // Storing variable in read to handle print.
                                                                 r.mSingleVariable.id.name = $2->id.name;
 
-<<<<<<< HEAD
-=======
-                                                                /* cout << "K: | READ Var // No SEGFAult" << endl; // Debugging */
->>>>>>> acfa967cffb765a8ead8f9bdb5b270c3a1582ef9
                                                                 r.printIntermediateCodeSingleVariable();
                                                               }
 
@@ -347,7 +343,7 @@ Lima:           COMMA Var                                                   {
                                                               // Lima is used specifically in read. It's safe to use a Read container.
                                                               // Lima needs to push it's var up to parent. Container used is of type Read..
                                                               /* cout << "Lima: COMMA Var // value of $2->id.name: " << ($2)->getIdName() << endl; // Debugging */
-<<<<<<< HEAD
+
                                                               Variable synthesized_read_var;
                                                               synthesized_read_var.setIdName($2->id.name);
                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
@@ -358,32 +354,7 @@ Lima:           COMMA Var                                                   {
                                                             }
                 | COMMA Var Lima                                            {
                                                                               // Recieve data from Lima
-=======
-                                                              Variable synthesized_var;
-                                                              synthesized_var = *($2);
 
-                                                              Read *r = new Read();
-                                                              r->list_of_variables.push_back(synthesized_var);
-
-                                                              /* synthesized_read_var->list_of_variables.push_back(*($2)); */
-                                                              /* synthesized_read_var.setIdName($2->id.name);
-                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex) */
-
-
-                                                              /* synthesized_read_var->printMemberInfo(); */
-                                                              /* $2->printMemberInfo(); // Debugging */
-
-                                                              /* synthesized_read_var->push_back(*($2)); */
-                                                              /* $$ = synthesized_read_var; */
-                                                              /* $$->list_of_variables.push_back(synthesized_read_var); */
-                                                              /* $$->list_of_variables.push_back(synthesized_var); */
-                                                              $$ = r;
-                                                              /* cout << "Lima: | COMMA Var // No SEGFAult\n"; // Debugging */
-                                                            }
-                | COMMA Var Lima                                            {
-                                                                              // Recieve data from Lima
-                                                                              /* cout << "Lima: | COMMA Var Lima // No SEGFAult\n"; // Debugging */
->>>>>>> acfa967cffb765a8ead8f9bdb5b270c3a1582ef9
                                                                               Variable synthesized_read_var;           // Remember Read is our transport container
                                                                               synthesized_read_var.setIdName($2->id.name);               // Not sure if i can do this but i hope so
                                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
@@ -494,15 +465,15 @@ Multiplicative-Expr:  Term U V W                                            {/*$
 
                                                                               if ($2 != NULL)
                                                                               {
-                                                                                cout << "* t-dummy " << $1->int_val << ", " << $2->int_val << endl;
+                                                                                cout << "* t-dummy " << $1->mIntVal << ", " << $2->mIntVal << endl;
                                                                               }
                                                                               else if ($3 != NULL)
                                                                               {
-                                                                                cout << "/ t-dummy " << $1->int_val << ", " << $3->int_val << endl;
+                                                                                cout << "/ t-dummy " << $1->mIntVal << ", " << $3->mIntVal << endl;
                                                                               }
                                                                               else if ($4 != NULL)
                                                                               {
-                                                                                cout << "% t-dummy " << $1->int_val << ", " << $4->int_val << endl;
+                                                                                cout << "% t-dummy " << $1->mIntVal << ", " << $4->mIntVal << endl;
                                                                               }
                                                                             }
 
@@ -521,13 +492,13 @@ U:              /* empty - epsilon */                                       { /*
                                                                                 }
                                                                                 else if ( $2 != NULL && $3 != NULL )
                                                                                 {
-                                                                                  cout << "* t-dummy-in-U, " << $2->int_val << ", " << $3->int_val << endl;
+                                                                                  cout << "* t-dummy-in-U, " << $2->mIntVal << ", " << $3->mIntVal << endl;
 
                                                                                   Term *t = new Term();
-                                                                                  t->id.name = "t-dummy-in-U";
+                                                                                  t->setIdName("t-dummy-in-U");
                                                                                   $$ = t;
                                                                                   //$$->id.name = "t-dummy-in-U";
-                                                                                  //$$->int_val = ($2->int_val) * ($3->int_val);
+                                                                                  //$$->mIntVal = ($2->mIntVal) * ($3->mIntVal);
                                                                                 }
                                                                                 // else if (V){}
                                                                                 // else if (W){}
@@ -569,8 +540,10 @@ W:              /* empty - epsilon */                                       { /*
 
 Term:           Var                                                           {
                                                                                 cout << "Test: in Term: Var..." << endl;
-                                                                                cout << "$$->id.name is " << $$->id.name << endl;
-                                                                                $$ = $1;
+                                                                                cout << "$$->id.name is " << $$->getIdName() << endl;
+                                                                                Term *synthesized_var = new Term();
+                                                                                synthesized_var->setVariable(*($1));
+                                                                                $$ = synthesized_var;
                                                                               }
                 | SUB Var                                                     {
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
@@ -582,8 +555,8 @@ Term:           Var                                                           {
                                                                                 //char *intStr = itoa( *($1) );
                                                                                 //synthesized_variable->id.name = itoa( *($1) );
 
-                                                                                synthesized_term->int_val = $1;
-                                                                                cout << "Inside Term->numbers: int_val is " << synthesized_term->int_val << endl;
+                                                                                synthesized_term->mIntVal = $1;
+                                                                                cout << "Inside Term->numbers: mIntVal is " << synthesized_term->mIntVal << endl;
 
                                                                                 $$ = synthesized_term;
                                                                               }
@@ -622,23 +595,7 @@ Var:            identifiers                                                   {
                                                                                 ID synthesized_id = *($1);
                                                                                 /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
                                                                                 /* synthesized_id = $1; */
-<<<<<<< HEAD
-=======
 
-                                                                                Variable *v = new Variable();
-                                                                                v->setId(synthesized_id);
-                                                                                v->setArrayInfo(true, 100, 100);   // Hard coded data -- needs to be fixed
-
-                                                                                /* v->printMemberInfo();  // Debugging */
-
-                                                                                /* $$->isArray = false;
-                                                                                $$->id = synthesized_id; */
-                                                                                $$ = v;
-
-                                                                                /* Variable synthesized_var;
-                                                                                synthesized_var.setId(synthesized_id);
-                                                                                synthesized_var.setArrayInfo(true, 100, 100);
->>>>>>> acfa967cffb765a8ead8f9bdb5b270c3a1582ef9
                                                                                 $$->id = synthesized_id;
                                                                                 $$->isArray = true;
                                                                                 $$->arraySize = 1000; // hard coded for testing
