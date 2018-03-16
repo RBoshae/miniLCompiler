@@ -529,7 +529,31 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                                 m.list_of_terms = $2->list_of_terms; */
                                                                               }
 
+                                                                              else if ($3 != NULL) // only V is active
+                                                                              {
+                                                                                /* cout << "In ME\n"; */
+                                                                                $3->mLeftSideTerm = *($1);
+                                                                                m = *($3);                  // OVERWRITES M.
 
+                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
+                                                                                //m.list_of_terms.push_back(*($1));
+
+                                                                                /* m.mLeftSideTerm = *($1);
+                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                              }
+
+                                                                              else if ($4 != NULL) // only W is active
+                                                                              {
+                                                                                /* cout << "In ME\n"; */
+                                                                                $4->mLeftSideTerm = *($1);
+                                                                                m = *($4);                  // OVERWRITES M.
+
+                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
+                                                                                //m.list_of_terms.push_back(*($1));
+
+                                                                                /* m.mLeftSideTerm = *($1);
+                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                              }
 
                                                                               m.printIntermediateCode();
                                                                               // TODO
@@ -547,7 +571,7 @@ U:              /* empty - epsilon */                                       {
                                                                               $$ = NULL;
                                                                             }
                 | MULT Term U V W                                           {/*printf("U --> MULT Term U V W\n");*/
-                                                                                // Case: Term NOT NULL, U V W all return NULL
+                                                                              // Case: Term NOT NULL, U V W all return NULL
                                                                               if ( $3 == NULL && $4 == NULL && $5 == NULL )
                                                                               {
                                                                                 Term t = *($2);
@@ -557,8 +581,8 @@ U:              /* empty - epsilon */                                       {
                                                                                 synthesized_terms->list_of_terms.push_back(t);
                                                                                 $$ = synthesized_terms;
                                                                               }
-
-                                                                              else if ( $3 != NULL )
+                                                                              // Case: U or V or W returns a value
+                                                                              else if ( $3 != NULL || $4 != NULL || $5 != NULL )
                                                                               {
                                                                                 Term t = *($2);
                                                                                 $3->list_of_terms.push_back(t);
@@ -570,18 +594,52 @@ U:              /* empty - epsilon */                                       {
 
 V:              /* empty - epsilon */                                       { /*printf("V --> epsilon\n");*/
                                                                               //cout << "Test: in V-epsilon..." << endl;
-                                                                              /* $$ = NULL; */
+                                                                              $$ = NULL;
                                                                             }
                 | DIV Term U V W                                            {
+                                                                              // Case: Term NOT NULL, U V W all return NULL
+                                                                              if ( $3 == NULL && $4 == NULL && $5 == NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "/";
+
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+                                                                                synthesized_terms->list_of_terms.push_back(t);
+                                                                                $$ = synthesized_terms;
+                                                                              }
+                                                                              // Case: U or V or W returns a value
+                                                                              else if ( $3 != NULL || $4 != NULL || $5 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                $4->list_of_terms.push_back(t);
+                                                                                $$ = $4;
+                                                                              }
                                                                             }
                 ;
 
 W:              /* empty - epsilon */                                       { /*printf("W --> epsilon\n");*/
                                                                               //cout << "Test: in W-epsilon..." << endl;
-                                                                              /* $$ = NULL; */
+                                                                              $$ = NULL;
                                                                             }
 
                 | MOD Term U V W                                            {
+                                                                              // Case: Term NOT NULL, U V W all return NULL
+                                                                              if ( $3 == NULL && $4 == NULL && $5 == NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                t.mLeftOperatorType = "%";
+
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+                                                                                synthesized_terms->list_of_terms.push_back(t);
+                                                                                $$ = synthesized_terms;
+                                                                              }
+                                                                              // Case: U or V or W returns a value
+                                                                              else if ( $3 != NULL || $4 != NULL || $5 != NULL )
+                                                                              {
+                                                                                Term t = *($2);
+                                                                                $5->list_of_terms.push_back(t);
+                                                                                $$ = $5;
+                                                                              }
                                                                             }
                 ;
 

@@ -250,7 +250,7 @@ public:
       leftOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
-      cout << leftOperand.mLeftOperatorType <<  temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
+      cout << leftOperand.mLeftOperatorType << " " << temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
 
       // need to make temp a variable
       Variable v(temp_var_id_name);
