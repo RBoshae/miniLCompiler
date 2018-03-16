@@ -121,6 +121,11 @@ class Term{
     int mIntVal;
     Variable mVariable;
 
+    string mLeftOperatorType; // Exs: * n, / n, % n
+
+    enum LeftOperatorType { MULT, DIV, MOD };
+    // MULT = 0, DIV = 1, MOD = 2
+
     Term(){}
 
     void setIdName(string n){
@@ -152,7 +157,7 @@ public:
   Term mLeftsideTerm;
   Term mRightsideTerm;
 
-  std::vector<ID> list_of_ids;      //
+  std::vector<Term> list_of_terms;  // Container for passing chains of multiplicative expressions.
 
   MultiplicativeExpr(){}
 
