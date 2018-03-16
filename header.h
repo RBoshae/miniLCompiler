@@ -80,6 +80,9 @@ public:
 
   Variable(string idName){
     setIdName(idName);
+    isArray = false;                // assume the value of array is false.
+    arraySize = -1;
+    arrayIndex = -1;
 
   }
 
@@ -220,7 +223,6 @@ public:
   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
 
   Term mLeftSideTerm;
-  Term mRightSideTerm;
 
   std::vector<Term> list_of_terms;  // Container for passing chains of multiplicative expressions.
 
@@ -236,21 +238,32 @@ public:
 
   void printIntermediateCode() {
 
-    for (int i = (list_of_terms.size()-1); i > 0; i--) {
+    vector<Term> in_order;
+
+    for (int i = list_of_terms.size()-1; i >= 0; i--)
+    {
+      in_order.push_back( list_of_terms.at(i) );
+    }
+
+    list_of_terms.clear();
+
+    while ( in_order.size() > 1 ) {
       // get generated temp value
       // string temp_var_id_name = generateTempVariable(); // TODO: Fix globale temp generator
+
       string temp_var_id_name = generateTempVariable();
 
       // pop two off the list.
       Term leftOperand, rightOperand;
-      rightOperand = list_of_terms.back();
-      list_of_terms.pop_back();
+
+      rightOperand = in_order.back();
+      in_order.pop_back();
 
 
-      leftOperand = list_of_terms.back();
-      list_of_terms.pop_back();
+      leftOperand = in_order.back();
+      in_order.pop_back();
 
-      cout << leftOperand.mLeftOperatorType <<  temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
+      cout << rightOperand.mLeftOperatorType << " " << temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
 
       // need to make temp a variable
       Variable v(temp_var_id_name);
@@ -258,14 +271,32 @@ public:
 
       Term merged_temp_term(leftOperand.mLeftOperatorType, v);  // (operandType, variable)
       //merged_temp_term.printMemberInfo();
-      list_of_terms.push_back(merged_temp_term);
+      in_order.push_back(merged_temp_term);
 
     } // end of for-loop
-    // list_of_terms.at(0).printMemberInfo();
-    cout << "CHECK MULT DEC AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << endl;
-    cout << list_of_terms.at(0).mLeftOperatorType << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
 
+    list_of_terms = in_order;
 
+    // ALL OF THIS POST LOOP CODE IS LIKELY PROBLEMATIC
+    // string temp_var_id_name = generateTempVariable();
+    //
+    // cout << list_of_terms.front().mLeftOperatorType << " " << temp_var_id_name << ", " << list_of_terms.front().getTermTypeString() << ", " << list_of_terms.back().getTermTypeString() << endl;
+    //
+    //
+    // Variable v(temp_var_id_name);
+    // Term merged_temp_term(list_of_terms.front().mLeftOperatorType, v);  // (operandType, variable)
+    //
+    // cout  << "list_of_terms.front():  " << list_of_terms.front().getTermTypeString() << endl;
+    // cout  << "list_of_terms.back():  " << list_of_terms.back().getTermTypeString() << endl;
+    //
+    // list_of_terms.pop_back();
+    // list_of_terms.pop_back();
+    // list_of_terms.push_back(merged_temp_term);
+  }
+
+  void printMemberInfo()
+  {
+    // print local member variables in formatted table
   }
 
   void printMemberInfo() {
@@ -388,6 +419,11 @@ public:
 
   Expression(){};
   Expression(MultiplicativeExpr m){};
+
+  string getIdName(){
+    cout << "in expression getIdName " << mMultiplicativeExpr.list_of_terms.size() << endl;
+    return mMultiplicativeExpr.list_of_terms.back().getIdName();
+  }
 }; // End of Expression class
 
 
