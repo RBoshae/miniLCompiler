@@ -20,6 +20,9 @@ beginbody	## main program
   write dd, ee, ff;
   write mm, nn[10], pp;
 
+  if 2 == 0 then
+  endif;
+
 
   ## i := 2 * 3;
   ## j := 15 / 5;

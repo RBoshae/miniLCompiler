@@ -427,7 +427,9 @@ Quebec:         AND Relation-Expr                                            {pr
                 | AND Relation-Expr Quebec                                   {printf("Quebec --> AND Relation-Expr Quebec\n");}
                 ;
 
-Relation-Expr:  Expression Comp Expression                                   {printf("Relation-Expr --> Expression Comp Expression\n");}
+Relation-Expr:  Expression Comp Expression                                {
+                                                                              cout << "== " << "dst" << " src1" << " src2" << endl;
+                                                                          }
                 | NOT Expression Comp Expression                             {printf("Relation-Expr --> NOT Expression Comp Expression\n");}
                 | TRUE                                                       {printf("Relation-Expr --> TRUE\n");}
                 | NOT TRUE                                                   {printf("NOT Relation-Expr --> TRUE\n");}

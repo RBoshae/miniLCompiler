@@ -242,6 +242,29 @@ public:
 
 }; // End of Write class
 
+class Expression {
+public:
+  MultiplicativeExpr mMultiplicativeExpr;
+
+  Expression(){};
+}; // End of Expression class
+
+
+class Comp {
+public:
+  string mComparisonOperator;
+  enum ComparisonOperator { EQ, NEQ, LT, GT, LTE, GTE };
+  Comp(){};
+  Comp(ComparisonOperator c){
+    switch (c) {
+      case EQ : mComparisonOperator  = "EQ";  break;
+      case NEQ: mComparisonOperator  = "NEQ";  break;
+      case LT : mComparisonOperator  = "LT";  break;
+      case GT : mComparisonOperator  = "GT";  break;
+
+    };
+  };
+};  // End of Comp class
 
 
 struct Table_Entry {
