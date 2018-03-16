@@ -391,13 +391,28 @@ public:
 class Expression {
 public:
   MultiplicativeExpr mMultiplicativeExpr;
+  std::vector<MultiplicativeExpr> list_of_multiplicative_expressions;
 
   Expression(){};
   Expression(MultiplicativeExpr m){};
 
+
   string getIdName(){
     cout << "in expression getIdName " << mMultiplicativeExpr.list_of_terms.size() << endl;
     return mMultiplicativeExpr.list_of_terms.back().getIdName();
+  };
+
+  string getTermTypeString() {
+    if (mMultiplicativeExpr.list_of_terms.back().isNumber){
+      stringstream ss;
+      ss << mMultiplicativeExpr.list_of_terms.back().mIntVal;
+
+      return ss.str();
+
+    } else {
+
+      mMultiplicativeExpr.list_of_terms.back().mVariable.id.name;
+    }
   }
 }; // End of Expression class
 

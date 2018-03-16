@@ -4,28 +4,28 @@ endparams
 
 beginlocals
 
-##  n : integer;
-##  i, j, k : integer;
-## x, y, z : array [20] of integer;
+n : integer;
+i, j, k : integer;
+x, y, z : array [20] of integer;
 
 endlocals
 
 beginbody	## main program
-## i := 200 * 300;
-##  read a;
-##  read i[10];
-##  read aa, bb, cc;
-##  read ii, jj[10], kk;
+i := 200 * 300;
+read a;
+## read i[10];
+read aa, bb, cc;
+## read ii, jj[10], kk;
 
 ##  write m[10];
-##  write dd, ee, ff;
+  write dd, ee, ff;
 ##  write mm, nn[10], pp;
 
 ##  if 2 == 0 then
 ##    write d;
 ##  endif;
 
-  ii := 111* 222 * 333 * 444;
+  ii := x * y;
   ## i := 2 * 3 / 4 % 5;
   ## i := 4 * q[0];
   ## j := 15 / 5;
