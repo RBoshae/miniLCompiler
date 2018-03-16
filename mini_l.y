@@ -13,6 +13,7 @@
   using namespace std;
 
   #include "header.h"
+  #include "globalFunctions.cpp"
 
   /* Putting C includes here */
   #include <stdio.h>
@@ -472,33 +473,9 @@ Comp:           EQ                                                            {
 
 Expression:     Multiplicative-Expr S T                                       {
                                                                                 cout << "We're in expression." << endl;
+                                                                                // Need to work with Gabe to build the bridge here.
 
-                                                                                // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
-                                                                                // Arithmetic Operator Statments  Addition
-                                                                                /* cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
-                                                                                if ($2 == 1)
-                                                                                {
-                                                                                  for (int i = 0; i < Number_List.size(); i++) {
 
-                                                                                    cout << "+ " << generateTempVariable() << " " <<  ", " << Number_List.at(i) << endl;
-                                                                                  }
-                                                                                }
-                                                                                else if ($2 == 3)
-                                                                                {
-                                                                                  for (int i = 0; i < Number_List.size(); i++) {
-
-                                                                                    cout << "+ " << generateTempVariable() << " " <<  ", " << Entry_List.at(i).name << endl;
-                                                                                  }
-                                                                                }
-
-                                                                                Entry_List.clear();
-                                                                                Number_List.clear(); */
-                                                                                /*
-                                                                                TODO: Include conditional logic to handle other cases
-                                                                                if (S) {
-
-                                                                                } else if (T){} */
-                                                                                /* Number_List.clear(); */
                                                                               }
                 ;
 
@@ -684,7 +661,7 @@ Z:              /* empty - epsilon */                                        {pr
                                 ;
 
 identifiers:    IDENT                                                        {
-                                                                              //
+                                                                              // Done
                                                                               ID *temp_id = new ID();
                                                                               temp_id->name = $1;
                                                                               $$ = temp_id; // passes up pointer to ID object to parent node.
