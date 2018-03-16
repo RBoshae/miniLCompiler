@@ -25,7 +25,7 @@ beginbody	## main program
   endif;
 
 
-  ## i := 2 * 3;
+  i := 2 * 3;
   ## j := 15 / 5;
   ## k := 20 / 10;
 endbody

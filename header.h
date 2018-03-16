@@ -76,6 +76,11 @@ public:
     arrayIndex = -1;
   }
 
+  Variable(string idName){
+    setIdName(idName);
+
+  }
+
   void setId(ID i) {
     id = i;
   }
@@ -120,13 +125,35 @@ class Term{
   public:
     int mIntVal;
     Variable mVariable;
+    isNumber;                    // Determines if Term is a variable or a number
 
     string mLeftOperatorType; // Exs: * n, / n, % n
 
-    enum LeftOperatorType { MULT, DIV, MOD };
-    // MULT = 0, DIV = 1, MOD = 2
+    enum LeftOperatorType { NONE, MULT, DIV, MOD };
+    // NONE = 0, MULT = 1, DIV = 2, MOD = 3
 
-    Term(){}
+    Term(){
+      isNumber = false;
+    }
+    Term( int operandType, int val, bool isNum) // if val is a number;
+    {
+      mIntVal = val;
+      isNumber = isNum;
+
+      switch (operandType)
+      {
+        case NONE: mLeftOperatorType  = "NONE"; break;
+        case MULT: mLeftOperatorType  = "MULT"; break;
+        case DIV: mLeftOperatorType   = "DIV"; break;
+        case MOD: mLeftOperatorType   = "MOD"; break;
+      };
+    };
+
+    Term(string operandType, Variable v){
+      mLeftOperatorType = operandType;
+      mVariable = v;
+      isNumber = false;
+    }
 
     void setIdName(string n){
       mVariable.id.name = n;
@@ -146,6 +173,24 @@ class Term{
 
       this->setIdName( ss.str() );
     }
+
+    string getTermTypeString() {
+      if (isNumber)
+      {
+        stringstream ss;
+        ss << mIntVal;
+
+        return ss.str();
+      }
+      else if (mVariable.isArray)
+      {
+        // return mVariable.getIdName
+        // TODO: if works return here and complete.
+      }
+      else if ({/* condition */}) {
+        /* code */
+      }
+    }
 }; // End of Term Class
 
 
@@ -154,8 +199,8 @@ public:
   ID id;                            // Used in a single variable case.
   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
 
-  Term mLeftsideTerm;
-  Term mRightsideTerm;
+  Term mLeftSideTerm;
+  Term mRightSideTerm;
 
   std::vector<Term> list_of_terms;  // Container for passing chains of multiplicative expressions.
 
@@ -167,6 +212,31 @@ public:
 
   string getIdName() {
     return id.name;
+  }
+
+  void printIntermediateCode() {
+    for (int i = (list_of_terms.size()-1); i > 0; i--) {
+      // get generated temp value
+      string temp_var_id_name = generateTempVariable();
+
+      // pop two off the list.
+      Term leftOperand, rightOperand;
+      rightOperand = list_of_terms.back();
+      list_of_terms.pop_back();
+
+      leftOperand = list_of_terms.back();
+      list_of_terms.pop_back();
+
+      cout << leftOperand.mLeftOperatorType <<  temp_value << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
+
+      // need to make temp a variable
+      Variable v(temp_value);
+
+
+      Term merged_temp_term(leftOperand.mLeftOperatorType, v);  // (operandType, variable)
+      list_of_terms.push_back(merged_temp_term);
+
+    }
   }
 }; // End of MultiplicativeExpr Class
 
