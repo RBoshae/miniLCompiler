@@ -238,7 +238,7 @@ public:
 
   void printIntermediateCode() {
 
-    for (int i = 0; i < list_of_terms.size()-1; i++) {
+    for (int i = 0; i < list_of_terms.size(); i++) {
       // get generated temp value
       // string temp_var_id_name = generateTempVariable(); // TODO: Fix globale temp generator
       string temp_var_id_name = generateTempVariable();
