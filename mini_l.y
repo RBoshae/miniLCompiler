@@ -531,7 +531,16 @@ U:              /* empty - epsilon */                                       { /*
                                                                                 synthesized_terms->list_of_terms.push_back(t);
                                                                                 cout << "U: | MULT Term U V W\n";
                                                                                 $$ = synthesized_terms;
+                                                                              }
 
+                                                                              else if ( $3 != NULL )
+                                                                              {
+                                                                                Term t( 1, $2->mIntVal, $2->isNumber );
+
+                                                                                //MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+                                                                                $3->list_of_terms.push_back(t);
+                                                                                cout << "U: | MULT Term U V W\n";
+                                                                                $$ = $3;
                                                                               }
 
                                                                             }
