@@ -130,9 +130,11 @@ union YYSTYPE
   Read                *list_of_read_variables;
   MultiplicativeExpr  *multiplicative_expr;
   Term                *term;
+  Expression          *expression;
+  Comp                *comparisonOperator;
 
 
-#line 136 "mini_l.tab.h" /* yacc.c:1909  */
+#line 138 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -64,6 +64,8 @@
   Read                *list_of_read_variables;
   MultiplicativeExpr  *multiplicative_expr;
   Term                *term;
+  Expression          *expression;
+  Comp                *comparisonOperator;
 
 }
 
@@ -71,28 +73,31 @@
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <id>            identifiers
-%type <int_val>       D
+%type <id>                        identifiers
+%type <int_val>                   D
 
 /* Used in Variable Declaration Statements*/
-%type <list_of_ids> C
+%type <list_of_ids>               C
 
 /* Used in Arithmetic Operator Statments*/
-%type <attr>        Expression
-%type <int_val>     Multiplicative-Expr
-%type <int_val>     S
-%type <int_val>     numbers
-%type <term>    Term                /*Returns ints which represents what Mult Expr should print*/
-%type <int_val>     T
-%type <term>    U
-%type <term>    V
-%type <term>    W
+%type <int_val>                   Multiplicative-Expr
+%type <int_val>                   S
+%type <int_val>                   numbers
+%type <term>                      Term                /*Returns ints which represents what Mult Expr should print*/
+%type <int_val>                   T
+%type <term>                      U
+%type <term>                      V
+%type <term>                      W
 
 /* Used in Input/Output Statements */
 %type <list_of_read_variables>    Lima     /*Used in Read*/
 
+/* Used in Input/Output Statements */
+%type <comparisonOperator>        Comp
+
 /* Multiple Uses */
-%type <variable>          Var
+%type <variable>                  Var
+%type <expression>                Expression
 
 
 /* define the constant-string tokens: */

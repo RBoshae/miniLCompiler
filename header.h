@@ -247,20 +247,24 @@ public:
   MultiplicativeExpr mMultiplicativeExpr;
 
   Expression(){};
+  Expression(MultiplicativeExpr m){};
 }; // End of Expression class
 
 
 class Comp {
 public:
-  string mComparisonOperator;
+  string mComparisonOperator; // Allows us to return operators as strings.
   enum ComparisonOperator { EQ, NEQ, LT, GT, LTE, GTE };
+
   Comp(){};
   Comp(ComparisonOperator c){
     switch (c) {
-      case EQ : mComparisonOperator  = "EQ";  break;
+      case EQ : mComparisonOperator  = "EQ";   break;
       case NEQ: mComparisonOperator  = "NEQ";  break;
-      case LT : mComparisonOperator  = "LT";  break;
-      case GT : mComparisonOperator  = "GT";  break;
+      case LT : mComparisonOperator  = "LT";   break;
+      case GT : mComparisonOperator  = "GT";   break;
+      case LTE: mComparisonOperator  = "LTE";  break;
+      case GTE: mComparisonOperator  = "GTE";  break;
 
     };
   };
