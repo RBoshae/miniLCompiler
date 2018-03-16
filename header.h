@@ -262,10 +262,35 @@ public:
 
     } // end of for-loop
     // list_of_terms.at(0).printMemberInfo();
-
+    cout << "CHECK MULT DEC AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << endl;
     cout << list_of_terms.at(0).mLeftOperatorType << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
 
 
+  }
+
+  void printMemberInfo() {
+    cout << "============================" << endl;
+    cout << "MultiplicativeExpr Object information" << endl;
+    cout << "--------------------------" << endl;
+    cout << "Object information " << endl;
+    cout << "id.name:           " << id.name << endl;
+    cout << "type:              " << type << endl;
+    cout << "Term mLeftSideTerm.pmi  " << endl;
+    mLeftSideTerm.printMemberInfo();
+    cout << "Term mRightSideTerm.pmi  " << endl;
+    mRightSideTerm.printMemberInfo();
+    cout << "list_of_terms.size() " << list_of_terms.size() << endl;
+
+    cout << "End of MultiplicativeExpr Report\n";
+    cout << "============================" << endl << endl;
+
+    ID id;                            // Used in a single variable case.
+    string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
+
+    Term mLeftSideTerm;
+    Term mRightSideTerm;
+
+    std::vector<Term> list_of_terms;  // Container for passing chains of multiplicative expressions.
   }
 }; // End of MultiplicativeExpr Class
 
