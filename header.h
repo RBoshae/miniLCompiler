@@ -267,6 +267,11 @@ public:
 
 
   }
+
+  void printMemberInfo()
+  {
+    // print local member variables in formatted table
+  }
 }; // End of MultiplicativeExpr Class
 
 
