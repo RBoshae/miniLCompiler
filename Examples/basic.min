@@ -17,5 +17,5 @@ beginbody	## main program
   read b[10];   ## Can't hand this case without Expression
   i := 2 * 3;
   j := 15 / 5;
-  k := 20 / 10;
+  k := 20 % 10;
 endbody

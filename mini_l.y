@@ -461,14 +461,14 @@ Multiplicative-Expr:  Term U V W                                            {/*$
                                                                               {
                                                                                 cout << "* t-dummy " << $1->int_val << ", " << $2->int_val << endl;
                                                                               }
-                                                                              /* else if ($3 != NULL)
+                                                                              else if ($3 != NULL)
                                                                               {
                                                                                 cout << "/ t-dummy " << $1->int_val << ", " << $3->int_val << endl;
                                                                               }
                                                                               else if ($4 != NULL)
                                                                               {
                                                                                 cout << "% t-dummy " << $1->int_val << ", " << $4->int_val << endl;
-                                                                              } */
+                                                                              }
                                                                             }
 
 
@@ -480,11 +480,14 @@ U:              /* empty - epsilon */                                       { /*
                                                                             }
                 | MULT Term U V W                                             {/*printf("U --> MULT Term U V W\n");*/
                                                                                 cout << "Test: in U MULT Term UVW..." << endl;
-                                                                                if ($2 != NULL)
+
+                                                                                // Case: Term NOT NULL, U V W all return NULL
+                                                                                if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
                                                                                   $$ = $2;
 
-                                                                                // if (V){}
-                                                                                // if (W){}
+                                                                                // else if (U){}
+                                                                                // else if (V){}
+                                                                                // else if (W){}
                                                                               }
                 ;
 
@@ -492,14 +495,33 @@ V:              /* empty - epsilon */                                       { /*
                                                                               cout << "Test: in V-epsilon..." << endl;
                                                                               $$ = NULL;
                                                                             }
-                | DIV Term U V W                                             {printf("V --> DIV Term U V W\n");}
+                | DIV Term U V W                                            {/*printf("V --> DIV Term U V W\n");*/
+
+                                                                              // Case: Term NOT NULL, U V W all return NULL
+                                                                              if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
+                                                                                $$ = $2;
+
+                                                                              // else if (U){}
+                                                                              // else if (V){}
+                                                                              // else if (W){}
+                                                                            }
                 ;
 
 W:              /* empty - epsilon */                                       { /*printf("W --> epsilon\n");*/
                                                                               cout << "Test: in W-epsilon..." << endl;
                                                                               $$ = NULL;
                                                                             }
-                | MOD Term U V W                                             {printf("W --> MOD Term U V W\n");}
+
+                | MOD Term U V W                                            {/*printf("W --> MOD Term U V W\n");*/
+
+                                                                              // Case: Term NOT NULL, U V W all return NULL
+                                                                              if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
+                                                                                $$ = $2;
+
+                                                                              // else if (U){}
+                                                                              // else if (V){}
+                                                                              // else if (W){}
+                                                                            }
                 ;
 
 Term:           Var                                                           {
