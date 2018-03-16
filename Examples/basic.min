@@ -15,12 +15,13 @@ beginbody	## main program
   read i[10];
   read aa, bb, cc;
   read ii, jj[10], kk;
-  write d;
+
   write m[10];
   write dd, ee, ff;
   write mm, nn[10], pp;
 
   if 2 == 0 then
+    write d;
   endif;
 
 
