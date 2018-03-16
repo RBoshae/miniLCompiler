@@ -58,10 +58,12 @@
 
   } attr;
 
-  ID          *id;
-  Declaration *list_of_ids;
-  Variable    *variable;
-  Read        *list_of_read_variables;
+  ID                  *id;
+  Declaration         *list_of_ids;
+  Variable            *variable;
+  Read                *list_of_read_variables;
+  MultiplicativeExpr  *multiplicative_expr;
+  Term                *term;
 
 }
 
@@ -80,11 +82,11 @@
 %type <int_val>     Multiplicative-Expr
 %type <int_val>     S
 %type <int_val>     numbers
-%type <variable>    Term                /*Returns ints which represents what Mult Expr should print*/
+%type <term>    Term                /*Returns ints which represents what Mult Expr should print*/
 %type <int_val>     T
-%type <variable>    U
-%type <variable>    V
-%type <variable>    W
+%type <term>    U
+%type <term>    V
+%type <term>    W
 
 /* Used in Input/Output Statements */
 %type <list_of_read_variables>    Lima     /*Used in Read*/
@@ -460,8 +462,6 @@ Multiplicative-Expr:  Term U V W                                            {/*$
 
                                                                               if ($2 != NULL)
                                                                               {
-                                                                                cout << "About to print $2..." << endl;
-
                                                                                 cout << "* t-dummy " << $1->int_val << ", " << $2->int_val << endl;
                                                                               }
                                                                               else if ($3 != NULL)
@@ -482,22 +482,20 @@ U:              /* empty - epsilon */                                       { /*
                                                                               $$ = NULL;
                                                                             }
                 | MULT Term U V W                                             {/*printf("U --> MULT Term U V W\n");*/
-                                                                                cout << "Test: in U MULT Term UVW..." << endl;
-
                                                                                 // Case: Term NOT NULL, U V W all return NULL
                                                                                 if ( $2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL )
+                                                                                {
                                                                                   $$ = $2;
-
+                                                                                }
                                                                                 else if ( $2 != NULL && $3 != NULL )
                                                                                 {
                                                                                   cout << "* t-dummy-in-U, " << $2->int_val << ", " << $3->int_val << endl;
 
-                                                                                  cout << "In MULT Term U V W: WHEEEEEEEEEEE!" << endl;
-
+                                                                                  Term *t = new Term();
+                                                                                  t->id.name = "t-dummy-in-U";
+                                                                                  $$ = t;
                                                                                   //$$->id.name = "t-dummy-in-U";
                                                                                   //$$->int_val = ($2->int_val) * ($3->int_val);
-
-                                                                                  cout << "In MULT Term U V W: END " << endl;
                                                                                 }
                                                                                 // else if (V){}
                                                                                 // else if (W){}
@@ -546,16 +544,16 @@ Term:           Var                                                           {
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
                                                                               }
                 | numbers                                                     {
-                                                                                cout << "Inside Var->numbers" << endl;
-                                                                                Variable *synthesized_variable = new Variable();
+                                                                                cout << "Inside Term->numbers" << endl;
+                                                                                Term *synthesized_term = new Term();
 
                                                                                 //char *intStr = itoa( *($1) );
                                                                                 //synthesized_variable->id.name = itoa( *($1) );
 
-                                                                                synthesized_variable->int_val = $1;
-                                                                                cout << "Inside Var->numbers: int_val is " << synthesized_variable->int_val << endl;
+                                                                                synthesized_term->int_val = $1;
+                                                                                cout << "Inside Term->numbers: int_val is " << synthesized_term->int_val << endl;
 
-                                                                                $$ = synthesized_variable;
+                                                                                $$ = synthesized_term;
                                                                               }
                 | SUB numbers                                                 {
                                                                                 //$$ = 2;  /* 2 -- represents unary minus numbers */

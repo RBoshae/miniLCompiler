@@ -3,6 +3,9 @@
 
 class God;
 class Declaration;
+class Variable;
+class Term;
+class MultiplicativeExpr;
 class ID;
 
 class God {
@@ -60,14 +63,18 @@ public:
   // Array Info:
   bool isArray;                     // Determine if the declations is an array
 
-  int int_val;                      // Used in the "numbers" grammar production to capture int_val
   int arraySize;
   int arrayIndex;                   // index of array
   std::vector<ID> list_of_ids;      //
 
   Variable(){
-    // isArray = false;                // assume the value of array is false.
+    isArray = false;                // assume the value of array is false.
     arraySize = -1;
+    arrayIndex = -1;
+  }
+
+  void setId(ID i) {
+    id = i;
   }
 
   void setIdName(string n) {
@@ -78,35 +85,11 @@ public:
     return id.name;
   }
 
-  void setArrayInfo(bool isA,int aSize, int aIndex){
+  void setArrayInfo(bool isA, int aSize, int aIndex){
     isArray = isA;
-    if (isArray) {
-      arraySize = aSize;
-      arrayIndex = aIndex;
-    }
-
+    arraySize = aSize;
+    arrayIndex = aIndex;
   }
-
-
-  // class MultiplicativeExpr {
-  // public:
-  //   ID id;                            // Used in a single variable case.
-  //   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
-  //   int int_val;                      // Used in the "numbers" grammar production to capture int_val
-  //
-  //   std::vector<ID> list_of_ids;      //
-  //
-  //   MultiplicativeExpr(){}
-  //
-  //   void setIdName(string n) {
-  //     id.name = n;
-  //   }
-  //
-  //   string getIdName() {
-  //     return id.name;
-  //   }
-  //
-  // }
 
   // Used for debugging
   void printMemberInfo() {
@@ -120,13 +103,46 @@ public:
     cout << "isArray:    " << isArray << endl;
     cout << "type:       " << type << endl;
     cout << "arraySize:  " << arraySize << endl;
-    cout << "arrayIndex: " << type << endl;
+    cout << "arrayIndex: " << arrayIndex << endl;
     cout << "list_of_ids Info " << endl;
     cout << "list_of_ids.size(): " << list_of_ids.size() << endl;
     cout << "End of Report\n";
     cout << "============================" << endl;
   }
-};
+}; // End of Variable Class
+
+
+class Term{
+
+  public:
+    int int_val;
+    Variable variable;
+
+    Term(){}
+}; // End of Term Class
+
+
+class MultiplicativeExpr {
+public:
+  ID id;                            // Used in a single variable case.
+  string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
+
+  Term mLeftsideTerm;
+  Term mRightsideTerm;
+
+  std::vector<ID> list_of_ids;      //
+
+  MultiplicativeExpr(){}
+
+  void setIdName(string n) {
+    id.name = n;
+  }
+
+  string getIdName() {
+    return id.name;
+  }
+}; // End of MultiplicativeExpr Class
+
 
 class Read {
 public:
@@ -158,6 +174,7 @@ public:
   };
 
   void printIntermediateCodeSingleVariable() {
+    cout << " In PILCSV" << endl;
     if (mSingleVariable.isArray) {
 
       cout << ". [] < " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;
