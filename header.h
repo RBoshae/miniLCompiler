@@ -283,9 +283,9 @@ public:
       case LTE: mComparisonOperator  = "LTE";  break;
       case GTE: mComparisonOperator  = "GTE";  break;
 
-    };
-  };
-};  // End of Comp class
+    };  // end of switch
+  };    // end of constructor
+};      // End of Comp class
 
 
 struct Table_Entry {

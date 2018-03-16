@@ -64,7 +64,7 @@
   Declaration         *list_of_ids;
   Variable            *variable;
   Read                *list_of_read_variables;
-  MultiplicativeExpr  *multiplicative_expr;
+  MultiplicativeExpr  *list_of_terms;
   Term                *term;
   Expression          *expression;
   Comp                *comparisonOperator;
@@ -87,9 +87,9 @@
 %type <int_val>                   numbers
 %type <term>                      Term                /*Returns ints which represents what Mult Expr should print*/
 %type <int_val>                   T
-%type <term>                      U
-%type <term>                      V
-%type <term>                      W
+%type <list_of_terms>             U
+%type <list_of_terms>             V
+%type <list_of_terms>             W
 
 /* Used in Input/Output Statements */
 %type <list_of_read_variables>    Lima     /*Used in Read*/
@@ -99,7 +99,7 @@
 
 /* Multiple Uses */
 %type <variable>                  Var
-%type <expression>                Expression
+%type <variable>                  Expression
 
 
 /* define the constant-string tokens: */
@@ -312,7 +312,7 @@ Statement:      E                                                        {printf
                                                                           w.printIntermediateCodeFromListOfVariables();
                                                                         }
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
-                | RETURN Expression                                      {printf("Statement --> RETURN Expression\n");}
+                | RETURN Expression                                      {cout << "ret"  << "$2 -- finish expression" << endl;}
                 ;
 
 E:              Var ASSIGN Expression                                    {printf("E --> Var ASSIGN Expression\n");}
@@ -524,7 +524,7 @@ U:              /* empty - epsilon */                                       { /*
                                                                               $$ = NULL;
                                                                             }
                 | MULT Term U V W                                             {/*printf("U --> MULT Term U V W\n");*/
-                                                                                // Case: Term NOT NULL, U V W all return NULL
+                                                                                /* // Case: Term NOT NULL, U V W all return NULL
                                                                                 if ( $2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL )
                                                                                 {
                                                                                   $2->convertIntToIdName( $2->mIntVal );
@@ -556,17 +556,17 @@ U:              /* empty - epsilon */                                       { /*
                                                                                   Term *t = new Term();
                                                                                   t->setIdName("t-dummy-in-U");
                                                                                   $$ = t;
-                                                                                }
+                                                                                } */
                                                                               }
                 ;
 
 V:              /* empty - epsilon */                                       { /*printf("V --> epsilon\n");*/
                                                                               //cout << "Test: in V-epsilon..." << endl;
-                                                                              $$ = NULL;
+                                                                              /* $$ = NULL; */
                                                                             }
                 | DIV Term U V W                                            {/*printf("V --> DIV Term U V W\n");*/
 
-                                                                              // Case: Term NOT NULL, U V W all return NULL
+                                                                              /* // Case: Term NOT NULL, U V W all return NULL
                                                                               if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
                                                                               {
                                                                                 $2->convertIntToIdName( $2->mIntVal );
@@ -598,18 +598,18 @@ V:              /* empty - epsilon */                                       { /*
                                                                                 Term *t = new Term();
                                                                                 t->setIdName("t-dummy-in-U");
                                                                                 $$ = t;
-                                                                              }
+                                                                              } */
                                                                             }
                 ;
 
 W:              /* empty - epsilon */                                       { /*printf("W --> epsilon\n");*/
                                                                               //cout << "Test: in W-epsilon..." << endl;
-                                                                              $$ = NULL;
+                                                                              /* $$ = NULL; */
                                                                             }
 
                 | MOD Term U V W                                            {/*printf("W --> MOD Term U V W\n");*/
 
-                                                                              // Case: Term NOT NULL, U V W all return NULL
+                                                                              /* // Case: Term NOT NULL, U V W all return NULL
                                                                               if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
                                                                               {
                                                                                 $2->convertIntToIdName( $2->mIntVal );
@@ -641,11 +641,11 @@ W:              /* empty - epsilon */                                       { /*
                                                                                 Term *t = new Term();
                                                                                 t->setIdName("t-dummy-in-U");
                                                                                 $$ = t;
-                                                                              }
+                                                                              } */
                                                                             }
                 ;
 
-Term:           Var                                                           {
+Term:           Var                                                           { // Done
                                                                                 Term *synthesized_var = new Term();
                                                                                 synthesized_var->setVariable(*($1));
                                                                                 $$ = synthesized_var;
@@ -738,16 +738,8 @@ identifiers:    IDENT                                                        {
                 ;
 
 numbers:        NUMBER                                                       {
-                                                                              cout << "Inside numbers: $1 is " << $1 << endl;
+                                                                              // Done
                                                                               $$ = $1;
-                                                                              /* $$ = $1; */
-                                                                              /* string counter = generateTempVariable(); */
-                                                                              /* cout <<  "NUMBER: value of $$: " << $$ << endl;
-                                                                              Table_Entry temp;
-                                                                              temp.int_value = $1; */
-                                                                              /* Entry_List.push_back(temp); */
-/*
-                                                                              Number_List.push_back((int)$1); */
                                                                              }
                 ;
 
