@@ -145,9 +145,9 @@ class Term{
       switch (operandType)
       {
         case NONE: mLeftOperatorType  = "NONE"; break;
-        case MULT: mLeftOperatorType  = "MULT"; break;
-        case DIV: mLeftOperatorType   = "DIV"; break;
-        case MOD: mLeftOperatorType   = "MOD"; break;
+        case MULT: mLeftOperatorType  = "*"; break;
+        case DIV: mLeftOperatorType   = "/"; break;
+        case MOD: mLeftOperatorType   = "%"; break;
       };
     };
 
@@ -231,8 +231,6 @@ public:
 
   void printIntermediateCode() {
 
-    cout << "In ME PIC" << endl;
-
     for (int i = (list_of_terms.size()-1); i > 0; i--) {
       // get generated temp value
       // string temp_var_id_name = generateTempVariable(); // TODO: Fix globale temp generator
@@ -250,14 +248,15 @@ public:
 
       // need to make temp a variable
       Variable v(temp_var_id_name);
-
+      v.printMemberInfo();
 
       Term merged_temp_term(leftOperand.mLeftOperatorType, v);  // (operandType, variable)
+      merged_temp_term.printMemberInfo();
       list_of_terms.push_back(merged_temp_term);
 
     } // end of for-loop
-
-    cout << "WAAAHHHH" << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
+    // list_of_terms.at(0).printMemberInfo();
+    cout << list_of_terms.at(0).mLeftOperatorType << " " << generateTempVariable() << ", " << mLeftSideTerm.getTermTypeString() << ", " << list_of_terms[0].getTermTypeString() << endl;
   }
 }; // End of MultiplicativeExpr Class
 
