@@ -252,7 +252,7 @@ public:
       leftOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
-      cout << leftOperand.mLeftOperatorType << " " << temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
+      cout << rightOperand.mLeftOperatorType << " " << temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
 
       // need to make temp a variable
       Variable v(temp_var_id_name);
@@ -265,23 +265,21 @@ public:
     } // end of for-loop
     // list_of_terms.at(0).printMemberInfo();
 
-    string temp_var_id_name = generateTempVariable();
-
-    cout << list_of_terms.front().mLeftOperatorType << " " << temp_var_id_name << ", " << list_of_terms.front().getTermTypeString() << ", " << list_of_terms.back().getTermTypeString() << endl;
-
-
-    Variable v(temp_var_id_name);
-    Term merged_temp_term(list_of_terms.front().mLeftOperatorType, v);  // (operandType, variable)
-
-    cout  << "list_of_terms.front():  " << list_of_terms.front().getTermTypeString() << endl;
-    cout  << "list_of_terms.back():  " << list_of_terms.back().getTermTypeString() << endl;
-
-    list_of_terms.pop_back();
-    list_of_terms.pop_back();
-
-
-
-    list_of_terms.push_back(merged_temp_term);
+    // ALL OF THIS POST LOOP CODE IS LIKELY PROBLEMATIC
+    // string temp_var_id_name = generateTempVariable();
+    //
+    // cout << list_of_terms.front().mLeftOperatorType << " " << temp_var_id_name << ", " << list_of_terms.front().getTermTypeString() << ", " << list_of_terms.back().getTermTypeString() << endl;
+    //
+    //
+    // Variable v(temp_var_id_name);
+    // Term merged_temp_term(list_of_terms.front().mLeftOperatorType, v);  // (operandType, variable)
+    //
+    // cout  << "list_of_terms.front():  " << list_of_terms.front().getTermTypeString() << endl;
+    // cout  << "list_of_terms.back():  " << list_of_terms.back().getTermTypeString() << endl;
+    //
+    // list_of_terms.pop_back();
+    // list_of_terms.pop_back();
+    // list_of_terms.push_back(merged_temp_term);
   }
 
   void printMemberInfo()
