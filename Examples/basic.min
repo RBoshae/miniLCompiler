@@ -12,12 +12,20 @@ endlocals
 
 beginbody	## main program
   read a;
-  read i[0];
+  read i[10];
   read aa, bb, cc;
   read ii, jj[10], kk;
-  ## write c;
-  ## read b[10];   ## Can't hand this case without Expression
-  i := 2 * 3 / 4 % 5;
-  j := 15 / 5;
-  k := 20 / 10;
+
+  write m[10];
+  write dd, ee, ff;
+  write mm, nn[10], pp;
+
+  if 2 == 0 then
+    write d;
+  endif;
+
+
+  ## i := 2 * 3;
+  ## j := 15 / 5;
+  ## k := 20 / 10;
 endbody

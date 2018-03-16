@@ -14,6 +14,7 @@
   using namespace std;
 
   #include "header.h"
+  #include "globalFunctions.cpp"
 
   /* Putting C includes here */
   #include <stdio.h>
@@ -65,6 +66,8 @@
   Read                *list_of_read_variables;
   MultiplicativeExpr  *multiplicative_expr;
   Term                *term;
+  Expression          *expression;
+  Comp                *comparisonOperator;
 
 }
 
@@ -72,28 +75,31 @@
 %start	Program_Prime
 
 /* Added for phase 3 */
-%type <id>            identifiers
-%type <int_val>       D
+%type <id>                        identifiers
+%type <int_val>                   D
 
 /* Used in Variable Declaration Statements*/
-%type <list_of_ids> C
+%type <list_of_ids>               C
 
 /* Used in Arithmetic Operator Statments*/
-%type <attr>        Expression
-%type <int_val>     Multiplicative-Expr
-%type <int_val>     S
-%type <int_val>     numbers
-%type <term>    Term                /*Returns ints which represents what Mult Expr should print*/
-%type <int_val>     T
-%type <term>    U
-%type <term>    V
-%type <term>    W
+%type <int_val>                   Multiplicative-Expr
+%type <int_val>                   S
+%type <int_val>                   numbers
+%type <term>                      Term                /*Returns ints which represents what Mult Expr should print*/
+%type <int_val>                   T
+%type <term>                      U
+%type <term>                      V
+%type <term>                      W
 
 /* Used in Input/Output Statements */
 %type <list_of_read_variables>    Lima     /*Used in Read*/
 
+/* Used in Input/Output Statements */
+%type <comparisonOperator>        Comp
+
 /* Multiple Uses */
-%type <variable>          Var
+%type <variable>                  Var
+%type <expression>                Expression
 
 
 /* define the constant-string tokens: */
@@ -277,11 +283,34 @@ Statement:      E                                                        {printf
                                                                           // Think of write into register.
                                                                           /* cout << "Inside of Write Var\n"; // Debugging */
                                                                           Write w;
-                                                                          w.mSingleVariable.id.name = $2->id.name;
+                                                                          w.mSingleVariable = *($2);
 
                                                                           w.printIntermediateCodeSingleVariable();
                                                                         }
-                | WRITE Var Lima                                         {printf("Statement --> WRITE Var Lima\n");}
+                | WRITE Var Lima                                        {
+                                                                          // Done. Need to revisit after finishing Expression.
+                                                                          Variable synthesized_var = *($2);
+
+                                                                          /* w.printIntermediateCodeFromListOfVariables(); */
+                                                                          $3->list_of_variables.push_back(synthesized_var);
+
+                                                                          Write w;
+
+                                                                          /* cout << " | WRITE Var Lima  " << $3->list_of_variables.size() << endl; */
+
+                                                                          // Small Boo Boo fix. Lima returns pointer to Read objects. Need to transfer over to write objects instead,
+                                                                          for (int i = (($3->list_of_variables.size() - 1)); i >=0; i--) {
+                                                                            Variable temp = (*($3)).list_of_variables.back();
+                                                                            w.list_of_variables.push_back(temp);
+                                                                            $3->list_of_variables.pop_back();
+                                                                          }
+
+
+                                                                          /* cout << "Debugging\n"; // Debugging */
+                                                                          //$3->printMemberInfo();
+
+                                                                          w.printIntermediateCodeFromListOfVariables();
+                                                                        }
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
                 | RETURN Expression                                      {printf("Statement --> RETURN Expression\n");}
                 ;
@@ -405,7 +434,9 @@ Quebec:         AND Relation-Expr                                            {pr
                 | AND Relation-Expr Quebec                                   {printf("Quebec --> AND Relation-Expr Quebec\n");}
                 ;
 
-Relation-Expr:  Expression Comp Expression                                   {printf("Relation-Expr --> Expression Comp Expression\n");}
+Relation-Expr:  Expression Comp Expression                                {
+                                                                              cout << "== " << "dst" << " src1" << " src2" << endl;
+                                                                          }
                 | NOT Expression Comp Expression                             {printf("Relation-Expr --> NOT Expression Comp Expression\n");}
                 | TRUE                                                       {printf("Relation-Expr --> TRUE\n");}
                 | NOT TRUE                                                   {printf("NOT Relation-Expr --> TRUE\n");}
@@ -415,43 +446,37 @@ Relation-Expr:  Expression Comp Expression                                   {pr
                 | NOT L_PAREN Bool-Expr R_PAREN                              {printf("Relation-Expr --> L_PAREN Bool-Expr R_PAREN\n");}
                 ;
 
-Comp:           EQ                                                           {printf("Comp --> EQ\n");}
-                | NEQ                                                        {printf("Comp --> NEQ\n");}
-                | LT                                                         {printf("Comp --> LT\n");}
-                | GT                                                         {printf("Comp --> GT\n");}
-                | LTE                                                        {printf("Comp --> LTE\n");}
-                | GTE                                                        {printf("Comp --> GTE\n");}
+Comp:           EQ                                                            {
+                                                                                Comp *c = new Comp(1); // 1 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | NEQ                                                         {
+                                                                                Comp *c = new Comp(2); // 2 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | LT                                                          {
+                                                                                Comp *c = new Comp(3); // 3 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | GT                                                          {
+                                                                                Comp *c = new Comp(3); // 3 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | LTE                                                         {
+                                                                                Comp *c = new Comp(4); // 4 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
+                | GTE                                                         {
+                                                                                Comp *c = new Comp(5); // 5 is passed in to set Comp data members. Refer to header.h
+                                                                                $$ = c;
+                                                                              }
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {
                                                                                 cout << "We're in expression." << endl;
+                                                                                // Need to work with Gabe to build the bridge here.
 
-                                                                                // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
-                                                                                // Arithmetic Operator Statments  Addition
-                                                                                /* cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
-                                                                                if ($2 == 1)
-                                                                                {
-                                                                                  for (int i = 0; i < Number_List.size(); i++) {
 
-                                                                                    cout << "+ " << generateTempVariable() << " " <<  ", " << Number_List.at(i) << endl;
-                                                                                  }
-                                                                                }
-                                                                                else if ($2 == 3)
-                                                                                {
-                                                                                  for (int i = 0; i < Number_List.size(); i++) {
-
-                                                                                    cout << "+ " << generateTempVariable() << " " <<  ", " << Entry_List.at(i).name << endl;
-                                                                                  }
-                                                                                }
-
-                                                                                Entry_List.clear();
-                                                                                Number_List.clear(); */
-                                                                                /*
-                                                                                TODO: Include conditional logic to handle other cases
-                                                                                if (S) {
-
-                                                                                } else if (T){} */
-                                                                                /* Number_List.clear(); */
                                                                               }
                 ;
 
@@ -705,7 +730,7 @@ Z:              /* empty - epsilon */                                        {pr
                                 ;
 
 identifiers:    IDENT                                                        {
-                                                                              //
+                                                                              // Done
                                                                               ID *temp_id = new ID();
                                                                               temp_id->name = $1;
                                                                               $$ = temp_id; // passes up pointer to ID object to parent node.

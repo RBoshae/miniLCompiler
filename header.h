@@ -207,7 +207,7 @@ public:
 
   };
 
-};
+}; // End of Read
 
 
 class Write {
@@ -225,21 +225,21 @@ public:
   };
 
   void printIntermediateCodeFromListOfVariables() {
-
-    if (mSingleVariable.isArray) {
-      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
-        cout << ". [] > " << mSingleVariable.list_of_ids.at(i).name << ", " << mSingleVariable.arrayIndex << endl;
+    // cout << " In PILOV" << endl;
+    for (int i = 0; i < list_of_variables.size(); i++) {
+      if (list_of_variables.at(i).isArray)
+      {
+        cout << ". [] > " << list_of_variables.at(i).id.name << ", " << list_of_variables.at(i).arrayIndex << endl;
       }
-    }
-    else if(!mSingleVariable.isArray) {
-      // cout << "inside write print " << endl;  // Debugging
-      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
-        cout << ". > " << mSingleVariable.list_of_ids.at(i).name << endl;
+      else if(!(list_of_variables.at(i).isArray))
+      {
+        cout << ". > " << list_of_variables.at(i).id.name << endl;
       }
     }
   };
 
   void printIntermediateCodeSingleVariable() {
+    // cout << " In PILCSV" << endl; // Debugging
     if (mSingleVariable.isArray) {
 
       cout << ". [] > " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;
@@ -253,6 +253,34 @@ public:
 
 }; // End of Write class
 
+class Expression {
+public:
+  MultiplicativeExpr mMultiplicativeExpr;
+
+  Expression(){};
+  Expression(MultiplicativeExpr m){};
+}; // End of Expression class
+
+
+class Comp {
+public:
+  string mComparisonOperator; // Allows us to return operators as strings.
+  enum ComparisonOperator { EQ, NEQ, LT, GT, LTE, GTE };
+  //EQ = 0, NEQ = 1, LT = 2, GT = 3, LTE = 4, GTE = 5
+
+  Comp(){};
+  Comp(int c){
+    switch (c) {
+      case EQ : mComparisonOperator  = "EQ";   break;
+      case NEQ: mComparisonOperator  = "NEQ";  break;
+      case LT : mComparisonOperator  = "LT";   break;
+      case GT : mComparisonOperator  = "GT";   break;
+      case LTE: mComparisonOperator  = "LTE";  break;
+      case GTE: mComparisonOperator  = "GTE";  break;
+
+    };
+  };
+};  // End of Comp class
 
 
 struct Table_Entry {
