@@ -123,10 +123,22 @@ class Term{
 
     string mLeftOperatorType; // Exs: * n, / n, % n
 
-    enum LeftOperatorType { MULT, DIV, MOD };
-    // MULT = 0, DIV = 1, MOD = 2
+    enum LeftOperatorType { NONE, MULT, DIV, MOD };
+    // NONE = 0, MULT = 1, DIV = 2, MOD = 3
 
     Term(){}
+    Term( int type, int val )
+    {
+      mIntVal = val;
+
+      switch (type)
+      {
+        case NONE: mLeftOperatorType = "NONE"; break;
+        case MULT: mLeftOperatorType = "MULT"; break;
+        case DIV: mLeftOperatorType = "DIV"; break;
+        case MOD: mLeftOperatorType = "MOD"; break;
+      };
+    };
 
     void setIdName(string n){
       mVariable.id.name = n;
