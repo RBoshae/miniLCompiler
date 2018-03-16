@@ -508,9 +508,9 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               // USED TO RETURN THINGS TO EXPRESSION
                                                                               Term synthesized_term = *($1);
-                                                                              cout << "VVVVVVVVVVVVVVVVV  synthesized_term.printMemberInfo();VVVVVVVVVVVVVVVVVVVVV" << endl;
+                                                                              /* cout << "VVVVVVVVVVVVVVVVV  synthesized_term.printMemberInfo();VVVVVVVVVVVVVVVVVVVVV" << endl;
                                                                               synthesized_term.printMemberInfo();
-                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl;
+                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl; */
 
                                                                               m_copy->list_of_terms.push_back(synthesized_term);
 
@@ -533,9 +533,9 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               m.printIntermediateCode();
                                                                               // TODO
-                                                                              /* cout << "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n";
+                                                                              cout << "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n";
                                                                               m_copy->list_of_terms.back().printMemberInfo();
-                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"; */
+                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
 
                                                                               $$ = m_copy;
                                                                             }
@@ -600,7 +600,7 @@ Term:           Var                                                           { 
                                                                                 cout << "In Term: |numbers\n";
                                                                                 Term *synthesized_term = new Term(0, $1, true);
 
-                                                                                synthesized_term->printMemberInfo();
+                                                                                /* synthesized_term->printMemberInfo(); */
 
                                                                                 /* cout << "$1: " << $1 << endl;
 
@@ -659,6 +659,8 @@ Var:            identifiers                                                   {
                                                                                 /* v->setArrayInfo(true, $3->mMultiplicativeExpr.list_of_terms.at(0).mVariable.arraySize, $3->mMultiplicativeExpr.list_of_terms.at(0).mVariable.arrayIndex);   // Hard coded data -- needs to be fixed */
 
                                                                                 Expression synthesized_me = *($3);
+
+                                                                                cout << "SIZEEEE:     " << synthesized_me.mMultiplicativeExpr.list_of_terms.size() <<endl;
 
                                                                                 synthesized_me.mMultiplicativeExpr.list_of_terms.back().printMemberInfo();
 
