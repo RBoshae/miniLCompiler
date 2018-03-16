@@ -245,11 +245,11 @@ public:
 
       // pop two off the list.
       Term leftOperand, rightOperand;
-      rightOperand = list_of_terms.back();
+      leftOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
 
-      leftOperand = list_of_terms.back();
+      rightOperand = list_of_terms.back();
       list_of_terms.pop_back();
 
       cout << rightOperand.mLeftOperatorType << " " << temp_var_id_name << ", " << leftOperand.getTermTypeString() << ", " << rightOperand.getTermTypeString() << endl;
