@@ -276,11 +276,34 @@ Statement:      E                                                        {printf
                                                                           // Think of write into register.
                                                                           /* cout << "Inside of Write Var\n"; // Debugging */
                                                                           Write w;
-                                                                          w.mSingleVariable.id.name = $2->id.name;
+                                                                          w.mSingleVariable = *($2);
 
                                                                           w.printIntermediateCodeSingleVariable();
                                                                         }
-                | WRITE Var Lima                                         {printf("Statement --> WRITE Var Lima\n");}
+                | WRITE Var Lima                                        {
+                                                                          // Done. Need to revisit after finishing Expression.
+                                                                          Variable synthesized_var = *($2);
+
+                                                                          /* w.printIntermediateCodeFromListOfVariables(); */
+                                                                          $3->list_of_variables.push_back(synthesized_var);
+
+                                                                          Write w;
+
+                                                                          /* cout << " | WRITE Var Lima  " << $3->list_of_variables.size() << endl; */
+
+                                                                          // Small Boo Boo fix. Lima returns pointer to Read objects. Need to transfer over to write objects instead,
+                                                                          for (int i = (($3->list_of_variables.size() - 1)); i >=0; i--) {
+                                                                            Variable temp = (*($3)).list_of_variables.back();
+                                                                            w.list_of_variables.push_back(temp);
+                                                                            $3->list_of_variables.pop_back();
+                                                                          }
+
+
+                                                                          /* cout << "Debugging\n"; // Debugging */
+                                                                          //$3->printMemberInfo();
+
+                                                                          w.printIntermediateCodeFromListOfVariables();
+                                                                        }
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
                 | RETURN Expression                                      {printf("Statement --> RETURN Expression\n");}
                 ;

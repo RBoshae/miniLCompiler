@@ -196,7 +196,7 @@ public:
 
   };
 
-};
+}; // End of Read
 
 
 class Write {
@@ -214,21 +214,21 @@ public:
   };
 
   void printIntermediateCodeFromListOfVariables() {
-
-    if (mSingleVariable.isArray) {
-      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
-        cout << ". [] > " << mSingleVariable.list_of_ids.at(i).name << ", " << mSingleVariable.arrayIndex << endl;
+    // cout << " In PILOV" << endl;
+    for (int i = 0; i < list_of_variables.size(); i++) {
+      if (list_of_variables.at(i).isArray)
+      {
+        cout << ". [] > " << list_of_variables.at(i).id.name << ", " << list_of_variables.at(i).arrayIndex << endl;
       }
-    }
-    else if(!mSingleVariable.isArray) {
-      // cout << "inside write print " << endl;  // Debugging
-      for (int i = 0; i < mSingleVariable.list_of_ids.size(); i++) {
-        cout << ". > " << mSingleVariable.list_of_ids.at(i).name << endl;
+      else if(!(list_of_variables.at(i).isArray))
+      {
+        cout << ". > " << list_of_variables.at(i).id.name << endl;
       }
     }
   };
 
   void printIntermediateCodeSingleVariable() {
+    // cout << " In PILCSV" << endl; // Debugging
     if (mSingleVariable.isArray) {
 
       cout << ". [] > " << mSingleVariable.id.name << ", " << mSingleVariable.arrayIndex << endl;
