@@ -87,6 +87,27 @@ public:
 
   }
 
+
+  // class MultiplicativeExpr {
+  // public:
+  //   ID id;                            // Used in a single variable case.
+  //   string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
+  //   int int_val;                      // Used in the "numbers" grammar production to capture int_val
+  //
+  //   std::vector<ID> list_of_ids;      //
+  //
+  //   MultiplicativeExpr(){}
+  //
+  //   void setIdName(string n) {
+  //     id.name = n;
+  //   }
+  //
+  //   string getIdName() {
+  //     return id.name;
+  //   }
+  //
+  // }
+
   // Used for debugging
   void printMemberInfo() {
     cout << "============================" << endl;

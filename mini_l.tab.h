@@ -130,8 +130,7 @@ union YYSTYPE
   Read        *list_of_read_variables;
 
 
-
-#line 135 "mini_l.tab.h" /* yacc.c:1909  */
+#line 134 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -63,7 +63,6 @@
   Variable    *variable;
   Read        *list_of_read_variables;
 
-
 }
 
 %error-verbose                /* error-verbose lists additional information regarding the error. */
@@ -453,12 +452,16 @@ T:              /* empty - epsilon */                                        {/*
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {/*$$ = $1;*/
+                                                                              if ($1 != NULL) { cout << "$1 is NOT NULL" << endl; }
+                                                                              if ($1 == NULL) { cout << "$1 is NULL" << endl; }
                                                                               if ($2 == NULL) { cout << "$2 is NULL" << endl; }
                                                                               if ($3 == NULL) { cout << "$3 is NULL" << endl; }
                                                                               if ($4 == NULL) { cout << "$4 is NULL" << endl; }
 
                                                                               if ($2 != NULL)
                                                                               {
+                                                                                cout << "About to print $2..." << endl;
+
                                                                                 cout << "* t-dummy " << $1->int_val << ", " << $2->int_val << endl;
                                                                               }
                                                                               else if ($3 != NULL)
@@ -482,10 +485,20 @@ U:              /* empty - epsilon */                                       { /*
                                                                                 cout << "Test: in U MULT Term UVW..." << endl;
 
                                                                                 // Case: Term NOT NULL, U V W all return NULL
-                                                                                if ($2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL)
+                                                                                if ( $2 != NULL && $3 == NULL && $4 == NULL && $5 == NULL )
                                                                                   $$ = $2;
 
-                                                                                // else if (U){}
+                                                                                else if ( $2 != NULL && $3 != NULL )
+                                                                                {
+                                                                                  cout << "* t-dummy-in-U, " << $2->int_val << ", " << $3->int_val << endl;
+
+                                                                                  cout << "In MULT Term U V W: WHEEEEEEEEEEE!" << endl;
+
+                                                                                  //$$->id.name = "t-dummy-in-U";
+                                                                                  //$$->int_val = ($2->int_val) * ($3->int_val);
+
+                                                                                  cout << "In MULT Term U V W: END " << endl;
+                                                                                }
                                                                                 // else if (V){}
                                                                                 // else if (W){}
                                                                               }
