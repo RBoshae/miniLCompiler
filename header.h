@@ -8,21 +8,8 @@ class ID;
 class God {
 public:
   int myInt;
-  int current_temp_variable_count; // Used to keep track of the value we should assign in getTempVariableName
-  God(){
-    current_temp_variable_count = -1;
-  };
 
-  string generateTempVariable(){
-
-    current_temp_variable_count++;
-
-    ostringstream temp_number;
-    temp_number << current_temp_variable_count;
-    string temp_value = "t" + temp_number.str();
-
-    return temp_value;
-  }
+  God(){};
 
 };
 
@@ -72,6 +59,8 @@ public:
 
   // Array Info:
   bool isArray;                     // Determine if the declations is an array
+
+  int int_val;                      // Used in the "numbers" grammar production to capture int_val
   int arraySize;
   int arrayIndex;                   // index of array
   std::vector<ID> list_of_ids;      //
@@ -216,5 +205,18 @@ struct Table_Entry {
 
 };
 
+
+// int current_temp_variable_count = -1;
+//
+// string generateTempVariable(){
+//
+//   current_temp_variable_count++;
+//
+//   ostringstream temp_number;
+//   temp_number << current_temp_variable_count;
+//   string temp_value = "t" + temp_number.str();
+//
+//   return temp_value;
+// }
 
 #endif

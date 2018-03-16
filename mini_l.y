@@ -84,6 +84,8 @@
 %type <variable>    Term                /*Returns ints which represents what Mult Expr should print*/
 %type <int_val>     T
 %type <variable>    U
+%type <variable>    V
+%type <variable>    W
 
 /* Used in Input/Output Statements */
 %type <list_of_read_variables>    Lima     /*Used in Read*/
@@ -404,6 +406,8 @@ Comp:           EQ                                                           {pr
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {
+                                                                                cout << "We're in expression." << endl;
+
                                                                                 // At the end of the Expression rule we can determine whether the output code is an addition or subtraction.
                                                                                 // Arithmetic Operator Statments  Addition
                                                                                 /* cout << "Expression:     Multiplicative-Expr S T // Value of S: " << $2 << " T: " << $3 << endl; // Debugging
@@ -449,32 +453,74 @@ T:              /* empty - epsilon */                                        {/*
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {/*$$ = $1;*/
-                                                                              /* cout << "*t0 " << $1->id.name << ", " << $2->id.name << endl; */
+                                                                              if ($2 == NULL) { cout << "$2 is NULL" << endl; }
+                                                                              if ($3 == NULL) { cout << "$3 is NULL" << endl; }
+                                                                              if ($4 == NULL) { cout << "$4 is NULL" << endl; }
+
+                                                                              if ($2 != NULL)
+                                                                              {
+                                                                                cout << "* t-dummy " << $1->int_val << ", " << $2->int_val << endl;
+                                                                              }
+                                                                              /* else if ($3 != NULL)
+                                                                              {
+                                                                                cout << "/ t-dummy " << $1->int_val << ", " << $3->int_val << endl;
+                                                                              }
+                                                                              else if ($4 != NULL)
+                                                                              {
+                                                                                cout << "% t-dummy " << $1->int_val << ", " << $4->int_val << endl;
+                                                                              } */
                                                                             }
+
+
                 ;
 
-U:              /* empty - epsilon */                                         {printf("U --> epsilon\n");}
+U:              /* empty - epsilon */                                       { /*printf("U --> epsilon\n");*/
+                                                                              cout << "Test: in U-epsilon..." << endl;
+                                                                              $$ = NULL;
+                                                                            }
                 | MULT Term U V W                                             {/*printf("U --> MULT Term U V W\n");*/
-                                                                                $$ = $2;
+                                                                                cout << "Test: in U MULT Term UVW..." << endl;
+                                                                                if ($2 != NULL)
+                                                                                  $$ = $2;
+
+                                                                                // if (V){}
+                                                                                // if (W){}
                                                                               }
                 ;
 
-V:              /* empty - epsilon */                                        {printf("V --> epsilon\n");}
+V:              /* empty - epsilon */                                       { /*printf("V --> epsilon\n");*/
+                                                                              cout << "Test: in V-epsilon..." << endl;
+                                                                              $$ = NULL;
+                                                                            }
                 | DIV Term U V W                                             {printf("V --> DIV Term U V W\n");}
                 ;
 
-W:              /* empty - epsilon */                                        {printf("W --> epsilon\n");}
+W:              /* empty - epsilon */                                       { /*printf("W --> epsilon\n");*/
+                                                                              cout << "Test: in W-epsilon..." << endl;
+                                                                              $$ = NULL;
+                                                                            }
                 | MOD Term U V W                                             {printf("W --> MOD Term U V W\n");}
                 ;
 
 Term:           Var                                                           {
+                                                                                cout << "Test: in Term: Var..." << endl;
+                                                                                cout << "$$->id.name is " << $$->id.name << endl;
                                                                                 $$ = $1;
                                                                               }
                 | SUB Var                                                     {
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
                                                                               }
                 | numbers                                                     {
-                                                                                //$$ = 1;  /* 1 -- represents numbers */
+                                                                                cout << "Inside Var->numbers" << endl;
+                                                                                Variable *synthesized_variable = new Variable();
+
+                                                                                //char *intStr = itoa( *($1) );
+                                                                                //synthesized_variable->id.name = itoa( *($1) );
+
+                                                                                synthesized_variable->int_val = $1;
+                                                                                cout << "Inside Var->numbers: int_val is " << synthesized_variable->int_val << endl;
+
+                                                                                $$ = synthesized_variable;
                                                                               }
                 | SUB numbers                                                 {
                                                                                 //$$ = 2;  /* 2 -- represents unary minus numbers */
@@ -527,6 +573,8 @@ identifiers:    IDENT                                                        {
                 ;
 
 numbers:        NUMBER                                                       {
+                                                                              cout << "Inside numbers: $1 is " << $1 << endl;
+                                                                              $$ = $1;
                                                                               /* $$ = $1; */
                                                                               /* string counter = generateTempVariable(); */
                                                                               /* cout <<  "NUMBER: value of $$: " << $$ << endl;
