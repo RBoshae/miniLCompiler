@@ -517,28 +517,22 @@ Multiplicative-Expr:  Term U V W                                            {
 
                 ;
 
-U:              /* empty - epsilon */                                       { /*printf("U --> epsilon\n");*/
-                                                                              //cout << "Test: in U-epsilon..." << endl;
+U:              /* empty - epsilon */                                       {
                                                                               $$ = NULL;
                                                                             }
                 | MULT Term U V W                                           {/*printf("U --> MULT Term U V W\n");*/
                                                                                 // Case: Term NOT NULL, U V W all return NULL
                                                                               if ( $3 == NULL && $4 == NULL && $5 == NULL )
                                                                               {
-                                                                                /* Term *t = new Term( 1, $2->mIntVal, true ); */
-                                                                                Term t( 1, $2->mIntVal, $2->isNumber );
+                                                                                Term t = *($2);
                                                                                 MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
                                                                                 synthesized_terms->list_of_terms.push_back(t);
-                                                                                //cout << "U: | MULT Term U V W\n";
                                                                                 $$ = synthesized_terms;
                                                                               }
 
                                                                               else if ( $3 != NULL )
                                                                               {
-                                                                                Term t( 1, $2->mIntVal, $2->isNumber );
-
-                                                                                //MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
-                                                                                cout << "U: | MULT Term U V W\n";
+                                                                                Term t = *($2);
                                                                                 $3->list_of_terms.push_back(t);
                                                                                 $$ = $3;
                                                                               }
@@ -564,8 +558,11 @@ W:              /* empty - epsilon */                                       { /*
                 ;
 
 Term:           Var                                                           { // Done
-                                                                                Term *synthesized_var = new Term();
-                                                                                synthesized_var->setVariable(*($1));
+                                                                                Variable v = *($1);
+                                                                                v.printMemberInfo();
+                                                                                cout << "In Term: | Var\n";
+                                                                                Term *synthesized_var = new Term("NONE", v);
+                                                                                //synthesized_var->setVariable(*($1));
                                                                                 $$ = synthesized_var;
                                                                               }
                 | SUB Var                                                     {

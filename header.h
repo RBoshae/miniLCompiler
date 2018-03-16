@@ -186,6 +186,7 @@ class Term{
       }
       else if (mVariable.isArray)
       {
+        cout << "HEEEEEEEEEEEEEEEEEEERE!" << endl;
         string temp_var_array_name = generateTempVariable();
         // TODO this should be mapped in the symbol table so array matches with the temp name.
 
