@@ -97,9 +97,13 @@
 /* Used in Input/Output Statements */
 %type <comparisonOperator>        Comp
 
+/* Function Relation Statements */
+%type <expression>                Y
+%type <expression>                Z
+
 /* Multiple Uses */
 %type <variable>                  Var
-%type <expression>                  Expression
+%type <expression>                Expression
 
 
 /* define the constant-string tokens: */
@@ -312,7 +316,7 @@ Statement:      E                                                        {printf
                                                                           w.printIntermediateCodeFromListOfVariables();
                                                                         }
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
-                | RETURN Expression                                      {cout << "ret"  << "$2 -- finish expression" << endl;}
+                | RETURN Expression                                      {cout << "ret "  << $2->getTermTypeString() << endl;}
                 ;
 
 E:              Var ASSIGN Expression                                     {
@@ -438,7 +442,7 @@ Quebec:         AND Relation-Expr                                            {pr
                 ;
 
 Relation-Expr:  Expression Comp Expression                                {
-                                                                              cout << "== " << "dst" << " src1" << " src2" << endl;
+                                                                              cout << "== " << generateTempVariable() << " " <<  $1->getIdName() << ", " << $3->getTermTypeString() << endl;
                                                                           }
                 | NOT Expression Comp Expression                             {printf("Relation-Expr --> NOT Expression Comp Expression\n");}
                 | TRUE                                                       {printf("Relation-Expr --> TRUE\n");}
@@ -479,13 +483,18 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                 cout << "We're in expression." << endl;
 
+                                                                                if ($1 != NULL) {
                                                                                 Expression *expression = new Expression();
 
                                                                                 MultiplicativeExpr synthesized_me = *($1);
 
                                                                                 expression->mMultiplicativeExpr = synthesized_me;
 
+                                                                                /* synthesized_me.list_of_terms.front().printMemberInfo(); */
                                                                                 $$ = expression;
+                                                                                }
+
+                                                                                cout << "Done with expression\n";
                                                                               }
                 ;
 
@@ -509,7 +518,7 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               MultiplicativeExpr *m_copy = new MultiplicativeExpr();
 
-                                                                              // USED TO RETURN THINGS TO EXPRESSION
+                                                                              // USED TO RETURN THINGS mTO EXPRESSION
                                                                               Term synthesized_term = *($1);
                                                                               /* cout << "VVVVVVVVVVVVVVVVV  synthesized_term.printMemberInfo();VVVVVVVVVVVVVVVVVVVVV" << endl;
                                                                               synthesized_term.printMemberInfo();
@@ -573,15 +582,7 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                               }
                                                                               else // bedrock case only term is left
                                                                               {
-
-                                                                                /* cout << "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\n";
-                                                                                $$->printIntermediateCode(); */
-                                                                                // TODO
-                                                                                /* cout << "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n";
-                                                                                m_copy->list_of_terms.back().printMemberInfo();
-                                                                                cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"; */
-
-                                                                                /* $$ = m_copy; */
+                                                                                $$ =  m_copy;
                                                                               }
 
 
@@ -723,7 +724,7 @@ W:              /* empty - epsilon */                                       { /*
 
 Term:           Var                                                           { // Done
                                                                                 Variable v = *($1);
-                                                                                v.printMemberInfo();
+                                                                                /* v.printMemberInfo(); */
                                                                                 cout << "In Term: | Var\n";
                                                                                 Term *synthesized_var = new Term("NONE", v);
                                                                                 //synthesized_var->setVariable(*($1));
@@ -752,17 +753,23 @@ Term:           Var                                                           { 
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {
-                                                                                /* cout << "call" << *($1) << ", " << getTermTypeString() << endl; */
+                                                                                cout << "call " << $1->name << ", " << "$3" << endl;
 
                                                                               }
                 ;
 
 Y:              /* empty - epsilon */                                        {printf("Y --> epsilon\n");}
-                | Expression Z                                               {printf("Y --> Expression Z\n");}
+                | Expression Z                                               {
+                                                                                printf("Y --> Expression Z\n");
+                                                                                /* if() */
+                                                                                $$ = $1;
+                                                                              }
                 ;
 
-Z:              /* empty - epsilon */                                        {printf("Z --> epsilon\n");}
-                | COMMA Expression Z                                         {printf("Z --> COMMA Expression Z\n");}
+Z:              /* empty - epsilon */                                        { $$ = NULL;}
+                | COMMA Expression Z                                         {
+
+                                                                             }
                 ;
 
 Var:            identifiers                                                   {
