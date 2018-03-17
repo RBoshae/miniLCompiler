@@ -521,7 +521,6 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                   /* synthesized_me.list_of_terms.front().printMemberInfo(); */
                                                                                   $$ = expression;
-
                                                                                 }
 
 
@@ -563,29 +562,26 @@ T:              /* empty - epsilon */                                        {$$
                                                                                 // ready to send up.
                                                                                 $$ = synthesized_terms;
 
-
                                                                              }
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {
+                                                                              //Term synthesized_term = *($1);
 
-                                                                              // USED TO RETURN THINGS mTO EXPRESSION
-                                                                              Term synthesized_term = *($1);         // Unwrap the term stord in $1 and save it.
+                                                                              //MultiplicativeExpr m;
+                                                                              //MultiplicativeExpr *m_copy = new MultiplicativeExpr();
 
-                                                                              MultiplicativeExpr m;
-                                                                              MultiplicativeExpr *m_copy = new MultiplicativeExpr();
-
-                                                                              m_copy->list_of_terms.push_back(synthesized_term);
+                                                                              //m_copy->list_of_terms.push_back(synthesized_term);
 
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
                                                                                 /* $2->mLeftSideTerm = *($1); */
                                                                                 /* m = *($2);                  // OVERWRITES M. */
-                                                                                $2->list_of_terms.push_back(synthesized_term);
+                                                                                //$2->list_of_terms.push_back(synthesized_term);
 
 
-                                                                                $$ = $2;
-                                                                                $$->printIntermediateCode();
+                                                                                //$$ = $2;
+                                                                                //$$->printIntermediateCode();
                                                                                 /* m.list_of_terms.push_back() */
 
                                                                                 /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
@@ -599,7 +595,7 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                               {
                                                                                 /* cout << "In ME\n"; */
                                                                                 /* $3->mLeftSideTerm = *($1); */
-                                                                                m = *($3);                  // OVERWRITES M.
+                                                                                //m = *($3);                  // OVERWRITES M.
                                                                                 $$ = $3;
                                                                                 /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
                                                                                 //m.list_of_terms.push_back(*($1));
@@ -610,19 +606,25 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               else if ($4 != NULL) // only W is active
                                                                               {
-                                                                                /* cout << "In ME\n"; */
-                                                                                /* $4->mLeftSideTerm = *($1); */
-                                                                                m = *($4);                  // OVERWRITES M.
-                                                                                $$ = $4;
-                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
-                                                                                //m.list_of_terms.push_back(*($1));
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
 
-                                                                                /* m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                                synthesized_terms->list_of_terms.push_back( $4->list_of_terms.back() );
+                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
+
+                                                                                synthesized_terms->printIntermediateCode();
+
+                                                                                cout << "Test for Segfault!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+
+                                                                                $$ = synthesized_terms;
                                                                               }
-                                                                              else // U V w productions are Null. Only term is left
+
+                                                                              else // U V W productions are NULL. Only term is non-NULL.
                                                                               {
-                                                                                $$ = m_copy;  // TODO if things a start breaking start here.
+                                                                                /* Term temp_term( "MOD", $1->, $1->)
+
+                                                                                Term synthesized_term("MOD", *($1), ); */
+
+                                                                                //$$ = synthesized_term;
                                                                               }
 
 
