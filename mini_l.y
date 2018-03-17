@@ -151,8 +151,8 @@ Function:       FUNCTION identifiers SEMICOLON BEGIN_PARAMS Alpha END_PARAMS BEG
 
 
 
-Alpha:              /* empty - epsilon */                                {printf("Alpha --> epsilon\n");}
-                |  Declaration SEMICOLON Alpha                           {printf("Alpha --> Declaration SEMICOLON Alpha\n");}
+Alpha:              /* empty - epsilon */                                {}
+                |  Declaration SEMICOLON Alpha                           {}
                 ;
 
 
@@ -492,12 +492,9 @@ Comp:           EQ                                                            {
                 ;
 
 Expression:     Multiplicative-Expr S T                                       {
-
-                                                                                cout << "We're in expression." << endl;
                                                                                 if ($2 != NULL)
                                                                                 {
                                                                                   // The plus cases
-                                                                                  cout << "GOOOOOOOOOOD\n";
                                                                                   Term synthesized_term = $2->list_of_terms.back();
 
                                                                                   Term temp_s = $1->list_of_terms.back();
@@ -543,7 +540,7 @@ Expression:     Multiplicative-Expr S T                                       {
                                                                                 }
 
 
-                                                                                cout << "Done with expression\n";
+
                                                                               }
                 ;
 
@@ -574,7 +571,7 @@ S:              /* empty - epsilon */                                         {$
                                                                                   $2->list_of_terms.push_back(t);
 
                                                                                   $2->printIntermediateCode();
-                                                                                  $2->list_of_terms.back().mLeftOperatorType = "-";
+                                                                                  $2->list_of_terms.back().mLeftOperatorType = "+";
 
                                                                                   $$ = $2;
 
@@ -714,9 +711,9 @@ U:              /* empty - epsilon */                                       {
                                                                               // Case: Term NOT NULL, U V W all return NULL
                                                                               if ( $3 == NULL /*&& $4 == NULL && $5 == NULL*/ )
                                                                               {
-                                                                                cout << "one above bedrock. \n";
+
                                                                                 Term t = *($2);
-                                                                                cout << "value of t:    " << t.mIntVal << endl;
+
                                                                                 t.mLeftOperatorType = "*";
 
                                                                                 MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
@@ -841,25 +838,17 @@ W:              /* empty - epsilon */                                       { /*
 Term:           Var                                                           { // Done
                                                                                 Variable v = *($1);
                                                                                 /* v.printMemberInfo(); */
-                                                                                cout << "In Term: | Var\n";
+
                                                                                 Term *synthesized_var = new Term("NONE", v);
-                                                                                //synthesized_var->setVariable(*($1));
+
                                                                                 $$ = synthesized_var;
                                                                               }
                 | SUB Var                                                     {
                                                                                 /*$$ = 4;*/  /* 4 -- represents Unary minus variable*/
                                                                               }
                 | numbers                                                     {
-                                                                                cout << "In Term: |numbers\n";
+
                                                                                 Term *synthesized_term = new Term(0, $1, true);
-
-                                                                                /* synthesized_term->printMemberInfo(); */
-
-                                                                                /* cout << "$1: " << $1 << endl;
-
-                                                                                synthesized_term->mIntVal = $1; */
-                                                                                //synthesized_term->setIdName( s ); // Possible problem
-                                                                                /* cout << "Inside Term->numbers: mIntVal is " << synthesized_term->mIntVal << endl; */
 
                                                                                 $$ = synthesized_term;
                                                                               }
@@ -925,11 +914,7 @@ Var:            identifiers                                                   {
 
                                                                                 Expression synthesized_me = *($3);
 
-                                                                                cout << "SIZEEEE:     " << synthesized_me.mMultiplicativeExpr.list_of_terms.size() <<endl;
 
-                                                                                synthesized_me.mMultiplicativeExpr.list_of_terms.back().printMemberInfo();
-
-                                                                                cout << "WE ARE OKAYYYYYYYYYYYYYYYYYYYYYYYYY" << endl; //TODO: HERE
 
                                                                                 cout << synthesized_me.mMultiplicativeExpr.list_of_terms.at(0).mIntVal << endl;
 
