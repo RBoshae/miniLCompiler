@@ -11,6 +11,7 @@ x, y, z : array [20] of integer;
 endlocals
 
 beginbody	## main program
+j := 11 + 22;
 i := 1 - 2 - 3 - 4;
 ## i := 200 * 300;
 ## read a;

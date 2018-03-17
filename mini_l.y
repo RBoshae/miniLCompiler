@@ -486,7 +486,18 @@ Expression:     Multiplicative-Expr S T                                       {
                                                                                 if ($2 != NULL)
                                                                                 {
                                                                                   // The plus cases
+                                                                                  cout << "GOOOOOOOOOOD\n";
+                                                                                  Term synthesized_term = $2->list_of_terms.back();
 
+                                                                                  Term temp_s = $1->list_of_terms.back();
+
+                                                                                  $1->list_of_terms.pop_back();
+
+                                                                                  $1->list_of_terms.push_back(synthesized_term);
+                                                                                  $1->list_of_terms.push_back(temp_s);
+
+
+                                                                                  $1->printIntermediateCode();
 
                                                                                 }
                                                                                 else if ($3 != NULL)
@@ -532,21 +543,14 @@ Expression:     Multiplicative-Expr S T                                       {
 S:              /* empty - epsilon */                                         {$$ = NULL;}
                 | PLUS Multiplicative-Expr S T                                {
 
-                                                                                if ($2 != NULL)
-                                                                                {
+                                                                                MultiplicativeExpr *synthesized_terms = $2;
+                                                                                                                                                // Grab a copy of $2 */
+                                                                                synthesized_terms->list_of_terms.back().mLeftOperatorType = "+"; // Assign Left
 
-                                                                                }
-                                                                                else if ($3 != NULL)
-                                                                                {
+                                                                                /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
 
-                                                                                }
-                                                                                else
-                                                                                {
-
-                                                                                }
-
-
-
+                                                                                // ready to send up.
+                                                                                $$ = synthesized_terms;
 
                                                                               }
                 ;
