@@ -68,6 +68,7 @@
   Term                *term;
   Expression          *expression;
   Comp                *comparisonOperator;
+  MultiplicativeExpr  *multex;
 
 }
 
@@ -83,13 +84,13 @@
 
 /* Used in Arithmetic Operator Statments*/
 %type <list_of_terms>             Multiplicative-Expr
-%type <int_val>                   S
+%type <multex>                    S
 %type <int_val>                   numbers
 %type <term>                      Term                /*Returns ints which represents what Mult Expr should print*/
-%type <int_val>                   T
-%type <list_of_terms>             U
-%type <list_of_terms>             V
-%type <list_of_terms>             W
+%type <multex>                    T
+%type <multex>             U
+%type <multex>             V
+%type <multex>             W
 
 /* Used in Input/Output Statements */
 %type <list_of_read_variables>    Lima     /*Used in Read*/
@@ -482,23 +483,51 @@ Comp:           EQ                                                            {
 Expression:     Multiplicative-Expr S T                                       {
 
                                                                                 cout << "We're in expression." << endl;
+                                                                                if ($2 != NULL)
+                                                                                {
 
-                                                                                if ($1 != NULL) {
-                                                                                Expression *expression = new Expression();
-
-                                                                                MultiplicativeExpr synthesized_me = *($1);
-
-                                                                                expression->mMultiplicativeExpr = synthesized_me;
-
-                                                                                /* synthesized_me.list_of_terms.front().printMemberInfo(); */
-                                                                                $$ = expression;
                                                                                 }
+                                                                                else if ($3 != NULL)
+                                                                                {
+                                                                                  /* $1->printMemberInfo(); */
+                                                                                  // capture $3
+                                                                                  Term synthesized_term = $3->list_of_terms.back();
+                                                                                  Term temp_s = $1->list_of_terms.back();
+
+                                                                                  $1->list_of_terms.pop_back();
+
+                                                                                  $1->list_of_terms.push_back(synthesized_term);
+                                                                                  $1->list_of_terms.push_back(temp_s);
+
+
+                                                                                  $1->printIntermediateCode();
+                                                                                  cout << "BUG HEREEEEEEEEEEEEEEEEEEEEEEEEEEEe\n";
+
+                                                                                  // TODO printIntermediateCode for k-1
+
+
+                                                                                  /* $$ = $1; */
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                  Expression *expression = new Expression();
+
+                                                                                  MultiplicativeExpr synthesized_me = *($1);
+
+                                                                                  expression->mMultiplicativeExpr = synthesized_me;
+
+                                                                                  /* synthesized_me.list_of_terms.front().printMemberInfo(); */
+                                                                                  $$ = expression;
+
+                                                                                }
+
 
                                                                                 cout << "Done with expression\n";
                                                                               }
                 ;
 
-S:              /* empty - epsilon */                                         {/*$$ = 0;*/}
+S:              /* empty - epsilon */                                         {$$ = NULL;}
                 | PLUS Multiplicative-Expr S T                                {
                                                                                 /* if ($2 == 1) {
                                                                                   $$ = 1;
@@ -506,35 +535,35 @@ S:              /* empty - epsilon */                                         {/
                                                                                   $$ = 3;
                                                                                 } */
 
-                                                                              }
+                                                                                }
                 ;
 
-T:              /* empty - epsilon */                                        {/*$$ = 0;*/}
-                | SUB Multiplicative-Expr S T                                {/*$$ = 2;*/}
+T:              /* empty - epsilon */                                        {$$ = NULL;}
+                | SUB Multiplicative-Expr S T                                {
+
+                                                                                MultiplicativeExpr *synthesized_terms = $2;
+                                                                                                                                                // Grab a copy of $2 */
+                                                                                synthesized_terms->list_of_terms.back().mLeftOperatorType = "-"; // Assign Left
+
+                                                                                /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
+
+                                                                                // ready to send up.
+                                                                                $$ = synthesized_terms;
+
+
+                                                                             }
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {
-                                                                              MultiplicativeExpr m;
-
-                                                                              MultiplicativeExpr *m_copy = new MultiplicativeExpr();
 
                                                                               // USED TO RETURN THINGS mTO EXPRESSION
-                                                                              Term synthesized_term = *($1);
-                                                                              /* cout << "VVVVVVVVVVVVVVVVV  synthesized_term.printMemberInfo();VVVVVVVVVVVVVVVVVVVVV" << endl;
-                                                                              synthesized_term.printMemberInfo();
-                                                                              cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << endl; */
+                                                                              Term synthesized_term = *($1);         // Unwrap the term stord in $1 and save it.
+
+                                                                              MultiplicativeExpr m;
+                                                                              MultiplicativeExpr *m_copy = new MultiplicativeExpr();
 
                                                                               m_copy->list_of_terms.push_back(synthesized_term);
 
-                                                                              /* m.list_of_terms.push_back(synthesized_term);               // For non Expression use */
-
-                                                                              /* if ($2 == NULL) {
-                                                                                cout << "At bedrock now" << endl;
-                                                                                cout << "Value of synth is:   " << endl; synthesized_term.getIdName();
-                                                                                $$->list_of_terms.push_back(synthesized_term);
-                                                                                cout << "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\n";
-                                                                                $$->printIntermediateCode();
-                                                                              } */
 
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
@@ -554,7 +583,6 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                                 /* m.mLeftSideTerm = *($1);
                                                                                 m.list_of_terms = $2->list_of_terms; */
                                                                               }
-
                                                                               else if ($3 != NULL) // only V is active
                                                                               {
                                                                                 /* cout << "In ME\n"; */
@@ -580,9 +608,9 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                                 /* m.mLeftSideTerm = *($1);
                                                                                 m.list_of_terms = $2->list_of_terms; */
                                                                               }
-                                                                              else // bedrock case only term is left
+                                                                              else // U V w productions are Null. Only term is left
                                                                               {
-                                                                                $$ =  m_copy;
+                                                                                $$ =  m_copy;  // TODO if things a start breaking start here.
                                                                               }
 
 

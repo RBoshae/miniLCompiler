@@ -294,11 +294,6 @@ public:
     // list_of_terms.push_back(merged_temp_term);
   }
 
-  void printMemberInfo()
-  {
-    // print local member variables in formatted table
-  }
-
   void printMemberInfo() {
     cout << "============================" << endl;
     cout << "MultiplicativeExpr Object information" << endl;
@@ -306,20 +301,15 @@ public:
     cout << "Object information " << endl;
     cout << "id.name:           " << id.name << endl;
     cout << "type:              " << type << endl;
-    cout << "Term mLeftSideTerm.pmi  " << endl;
-    mLeftSideTerm.printMemberInfo();
-    cout << "Term mRightSideTerm.pmi  " << endl;
-    mRightSideTerm.printMemberInfo();
     cout << "list_of_terms.size() " << list_of_terms.size() << endl;
-
+    cout << "list_of_terms.back() details-------- " << endl;
+    list_of_terms.back().printMemberInfo();
     cout << "End of MultiplicativeExpr Report\n";
     cout << "============================" << endl << endl;
 
     ID id;                            // Used in a single variable case.
     string type;                      // Stores Declaration type like: INTEGER, BOOL, etc.
 
-    Term mLeftSideTerm;
-    Term mRightSideTerm;
 
     std::vector<Term> list_of_terms;  // Container for passing chains of multiplicative expressions.
   }

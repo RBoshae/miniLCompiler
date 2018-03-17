@@ -132,9 +132,10 @@ union YYSTYPE
   Term                *term;
   Expression          *expression;
   Comp                *comparisonOperator;
+  MultiplicativeExpr  *multex;
 
 
-#line 138 "mini_l.tab.h" /* yacc.c:1909  */
+#line 139 "mini_l.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
