@@ -1,4 +1,4 @@
-/* Mini Language                             */
+  /* Mini Language                             */
 /* Written by Rick Boshae and Gabriel Cortez */
 /* mini_l.y                                  */
 
@@ -105,7 +105,7 @@
 /* Multiple Uses */
 %type <variable>                  Var
 %type <expression>                Expression
-%type <term>                   Statement
+%type <term>                      Statement
 
 
 /* define the constant-string tokens: */
@@ -320,7 +320,8 @@ Statement:      E                                                        {printf
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
 
                 | RETURN Expression                                      {
-                                                                            cout << "ret "  << $2->getTermTypeString() << endl;
+                                                                            cout << "ret "  << $2->getVariableName() << endl;
+                                                                            cout << "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\n";
 
                                                                             Variable synthesized_var($2->getVariableName());
                                                                             // Prep a Term and send it up.
