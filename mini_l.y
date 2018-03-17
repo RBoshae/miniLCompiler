@@ -105,7 +105,6 @@
 /* Multiple Uses */
 %type <variable>                  Var
 %type <expression>                Expression
-%type <term>                   Statement
 
 
 /* define the constant-string tokens: */
@@ -318,16 +317,7 @@ Statement:      E                                                        {printf
                                                                           w.printIntermediateCodeFromListOfVariables();
                                                                         }
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
-
-                | RETURN Expression                                      {
-                                                                            cout << "ret "  << $2->getTermTypeString() << endl;
-
-                                                                            Variable synthesized_var($2->getVariableName());
-                                                                            // Prep a Term and send it up.
-                                                                            Term *synthesized_term = new Term("NONE", synthesized_var );
-
-                                                                            $$ = synthesized_term;
-                                                                          }
+                | RETURN Expression                                      {cout << "ret "  << $2->getTermTypeString() << endl;}
                 ;
 
 E:              Var ASSIGN Expression                                     {
