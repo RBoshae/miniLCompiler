@@ -191,7 +191,6 @@ class Term{
       }
       else if (mVariable.isArray)
       {
-        cout << "HEEEEEEEEEEEEEEEEEEERE!" << endl;
         string temp_var_array_name = generateTempVariable();
         // TODO this should be mapped in the symbol table so array matches with the temp name.
 
@@ -279,21 +278,6 @@ public:
 
     list_of_terms = in_order;
 
-    // ALL OF THIS POST LOOP CODE IS LIKELY PROBLEMATIC
-    // string temp_var_id_name = generateTempVariable();
-    //
-    // cout << list_of_terms.front().mLeftOperatorType << " " << temp_var_id_name << ", " << list_of_terms.front().getTermTypeString() << ", " << list_of_terms.back().getTermTypeString() << endl;
-    //
-    //
-    // Variable v(temp_var_id_name);
-    // Term merged_temp_term(list_of_terms.front().mLeftOperatorType, v);  // (operandType, variable)
-    //
-    // cout  << "list_of_terms.front():  " << list_of_terms.front().getTermTypeString() << endl;
-    // cout  << "list_of_terms.back():  " << list_of_terms.back().getTermTypeString() << endl;
-    //
-    // list_of_terms.pop_back();
-    // list_of_terms.pop_back();
-    // list_of_terms.push_back(merged_temp_term);
   }
 
   void printMemberInfo() {
@@ -417,7 +401,7 @@ public:
 
 
   string getIdName(){
-    cout << "in expression getIdName " << mMultiplicativeExpr.list_of_terms.size() << endl;
+
     return mMultiplicativeExpr.list_of_terms.back().getIdName();
   };
 
@@ -474,18 +458,5 @@ struct Table_Entry {
 
 };
 
-
-// int current_temp_variable_count = -1;
-//
-// string generateTempVariable(){
-//
-//   current_temp_variable_count++;
-//
-//   ostringstream temp_number;
-//   temp_number << current_temp_variable_count;
-//   string temp_value = "t" + temp_number.str();
-//
-//   return temp_value;
-// }
 
 #endif

@@ -157,30 +157,11 @@ Alpha:              /* empty - epsilon */                                {}
 
 
 
-Beta:             Statement SEMICOLON                                    {printf("Beta --> Statement SEMICOLON\n");}
-                | Statement SEMICOLON Beta                               {printf("Beta --> Statement SEMICOLON Beta\n");}
+Beta:             Statement SEMICOLON                                    {}
+                | Statement SEMICOLON Beta                               {}
                 ;
 
-Declaration:  identifiers  C  COLON  D  INTEGER                         { // C produces comma separated identifiers
-                                                                          // D produces arrays
-
-                                                                          // Examples of input to expect
-                                                                          /** Example Input:
-                                                                           *   n : integer;
-                                                                           *   i, j, k: integer;
-                                                                           *   t : array [20] of integer;
-                                                                           */
-
-                                                                           /** Example Output:
-                                                                            *   . n         // from 'n : integer;'
-                                                                            *   . i         // from 'i, j, k: integer;'
-                                                                            *   . j
-                                                                            *   . k
-                                                                            *   .[] t, 20   // from 't : array [20] of integer;'
-                                                                            */
-
-                                                                          // Now we need a declaration container to store the value of synthesized_id
-                                                                          /* Declaration* declarations = new Declaration(); */
+Declaration:  identifiers  C  COLON  D  INTEGER                         {
                                                                           Declaration *synthesized_list_of_ids = new Declaration();
 
                                                                           // Check if C aka $2 is not Null
@@ -200,15 +181,8 @@ Declaration:  identifiers  C  COLON  D  INTEGER                         { // C p
                                                                           // Grab the synthesized value from identifiers
                                                                           ID *synthesized_id = new ID();
                                                                           synthesized_id = $1;
-                                                                          /* cout << "Declaration: synthesized_id = $1; // value of synthesized_id: " << synthesized_id->name << endl; // Debugging */
-                                                                          /* cout << "Declaration: synthesized_id = $1; // value of $1: " << $1->name << endl; // Debugging */
 
-                                                                          /* synthesized_list_of_ids->printIntermediateCode(); // HITLER */
-                                                                          // cout << "NO SEGFAult yet" << endl; // Debugging
-                                                                          // Push backthe value of synthesized_id in the Declaration.list_of_ids
                                                                           synthesized_list_of_ids->list_of_ids.push_back(synthesized_id);
-
-
 
                                                                           // Print Declarations
                                                                           synthesized_list_of_ids->printIntermediateCode(); // HITLER
@@ -250,26 +224,8 @@ C:              /* empty - epsilon */                                   {$$ = NU
                                                                           }
                                                                           else
                                                                           {
-                                                                            cout << "Error in production C: What are you doing here." << endl;
                                                                             $$ = NULL;
                                                                           }
-
-
-                                                                          /* // Similar to the process used in Declaration. Store the synthesized value of identifier.
-                                                                          // See declation for more detail.
-                                                                          Declaration* declations = new Declaration(); */
-
-
-
-
-                                                                          // Now we need a declaration container to store the value of synthesized_id
-                                                                          /* Declaration* declations = new Declaration(); */
-
-                                                                          // Push backthe value of synthesized_id in the Declaration.list_of_ids
-                                                                          /* declarations->list_of_ids.push_back(synthesized_id); */
-
-                                                                          /* $$->list_of_ids.push_back(synthesized_id); */ // HITLER
-
                                                                         }
                 ;
 
@@ -279,12 +235,12 @@ D:              /* empty - epsilon */                                     { $$ =
                                                                           }
                 ;
 
-Statement:      E                                                        {printf("Statement --> E\n");}
-                | F                                                      {printf("Statement --> F\n");}
-                | H                                                      {printf("Statement --> H\n");}
-                | I                                                      {printf("Statement --> I\n");}
-                | J                                                      {printf("Statement --> J\n");}
-                | K                                                      {printf("Statement --> K\n"); /*Associated with READ*/}
+Statement:      E                                                        {}
+                | F                                                      {}
+                | H                                                      {}
+                | I                                                      {}
+                | J                                                      {}
+                | K                                                      {}
                 | WRITE Var                                             {
                                                                           // Think of write into register.
                                                                           /* cout << "Inside of Write Var\n"; // Debugging */
@@ -311,18 +267,11 @@ Statement:      E                                                        {printf
                                                                             $3->list_of_variables.pop_back();
                                                                           }
 
-
-                                                                          /* cout << "Debugging\n"; // Debugging */
-                                                                          //$3->printMemberInfo();
-
                                                                           w.printIntermediateCodeFromListOfVariables();
                                                                         }
-                | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
+                | CONTINUE                                               {}
 
                 | RETURN Expression                                      {
-                                                                            cout << "ret "  << $2->getVariableName() << endl;
-                                                                            cout << "REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\n";
-
                                                                             Variable synthesized_var($2->getVariableName());
                                                                             // Prep a Term and send it up.
                                                                             Term *synthesized_term = new Term("NONE", synthesized_var );
@@ -332,38 +281,35 @@ Statement:      E                                                        {printf
                 ;
 
 E:              Var ASSIGN Expression                                     {
-                                                                            /*printf("E --> Var ASSIGN Expression\n");*/
                                                                             cout << "= " << $1->getIdName() << ", " << $3->getIdName() << endl;
                                                                           }
                 ;
 
-F:              IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF             {printf("F --> IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF \n");}
-                | IF Bool-Expr THEN Statement SEMICOLON G ENDIF                {printf("F --> IF Bool-Expr THEN Statement SEMICOLON G ENDIF \n");}
+F:              IF Bool-Expr THEN Statement SEMICOLON Beta G ENDIF             {}
+                | IF Bool-Expr THEN Statement SEMICOLON G ENDIF                {}
                 ;
 
-G:              /* empty - epsilon */                                                    {printf("G --> epsilon\n");}
-                | ELSE Statement SEMICOLON                                               {printf("G --> ELSE Statement SEMICOLON\n");}
-                | ELSE Statement SEMICOLON Beta                                          {printf("G --> ELSE Statement SEMICOLON Beta\n");}
+G:              /* empty - epsilon */                                                    {}
+                | ELSE Statement SEMICOLON                                               {}
+                | ELSE Statement SEMICOLON Beta                                          {}
                 ;
 
-H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP                          {printf("WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP");}
-                | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP                   {printf("H --> WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}
+H:              WHILE Bool-Expr BEGINLOOP Statement SEMICOLON ENDLOOP                          {}
+                | WHILE Bool-Expr BEGINLOOP Statement SEMICOLON Beta ENDLOOP                   {}
                 ;
 
-I:              DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr                       {printf("I --> DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr\n");}
-                | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr                {printf("I --> DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr\n");}
+I:              DO BEGINLOOP Statement SEMICOLON ENDLOOP WHILE Bool-Expr                       {}
+                | DO BEGINLOOP Statement SEMICOLON Beta ENDLOOP WHILE Bool-Expr                {}
                 ;
 
-J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP  {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP\n");}
-                | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {printf("J --> FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP\n");}
+J:              FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON Beta ENDLOOP  {}
+                | FOREACH identifiers IN identifiers BEGINLOOP Statement SEMICOLON ENDLOOP     {}
                 ;
 
-K:              READ Var                                      { // Done
-                                                                /* cout << "K: | READ Var // value of $2.id.name: " << $2->id.name << endl; // Debugging */
+K:              READ Var                                      {
                                                                 Read r;         // Storing variable in read to handle print.
                                                                 r.mSingleVariable = *($2);
 
-                                                                /* cout << "K: | READ Var // No SEGFAult" << endl; // Debugging */
                                                                 r.printIntermediateCodeSingleVariable();
                                                               }
 
@@ -372,58 +318,32 @@ K:              READ Var                                      { // Done
                                                                   // If 'read' is confusing think of it as read var into register.
                                                                   // This production rule will always produce a list of vars
                                                                   Variable synthesized_var = *($2);                                      // Storing variable in read to handle print.
-                                                                  /* synthesized_var.mSingleVariable.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); */
-                                                                  /* cout << "K: | READ Var Lima // value of $2.id.name: " << $2->id.name << endl; // Debugging */
 
                                                                   $3->list_of_variables.push_back(synthesized_var);
 
-
-                                                                  /* cout << "Debugging\n"; // Debugging */
-                                                                  //$3->printMemberInfo();
-
                                                                   ($3)->printIntermediateCodeFromListOfVariables();
-
-
                                                                 }
-
-
                 ;
 
 Lima:           COMMA Var                                   {
                                                               // Lima is used specifically in read. It's safe to use a Read container.
                                                               // Lima needs to push it's var up to parent. Container used is of type Read..
 
-                                                              /* cout << "Lima: COMMA Var // value of $2->id.name: " << ($2)->getIdName() << endl; // Debugging */
                                                               Variable synthesized_var;
                                                               synthesized_var = *($2);
 
                                                               Read *r = new Read();
                                                               r->list_of_variables.push_back(synthesized_var);
 
-                                                              /* synthesized_read_var->list_of_variables.push_back(*($2)); */
-                                                              /* synthesized_read_var.setIdName($2->id.name);
-                                                              synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex) */
-
-
-                                                              /* synthesized_read_var->printMemberInfo(); */
-                                                              /* $2->printMemberInfo(); // Debugging */
-
-                                                              /* synthesized_read_var->push_back(*($2)); */
-                                                              /* $$ = synthesized_read_var; */
-                                                              /* $$->list_of_variables.push_back(synthesized_read_var); */
-                                                              /* $$->list_of_variables.push_back(synthesized_var); */
                                                               $$ = r;
-                                                              /* cout << "Lima: | COMMA Var // No SEGFAult\n"; // Debugging */
                                                             }
                 | COMMA Var Lima                                            {
                                                                               // Recieve data from Lima
-                                                                              /* cout << "Lima: | COMMA Var Lima // No SEGFAult\n"; // Debugging */
+
                                                                               Variable synthesized_read_var;           // Remember Read is our transport container
-                                                                              synthesized_read_var.setIdName($2->id.name);               // Not sure if i can do this but i hope so
+                                                                              synthesized_read_var.setIdName($2->id.name);
+
                                                                               synthesized_read_var.setArrayInfo($2->isArray, $2->arraySize, $2->arrayIndex); // (isArray, arraySize, arrayIndex)
-
-
-                                                                              /* synthesized_read_var.printMemberInfo(); // Debugging */
 
 
                                                                               $3->list_of_variables.push_back(synthesized_read_var);
@@ -437,32 +357,32 @@ Lima:           COMMA Var                                   {
                                                                             }
                 ;
 
-Bool-Expr:      Relation-And-Expr Papa                                       {printf("Bool-Expr --> Relation-And-Expr Papa\n");}
-                | Relation-And-Expr                                          {printf("Bool-Expr --> Relation-And-Expr\n");}
+Bool-Expr:      Relation-And-Expr Papa                                       {}
+                | Relation-And-Expr                                          {}
                 ;
 
-Papa:             OR Relation-And-Expr                                       {printf("Papa --> OR Relation-And-Expr\n");}
-                | OR Relation-And-Expr Papa                                  {printf("Papa --> OR Relation-And-Expr Papa\n");}
+Papa:             OR Relation-And-Expr                                       {}
+                | OR Relation-And-Expr Papa                                  {}
                 ;
 
-Relation-And-Expr:  Relation-Expr Quebec                                     {printf("Relation-And-Expr --> Relation-Expr Quebec\n");}
-                    | Relation-Expr                                          {printf("Relation-And-Expr --> Relation-Expr\n");}
+Relation-And-Expr:  Relation-Expr Quebec                                     {}
+                    | Relation-Expr                                          {}
                     ;
 
-Quebec:         AND Relation-Expr                                            {printf("Quebec --> AND Relation-Expr\n");}
-                | AND Relation-Expr Quebec                                   {printf("Quebec --> AND Relation-Expr Quebec\n");}
+Quebec:         AND Relation-Expr                                            {}
+                | AND Relation-Expr Quebec                                   {}
                 ;
 
 Relation-Expr:  Expression Comp Expression                                {
                                                                               cout << "== " << generateTempVariable() << " " <<  $1->getIdName() << ", " << $3->getTermTypeString() << endl;
                                                                           }
-                | NOT Expression Comp Expression                             {printf("Relation-Expr --> NOT Expression Comp Expression\n");}
-                | TRUE                                                       {printf("Relation-Expr --> TRUE\n");}
-                | NOT TRUE                                                   {printf("NOT Relation-Expr --> TRUE\n");}
-                | FALSE                                                      {printf("Relation-Expr --> FALSE\n");}
-                | NOT FALSE                                                  {printf("Relation-Expr --> FALSE\n");}
-                | L_PAREN Bool-Expr R_PAREN                                  {printf("Relation-Expr --> L_PAREN Bool-Expr R_PAREN\n");}
-                | NOT L_PAREN Bool-Expr R_PAREN                              {printf("Relation-Expr --> L_PAREN Bool-Expr R_PAREN\n");}
+                | NOT Expression Comp Expression                             {}
+                | TRUE                                                       {}
+                | NOT TRUE                                                   {}
+                | FALSE                                                      {}
+                | NOT FALSE                                                  {}
+                | L_PAREN Bool-Expr R_PAREN                                  {}
+                | NOT L_PAREN Bool-Expr R_PAREN                              {}
                 ;
 
 Comp:           EQ                                                            {
@@ -523,8 +443,6 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                   $1->printIntermediateCode();
 
-                                                                                  /* $$ = $1; */
-
                                                                                 }
                                                                                 else
                                                                                 {
@@ -534,13 +452,9 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                   expression->mMultiplicativeExpr = synthesized_me;
 
-                                                                                  /* synthesized_me.list_of_terms.front().printMemberInfo(); */
                                                                                   $$ = expression;
 
                                                                                 }
-
-
-
                                                                               }
                 ;
 
@@ -627,7 +541,6 @@ T:              /* empty - epsilon */                                        {$$
                                                                                                                                                   // Grab a copy of $2 */
                                                                                   synthesized_terms->list_of_terms.back().mLeftOperatorType = "-"; // Assign Left
 
-                                                                                  /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
 
                                                                                   // ready to send up.
                                                                                   $$ = synthesized_terms;
@@ -652,33 +565,18 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
-                                                                                /* cout << "In ME\n"; */
-                                                                                /* $2->mLeftSideTerm = *($1); */
-                                                                                /* m = *($2);                  // OVERWRITES M. */
                                                                                 $2->list_of_terms.push_back(synthesized_term);
 
 
                                                                                 $$ = $2;
                                                                                 $$->printIntermediateCode();
-                                                                                /* m.list_of_terms.push_back() */
-
-                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
-                                                                                //m.list_of_terms.push_back(*($1));
-
-                                                                                /* m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = $2->list_of_terms; */
                                                                               }
                                                                               else if ($3 != NULL) // only V is active
                                                                               {
-                                                                                /* cout << "In ME\n"; */
-                                                                                /* $3->mLeftSideTerm = *($1); */
+
                                                                                 m = *($3);                  // OVERWRITES M.
                                                                                 $$ = $3;
-                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
-                                                                                //m.list_of_terms.push_back(*($1));
 
-                                                                                /* m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = $2->list_of_terms; */
                                                                               }
 
                                                                               else if ($4 != NULL) // only W is active
@@ -692,12 +590,10 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                                 $$ = synthesized_terms;
                                                                               }
-                                                                              else // U V w productions are Null. Only term is left
+                                                                              else // U V W productions are Null. Only term is left
                                                                               {
                                                                                 $$ =  m_copy;  // TODO if things a start breaking start here.
                                                                               }
-
-
                                                                             }
 
 
@@ -706,7 +602,7 @@ Multiplicative-Expr:  Term U V W                                            {
 U:              /* empty - epsilon */                                       {
                                                                               $$ = NULL;
                                                                             }
-                | MULT Term U V W                                           {/*printf("U --> MULT Term U V W\n");*/
+                | MULT Term U V W                                           {
                                                                               // Case: Term NOT NULL, U V W all return NULL
                                                                               if ( $3 == NULL /*&& $4 == NULL && $5 == NULL*/ )
                                                                               {
@@ -725,8 +621,7 @@ U:              /* empty - epsilon */                                       {
 
                                                                                 $$ = synthesized_terms;
                                                                               }
-                                                                              // Case: U or V or W returns a value
-                                                                              /* else if ( $3 != NULL || $4 != NULL || $5 != NULL ) */
+
                                                                               else if ( $3 != NULL )
                                                                               {
                                                                                 Term t = *($2);
@@ -854,8 +749,8 @@ Term:           Var                                                           { 
                 | SUB numbers                                                 {
                                                                                 //$$ = 2;  /* 2 -- represents unary minus numbers */
                                                                               }
-                | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
-                | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
+                | L_PAREN Expression R_PAREN                                 {}
+                | SUB L_PAREN Expression R_PAREN                             {}
                 | identifiers L_PAREN Y R_PAREN                              {
                                                                                 cout << "call " << $1->name << ", " << $3->getVariableName() << endl;
                                                                                 Variable synthesized_var($3->getVariableName());
@@ -868,15 +763,13 @@ Term:           Var                                                           { 
                                                                               }
                 ;
 
-Y:              /* empty - epsilon */                                        {printf("Y --> epsilon\n");}
+Y:              /* empty - epsilon */                                        {}
                 | Expression Z                                               {
-                                                                                printf("Y --> Expression Z\n");
-                                                                                /* if() */
                                                                                 $$ = $1;
                                                                               }
                 ;
 
-Z:              /* empty - epsilon */                                        { $$ = NULL;}
+Z:              /* empty - epsilon */                                        { $$ = NULL; }
                 | COMMA Expression Z                                         { // HERE CHAING
 
                                                                              }
@@ -895,11 +788,6 @@ Var:            identifiers                                                   {
                                                                               }
 
                 | identifiers L_SQUARE_BRACKET Expression R_SQUARE_BRACKET    {
-                                                                                // All idents are immediately stored in a list called
-
-                                                                                // TODO Expression must be handled before we can use array access.
-                                                                                cout << "Don't stress array index yet. You still need to complete Expression\n";
-
 
                                                                                 /* ID *synthesized_id = new ID(); */
                                                                                 ID synthesized_id = *($1);
@@ -909,7 +797,6 @@ Var:            identifiers                                                   {
 
                                                                                 Variable *v = new Variable();
                                                                                 v->setId(synthesized_id);
-                                                                                /* v->setArrayInfo(true, $3->mMultiplicativeExpr.list_of_terms.at(0).mVariable.arraySize, $3->mMultiplicativeExpr.list_of_terms.at(0).mVariable.arrayIndex);   // Hard coded data -- needs to be fixed */
 
                                                                                 Expression synthesized_me = *($3);
 
