@@ -10,6 +10,8 @@ std::string generateTempVariable()
     temp_number << current_temp_variable_count;
     std::string temp_value = "t" + temp_number.str();
 
+    std::cout << ". " << temp_value << std::endl;
+
     return temp_value;
 
 };
