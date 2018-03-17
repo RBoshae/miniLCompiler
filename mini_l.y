@@ -105,6 +105,7 @@
 /* Multiple Uses */
 %type <variable>                  Var
 %type <expression>                Expression
+%type <term>                   Statement
 
 
 /* define the constant-string tokens: */
@@ -317,7 +318,16 @@ Statement:      E                                                        {printf
                                                                           w.printIntermediateCodeFromListOfVariables();
                                                                         }
                 | CONTINUE                                               {printf("Statement --> CONTINUE\n");}
-                | RETURN Expression                                      {cout << "ret "  << $2->getTermTypeString() << endl;}
+
+                | RETURN Expression                                      {
+                                                                            cout << "ret "  << $2->getTermTypeString() << endl;
+
+                                                                            Variable synthesized_var($2->getVariableName());
+                                                                            // Prep a Term and send it up.
+                                                                            Term *synthesized_term = new Term("NONE", synthesized_var );
+
+                                                                            $$ = synthesized_term;
+                                                                          }
                 ;
 
 E:              Var ASSIGN Expression                                     {
@@ -528,6 +538,7 @@ Expression:     Multiplicative-Expr S T                                       {
 
                                                                                   /* synthesized_me.list_of_terms.front().printMemberInfo(); */
                                                                                   $$ = expression;
+
                                                                                 }
 
 
@@ -626,60 +637,67 @@ T:              /* empty - epsilon */                                        {$$
 
 
 
+
                                                                              }
                 ;
 
 Multiplicative-Expr:  Term U V W                                            {
-                                                                              //Term synthesized_term = *($1);
 
-                                                                              //MultiplicativeExpr m;
-                                                                              //MultiplicativeExpr *m_copy = new MultiplicativeExpr();
+                                                                              // USED TO RETURN THINGS mTO EXPRESSION
+                                                                              Term synthesized_term = *($1);         // Unwrap the term stord in $1 and save it.
 
-                                                                              //m_copy->list_of_terms.push_back(synthesized_term);
+                                                                              MultiplicativeExpr m;
+                                                                              MultiplicativeExpr *m_copy = new MultiplicativeExpr();
 
-                                                                              if ($2 != NULL) // only Term and U are active.
+                                                                              m_copy->list_of_terms.push_back(synthesized_term);
+
+
+                                                                              if ($2 != NULL) // only U is active.
                                                                               {
-                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+                                                                                /* cout << "In ME\n"; */
+                                                                                /* $2->mLeftSideTerm = *($1); */
+                                                                                /* m = *($2);                  // OVERWRITES M. */
+                                                                                $2->list_of_terms.push_back(synthesized_term);
 
-                                                                                synthesized_terms->list_of_terms.push_back( $2->list_of_terms.back() );
-                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
 
-                                                                                synthesized_terms->printIntermediateCode();
+                                                                                $$ = $2;
+                                                                                $$->printIntermediateCode();
+                                                                                /* m.list_of_terms.push_back() */
 
-                                                                                $$ = synthesized_terms;
+                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
+                                                                                //m.list_of_terms.push_back(*($1));
+
+                                                                                /* m.mLeftSideTerm = *($1);
+                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                              }
+                                                                              else if ($3 != NULL) // only V is active
+                                                                              {
+                                                                                /* cout << "In ME\n"; */
+                                                                                /* $3->mLeftSideTerm = *($1); */
+                                                                                m = *($3);                  // OVERWRITES M.
+                                                                                $$ = $3;
+                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
+                                                                                //m.list_of_terms.push_back(*($1));
+
+                                                                                /* m.mLeftSideTerm = *($1);
+                                                                                m.list_of_terms = $2->list_of_terms; */
                                                                               }
 
-                                                                              else if ($3 != NULL) // only Term and V are active.
+                                                                              else if ($4 != NULL) // only W is active
                                                                               {
-                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
+                                                                                /* cout << "In ME\n"; */
+                                                                                /* $4->mLeftSideTerm = *($1); */
+                                                                                m = *($4);                  // OVERWRITES M.
+                                                                                $$ = $4;
+                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
+                                                                                //m.list_of_terms.push_back(*($1));
 
-                                                                                synthesized_terms->list_of_terms.push_back( $3->list_of_terms.back() );
-                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
-
-                                                                                synthesized_terms->printIntermediateCode();
-
-                                                                                $$ = synthesized_terms;
+                                                                                /* m.mLeftSideTerm = *($1);
+                                                                                m.list_of_terms = $2->list_of_terms; */
                                                                               }
-
-                                                                              else if ($4 != NULL) // only Term and W are active.
+                                                                              else // U V w productions are Null. Only term is left
                                                                               {
-                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
-
-                                                                                synthesized_terms->list_of_terms.push_back( $4->list_of_terms.back() );
-                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
-
-                                                                                synthesized_terms->printIntermediateCode();
-
-                                                                                $$ = synthesized_terms;
-                                                                              }
-
-                                                                              else // U V W productions are NULL. Only term is non-NULL.
-                                                                              {
-                                                                                /* Term temp_term( "MOD", $1->, $1->)
-
-                                                                                Term synthesized_term("MOD", *($1), ); */
-
-                                                                                //$$ = synthesized_term;
+                                                                                $$ =  m_copy;  // TODO if things a start breaking start here.
                                                                               }
 
 

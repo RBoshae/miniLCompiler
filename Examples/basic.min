@@ -4,14 +4,14 @@ endparams
 
 beginlocals
 
-##n : integer;
-##i, j, k : integer;
-##x, y, z : array [20] of integer;
+n : integer;
+i, j, k : integer;
+x, y, z : array [20] of integer;
 
 endlocals
 
 beginbody	## main program
-##j := 3 + 2 - 1;
+j := 11 + 22;
 i := 1 - 2 - 3 - 4 - 5;
 ## i := 200 * 300;
 ## read a;
@@ -27,7 +27,7 @@ i := 1 - 2 - 3 - 4 - 5;
 ##    write d;
 ##  endif;
 
-  i := 2 % 3 % 4 % 5;
+##  ii := x * y;
   ## i := 2 * 3 / 4 % 5;
   ## i := 4 * q[0];
   ## j := 15 / 5;
