@@ -685,15 +685,14 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               else if ($4 != NULL) // only W is active
                                                                               {
-                                                                                /* cout << "In ME\n"; */
-                                                                                /* $4->mLeftSideTerm = *($1); */
-                                                                                m = *($4);                  // OVERWRITES M.
-                                                                                $$ = $4;
-                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
-                                                                                //m.list_of_terms.push_back(*($1));
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
 
-                                                                                /* m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                                synthesized_terms->list_of_terms.push_back( $4->list_of_terms.back() );
+                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
+
+                                                                                synthesized_terms->printIntermediateCode();
+
+                                                                                $$ = synthesized_terms;
                                                                               }
                                                                               else // U V w productions are Null. Only term is left
                                                                               {
