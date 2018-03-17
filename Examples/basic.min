@@ -26,7 +26,7 @@ beginbody	## main program
 ##    write d;
 ##  endif;
 
-  i := 2 % 3;
+  i := 2 % 3 % 4 % 5;
   ## i := 2 * 3 / 4 % 5;
   ## i := 4 * q[0];
   ## j := 15 / 5;

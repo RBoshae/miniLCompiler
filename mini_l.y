@@ -573,38 +573,31 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               //m_copy->list_of_terms.push_back(synthesized_term);
 
-                                                                              if ($2 != NULL) // only U is active.
+                                                                              if ($2 != NULL) // only Term and U are active.
                                                                               {
-                                                                                /* $2->mLeftSideTerm = *($1); */
-                                                                                /* m = *($2);                  // OVERWRITES M. */
-                                                                                //$2->list_of_terms.push_back(synthesized_term);
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
 
+                                                                                synthesized_terms->list_of_terms.push_back( $2->list_of_terms.back() );
+                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
 
-                                                                                //$$ = $2;
-                                                                                //$$->printIntermediateCode();
-                                                                                /* m.list_of_terms.push_back() */
+                                                                                synthesized_terms->printIntermediateCode();
 
-                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
-                                                                                //m.list_of_terms.push_back(*($1));
-
-                                                                                /* m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                                $$ = synthesized_terms;
                                                                               }
 
-                                                                              else if ($3 != NULL) // only V is active
+                                                                              else if ($3 != NULL) // only Term and V are active.
                                                                               {
-                                                                                /* cout << "In ME\n"; */
-                                                                                /* $3->mLeftSideTerm = *($1); */
-                                                                                //m = *($3);                  // OVERWRITES M.
-                                                                                $$ = $3;
-                                                                                /* cout << "m.list_of_terms.size() is " <<m.list_of_terms.size() << endl; */
-                                                                                //m.list_of_terms.push_back(*($1));
+                                                                                MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
 
-                                                                                /* m.mLeftSideTerm = *($1);
-                                                                                m.list_of_terms = $2->list_of_terms; */
+                                                                                synthesized_terms->list_of_terms.push_back( $3->list_of_terms.back() );
+                                                                                synthesized_terms->list_of_terms.push_back( *($1) );
+
+                                                                                synthesized_terms->printIntermediateCode();
+
+                                                                                $$ = synthesized_terms;
                                                                               }
 
-                                                                              else if ($4 != NULL) // only W is active
+                                                                              else if ($4 != NULL) // only Term and W are active.
                                                                               {
                                                                                 MultiplicativeExpr *synthesized_terms = new MultiplicativeExpr();
 
@@ -612,8 +605,6 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                                 synthesized_terms->list_of_terms.push_back( *($1) );
 
                                                                                 synthesized_terms->printIntermediateCode();
-
-                                                                                cout << "Test for Segfault!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 
                                                                                 $$ = synthesized_terms;
                                                                               }
