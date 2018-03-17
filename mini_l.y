@@ -859,6 +859,12 @@ Term:           Var                                                           { 
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {
                                                                                 cout << "call " << $1->name << ", " << $3->getVariableName() << endl;
+                                                                                Variable synthesized_var($3->getVariableName());
+                                                                                // Prep a Term and send it up.
+                                                                                Term *synthesized_term = new Term("NONE", synthesized_var );
+
+                                                                                $$ = synthesized_term;
+
 
                                                                               }
                 ;
