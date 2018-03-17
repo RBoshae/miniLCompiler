@@ -11,21 +11,22 @@ x, y, z : array [20] of integer;
 endlocals
 
 beginbody	## main program
-i := 200 * 300;
-read a;
+i := 1 - 2 - 3 - 4;
+## i := 200 * 300;
+## read a;
 ## read i[10];
-read aa, bb, cc;
+## read aa, bb, cc;
 ## read ii, jj[10], kk;
 
 ##  write m[10];
-  write dd, ee, ff;
+## write dd, ee, ff;
 ##  write mm, nn[10], pp;
 
 ##  if 2 == 0 then
 ##    write d;
 ##  endif;
 
-  ii := x * y / z;
+##  ii := x * y;
   ## i := 2 * 3 / 4 % 5;
   ## i := 4 * q[0];
   ## j := 15 / 5;

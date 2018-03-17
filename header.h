@@ -431,6 +431,14 @@ public:
       mMultiplicativeExpr.list_of_terms.back().mVariable.id.name;
     }
   }
+
+  Variable getVariable(){
+    return mMultiplicativeExpr.list_of_terms.back().mVariable;
+  }
+
+  string getVariableName(){
+    return mMultiplicativeExpr.list_of_terms.back().mVariable.id.name;
+  }
 }; // End of Expression class
 
 
