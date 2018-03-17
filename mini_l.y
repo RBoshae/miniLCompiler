@@ -514,10 +514,6 @@ Expression:     Multiplicative-Expr S T                                       {
 
 
                                                                                   $1->printIntermediateCode();
-                                                                                  cout << "BUG HEREEEEEEEEEEEEEEEEEEEEEEEEEEEe\n";
-
-                                                                                  // TODO printIntermediateCode for k-1
-
 
                                                                                   /* $$ = $1; */
 
@@ -542,30 +538,94 @@ Expression:     Multiplicative-Expr S T                                       {
 
 S:              /* empty - epsilon */                                         {$$ = NULL;}
                 | PLUS Multiplicative-Expr S T                                {
+                                                                                if ($3 != NULL)
+                                                                                {
+                                                                                  // Passing up a plus case
+                                                                                  Term t = $2->list_of_terms.back();
+                                                                                  $2->list_of_terms.pop_back();
+                                                                                  $2->list_of_terms.push_back($3->list_of_terms.back());
+                                                                                  $2->list_of_terms.push_back(t);
 
-                                                                                MultiplicativeExpr *synthesized_terms = $2;
-                                                                                                                                                // Grab a copy of $2 */
-                                                                                synthesized_terms->list_of_terms.back().mLeftOperatorType = "+"; // Assign Left
+                                                                                  $2->printIntermediateCode();
+                                                                                  $2->list_of_terms.back().mLeftOperatorType = "+";
 
-                                                                                /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
+                                                                                  $$ = $2;
 
-                                                                                // ready to send up.
-                                                                                $$ = synthesized_terms;
 
+                                                                                }
+                                                                                else if ($4 != NULL)
+                                                                                {
+
+                                                                                  // Passing up a minus case
+                                                                                  Term t = $2->list_of_terms.back();
+                                                                                  $2->list_of_terms.pop_back();
+                                                                                  $2->list_of_terms.push_back($4->list_of_terms.back());
+                                                                                  $2->list_of_terms.push_back(t);
+
+                                                                                  $2->printIntermediateCode();
+                                                                                  $2->list_of_terms.back().mLeftOperatorType = "-";
+
+                                                                                  $$ = $2;
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                  // S and T are NULL
+                                                                                  MultiplicativeExpr *synthesized_terms = $2;
+                                                                                                                                                  // Grab a copy of $2 */
+                                                                                  synthesized_terms->list_of_terms.back().mLeftOperatorType = "+"; // Assign Left
+
+                                                                                  /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
+
+                                                                                  // ready to send up.
+                                                                                  $$ = synthesized_terms;
+
+                                                                                }
                                                                               }
                 ;
 
 T:              /* empty - epsilon */                                        {$$ = NULL;}
                 | SUB Multiplicative-Expr S T                                {
+                                                                                if ($3 != NULL)
+                                                                                {
+                                                                                  // Passing up a plus case
+                                                                                  Term t = $2->list_of_terms.back();
+                                                                                  $2->list_of_terms.pop_back();
+                                                                                  $2->list_of_terms.push_back($3->list_of_terms.back());
+                                                                                  $2->list_of_terms.push_back(t);
 
-                                                                                MultiplicativeExpr *synthesized_terms = $2;
-                                                                                                                                                // Grab a copy of $2 */
-                                                                                synthesized_terms->list_of_terms.back().mLeftOperatorType = "-"; // Assign Left
+                                                                                  $2->printIntermediateCode();
+                                                                                  $2->list_of_terms.back().mLeftOperatorType = "+";
 
-                                                                                /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
+                                                                                  $$ = $2;
 
-                                                                                // ready to send up.
-                                                                                $$ = synthesized_terms;
+                                                                                }
+                                                                                else if ($4 != NULL)
+                                                                                {
+                                                                                  // Passing up a minus case
+                                                                                  Term t = $2->list_of_terms.back();
+                                                                                  $2->list_of_terms.pop_back();
+                                                                                  $2->list_of_terms.push_back($4->list_of_terms.back());
+                                                                                  $2->list_of_terms.push_back(t);
+
+                                                                                  $2->printIntermediateCode();
+                                                                                  $2->list_of_terms.back().mLeftOperatorType = "-";
+
+                                                                                  $$ = $2;
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                  MultiplicativeExpr *synthesized_terms = $2;
+                                                                                                                                                  // Grab a copy of $2 */
+                                                                                  synthesized_terms->list_of_terms.back().mLeftOperatorType = "-"; // Assign Left
+
+                                                                                  /* synthesized_terms->list_of_terms.back().printMemberInfo(); */
+
+                                                                                  // ready to send up.
+                                                                                  $$ = synthesized_terms;
+                                                                                }
+
+
 
 
                                                                              }
