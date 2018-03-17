@@ -485,6 +485,8 @@ Expression:     Multiplicative-Expr S T                                       {
                                                                                 cout << "We're in expression." << endl;
                                                                                 if ($2 != NULL)
                                                                                 {
+                                                                                  // The plus cases
+
 
                                                                                 }
                                                                                 else if ($3 != NULL)
@@ -529,13 +531,24 @@ Expression:     Multiplicative-Expr S T                                       {
 
 S:              /* empty - epsilon */                                         {$$ = NULL;}
                 | PLUS Multiplicative-Expr S T                                {
-                                                                                /* if ($2 == 1) {
-                                                                                  $$ = 1;
-                                                                                } else if ($2 == 3) {
-                                                                                  $$ = 3;
-                                                                                } */
+
+                                                                                if ($2 != NULL)
+                                                                                {
 
                                                                                 }
+                                                                                else if ($3 != NULL)
+                                                                                {
+
+                                                                                }
+                                                                                else
+                                                                                {
+
+                                                                                }
+
+
+
+
+                                                                              }
                 ;
 
 T:              /* empty - epsilon */                                        {$$ = NULL;}
@@ -781,7 +794,7 @@ Term:           Var                                                           { 
                 | L_PAREN Expression R_PAREN                                 {printf("Term --> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN                             {printf("Term --> X L_PAREN Expression R_PAREN\n");}
                 | identifiers L_PAREN Y R_PAREN                              {
-                                                                                cout << "call " << $1->name << ", " << "$3" << endl;
+                                                                                cout << "call " << $1->name << ", " << $3->getVariableName() << endl;
 
                                                                               }
                 ;
