@@ -4,13 +4,18 @@ endparams
 
 beginlocals
 
+<<<<<<< HEAD
 ##n : integer;
 ##i, j, k : integer;
 ##x, y, z : array [20] of integer;
+=======
+
+>>>>>>> 7880ec270f9641a88b7cfeebd5fec5f17016cbb1
 
 endlocals
 
 beginbody	## main program
+<<<<<<< HEAD
 ##arr[i] := j * 2;
 ##i := 1 - 2 - 3 - 4 - 5;
 ## i := 200 * 300;
@@ -34,4 +39,7 @@ beginbody	## main program
   ## i := 4 * q[0];
   ## j := 15 / 5;
   ## k := 20 / 10;
+=======
+  k := 1 + i - j;
+>>>>>>> 7880ec270f9641a88b7cfeebd5fec5f17016cbb1
 endbody

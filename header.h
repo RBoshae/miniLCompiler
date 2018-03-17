@@ -137,6 +137,7 @@ class Term{
     enum LeftOperatorType { NONE, MULT, DIV, MOD };
     // NONE = 0, MULT = 1, DIV = 2, MOD = 3
 
+    /////////////////////////////////////////////// CONSTRUCTORS
     Term(){
       isNumber = false;
     }
@@ -159,6 +160,7 @@ class Term{
       mVariable = v;
       isNumber = false;
     }
+    /////////////////////////////////////////////// END CONSTRUCTORS
 
     void setIdName(string n){
       mVariable.id.name = n;
@@ -277,6 +279,21 @@ public:
 
     list_of_terms = in_order;
 
+    // ALL OF THIS POST LOOP CODE IS LIKELY PROBLEMATIC
+    // string temp_var_id_name = generateTempVariable();
+    //
+    // cout << list_of_terms.front().mLeftOperatorType << " " << temp_var_id_name << ", " << list_of_terms.front().getTermTypeString() << ", " << list_of_terms.back().getTermTypeString() << endl;
+    //
+    //
+    // Variable v(temp_var_id_name);
+    // Term merged_temp_term(list_of_terms.front().mLeftOperatorType, v);  // (operandType, variable)
+    //
+    // cout  << "list_of_terms.front():  " << list_of_terms.front().getTermTypeString() << endl;
+    // cout  << "list_of_terms.back():  " << list_of_terms.back().getTermTypeString() << endl;
+    //
+    // list_of_terms.pop_back();
+    // list_of_terms.pop_back();
+    // list_of_terms.push_back(merged_temp_term);
   }
 
   void printMemberInfo() {
