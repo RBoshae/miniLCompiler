@@ -25,7 +25,7 @@ read aa, bb, cc;
 ##    write d;
 ##  endif;
 
-  ii := x * y;
+  ii := x * y / z;
   ## i := 2 * 3 / 4 % 5;
   ## i := 4 * q[0];
   ## j := 15 / 5;

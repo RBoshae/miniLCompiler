@@ -564,10 +564,8 @@ Multiplicative-Expr:  Term U V W                                            {
 
                                                                               m_copy->list_of_terms.push_back(synthesized_term);
 
-
                                                                               if ($2 != NULL) // only U is active.
                                                                               {
-                                                                                /* cout << "In ME\n"; */
                                                                                 /* $2->mLeftSideTerm = *($1); */
                                                                                 /* m = *($2);                  // OVERWRITES M. */
                                                                                 $2->list_of_terms.push_back(synthesized_term);
@@ -583,6 +581,7 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                                 /* m.mLeftSideTerm = *($1);
                                                                                 m.list_of_terms = $2->list_of_terms; */
                                                                               }
+
                                                                               else if ($3 != NULL) // only V is active
                                                                               {
                                                                                 /* cout << "In ME\n"; */
@@ -610,7 +609,7 @@ Multiplicative-Expr:  Term U V W                                            {
                                                                               }
                                                                               else // U V w productions are Null. Only term is left
                                                                               {
-                                                                                $$ =  m_copy;  // TODO if things a start breaking start here.
+                                                                                $$ = m_copy;  // TODO if things a start breaking start here.
                                                                               }
 
 
